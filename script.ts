@@ -100,4 +100,18 @@ addExperienceBtn.addEventListener("click", (e: Event) => {
     (e.currentTarget as unknown as HTMLElement).dataset.link ?? "#";
 });
 
+const editExperienceBtns = document.querySelectorAll(
+  "button[data-action='edit-experience']",
+);
+for (let i = 0; i < editExperienceBtns.length; i++) {
+  const editExperienceBtn = editExperienceBtns.item(i) as HTMLElement;
+  editExperienceBtn.addEventListener("click", (e) => {
+    const editExperienceLinkAttr = (e.currentTarget as HTMLElement).dataset
+      .link;
+    window.location.href = editExperienceLinkAttr
+      ? `${editExperienceLinkAttr}?id=${i}`
+      : "#";
+  });
+}
+
 export {};
