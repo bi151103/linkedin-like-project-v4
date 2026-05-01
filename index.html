@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Profile | LinkedIn</title>
-    <script defer src="./script.js"></script>
+    <script type="module" defer src="./script.js"></script>
     <link rel="icon" href="./images/icons8-linkedin-100.png" />
     <link rel="stylesheet" href="./output.css" />
   </head>
@@ -14,7 +14,7 @@
         class="w-full h-50px flex items-center bg-white border-b border-separator-line fixed top-0 z-999"
       >
         <div class="h-3/5 w-50px">
-          <a href="#">
+          <a href="./">
             <img
               class="h-full aspect-square block justify-self-center"
               src="./images/icons8-profile-100.png"
@@ -36,7 +36,7 @@
           />
         </div>
         <div class="h-3/5 w-50px">
-          <a href="#" class="relative">
+          <a href="./message.html" class="relative">
             <img
               class="h-full aspect-square block justify-self-center"
               src="./images/icons8-chat-bubble-100.png"
@@ -53,7 +53,7 @@
           src="./images/background-image-cut.jpg"
           class="w-full bg-white align-middle"
         />
-        <a href="#">
+        <a href="./my-preferences.html">
           <img
             src="./images/icons8-setting-100.png"
             class="w-[25px] aspect-square absolute top-0 right-0 mr-[15px] mt-[15px] bg-white rounded-full p-5px"
@@ -61,7 +61,7 @@
         </a>
       </section>
       <section class="h-[40px] w-100% bg-white flex">
-        <a href="#" class="w-min">
+        <a href="./add-profile-photo.html" class="w-min">
           <div class="w-[120px] h-full ml-[15px] relative">
             <div
               class="absolute bottom-0 w-full h-3/1 bg-white rounded-full border-2 border-double border-primary-tx flex flex-col items-center justify-center"
@@ -71,14 +71,22 @@
             </div>
           </div>
         </a>
-        <div class="w-[90px] h-full ml-auto flex items-end justify-around">
-          <button>
+        <div
+          class="w-[90px] h-full ml-auto flex items-end justify-around"
+          data-id="profile-action"
+        >
+          <button
+            data-action="share"
+            data-title="LinkedIn: Profile of Phuc Dang"
+            data-text="Check out Phuc Dang's profile on LinkedIn"
+            data-url="https://vn.linkedin.com/in/dang-phan-minh-phuc"
+          >
             <img
               src="./images/icons8-share-100.png"
               class="w-[25px] aspect-square"
             />
           </button>
-          <a href="#">
+          <a href="./edit-profile.html">
             <img
               src="./images/icons8-edit-100.png"
               class="w-[25px] aspect-square"
@@ -92,7 +100,7 @@
         <p>CODE LEAP</p>
         <p>
           Vietnam <span class="dot"></span>
-          <a href="#" class="">74 Connections</a>
+          <a href="./connection.html" class="">74 Connections</a>
         </p>
       </section>
       <section class="mt-10px p-15px bg-white">
@@ -110,9 +118,13 @@
       <h2 class="section-title">Featured</h2>
       <p class="mt-10px">
         Some content is only available on desktop or in the LinkedIn App.
-        <a href="#" class="font-medium">Open in app</a>
+        <a href="https://github.com/bi151103" class="font-medium"
+          >Open in app</a
+        >
       </p>
-      <button class="mt-10px plus-before">Add featured</button>
+      <button class="mt-10px plus-before" data-action="add-featured">
+        Add featured
+      </button>
     </section>
 
     <section class="mt-10px p-15px bg-white">
@@ -712,9 +724,10 @@
     </section>
 
     <div
+      data-id="download-cta"
       class="h-[60px] w-full px-15px fixed z-999 bottom-50px bg-[#f3f2ee] shadow-[0_0_20px_rgba(0,0,0,0.7)] flex items-center"
     >
-      <button class="min-w-sm-img">
+      <button class="min-w-sm-img" data-action="close">
         <img src="./images/icons8-close-100.png" class="w-20px h-20px" />
       </button>
       <p class="ml-10px text-small-bold text-emphasis-tx">
@@ -807,5 +820,25 @@
         </ul>
       </nav>
     </footer>
+
+    <div
+      data-id="overlay"
+      class="hidden w-dvw h-dvh bg-[rgba(0,0,0,0.6)] fixed top-0 z-1000"
+    >
+      <div
+        data-id="add-featured-overlay"
+        class="hidden h-[240px] w-full bg-white absolute bottom-0 rounded-t-[16px]"
+      >
+        <div class="p-15px flex">
+          <h1 class="text-emphasis-tx">Select a file type</h1>
+          <button class="ml-auto" data-action="close">
+            <img
+              src="./images/icons8-close-100.png"
+              class="w-sm-img h-sm-img"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
