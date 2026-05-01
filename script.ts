@@ -92,4 +92,12 @@ const uploadDocumentBtn = document.querySelector(
 ) as HTMLElement;
 uploadDocumentBtn.addEventListener("click", selectDocument);
 
+const addExperienceBtn = document.querySelector(
+  "button[data-action='add-experience']",
+) as HTMLElement;
+addExperienceBtn.addEventListener("click", (e: Event) => {
+  window.location.href =
+    (e.currentTarget as unknown as HTMLElement).dataset.link ?? "#";
+});
+
 export {};
