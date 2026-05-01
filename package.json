@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "dev": "npx @tailwindcss/cli -i ./style.css -o ./output.css --watch & npx tsc script.ts --watch",
-    "build": "npx @tailwindcss/cli -i ./style.css -o ./output.css --minify"
+    "dev": "npx @tailwindcss/cli -i ./style.css -o ./output.css --watch",
+    "build": "npx @tailwindcss/cli -i ./style.css -o ./output.css --minify && npx tsc script.ts",
+    "dev:compile-ts": "npx tsc script.ts --watch"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.2.4",
