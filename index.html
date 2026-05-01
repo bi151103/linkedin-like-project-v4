@@ -131,12 +131,16 @@
       <h2 class="italic">Private to you</h2>
       <div class="flex mt-10px">
         <div class="pt-10px pr-10px">
-          <p class="text-[1.8rem] font-medium text-primary-bg">32</p>
-          <p class="text-xs-small">Who viewed your profile</p>
+          <a href="./profile-views.html">
+            <p class="text-[1.8rem] font-medium">32</p>
+            <p class="text-xs-small text-primary-tx">Who viewed your profile</p>
+          </a>
         </div>
         <div class="pt-10px pl-10px border-separator-line border-l">
-          <p class="text-[1.8rem] font-medium text-primary-bg">4</p>
-          <p class="text-xs-small">Search appearances</p>
+          <a href="./search-appearances.html">
+            <p class="text-[1.8rem] font-medium text-primary-bg">4</p>
+            <p class="text-xs-small text-primary-tx">Search appearances</p>
+          </a>
         </div>
       </div>
     </section>
@@ -168,14 +172,17 @@
         </div>
       </a>
     </section>
-    <button
-      class="w-full leading-loose bg-white border-t border-separator-line hover:bg-primary-btn-hover-bg"
+    <a
+      href="./activity.html"
+      class="block w-full leading-loose bg-white border-t border-separator-line hover:bg-primary-btn-hover-bg text-center"
     >
       See all
-    </button>
+    </a>
     <section class="mt-10px p-15px pr-0 bg-white">
       <h2>Experience</h2>
-      <button class="mt-10px plus-before">Add experience</button>
+      <button class="mt-10px plus-before" data-action="add-experience">
+        Add experience
+      </button>
       <ul class="mt-10px">
         <li class="">
           <a
@@ -838,6 +845,44 @@
             />
           </button>
         </div>
+        <div
+          class="*:text-inherit p-15px *:py-15px *:hover:bg-[rgba(0,0,0,0.04)] *:rounded-[24px] *:w-full"
+        >
+          <button class="flex items-center" data-action="add-photo">
+            <img
+              src="./images/icons8-image-100.png"
+              class="w-sm-img h-sm-img"
+            />
+            <span class="ml-10px"> Add a photo </span>
+          </button>
+          <button class="flex items-center" data-action="upload-document">
+            <img
+              src="./images/icons8-blank-document-100.png"
+              class="w-sm-img h-sm-img"
+            />
+            <span class="ml-10px"> Upload a document </span>
+          </button>
+          <a
+            href="./add-link.html"
+            class="flex items-center"
+            data-action="upload-document"
+          >
+            <img src="./images/icons8-link-100.png" class="w-sm-img h-sm-img" />
+            <span class="ml-10px"> Add a link </span>
+          </a>
+        </div>
+        <input
+          type="file"
+          hidden
+          data-id="featured-image-input"
+          accept="image/jpeg,image/jpg,image/png"
+        />
+        <input
+          type="file"
+          hidden
+          data-id="featured-document-input"
+          accept=".doc,.docx,.pdf"
+        />
       </div>
     </div>
   </body>

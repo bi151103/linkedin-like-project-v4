@@ -27,11 +27,17 @@ const addFeaturedOverlayEle = document.querySelector(
 const closeOverlay = (e: Event) => {
   if (!overlayEle?.classList.contains("hiddens")) {
     overlayEle?.classList.add("hidden");
+    (document.querySelector("body") as HTMLElement).classList.remove(
+      "overflow-hidden",
+    );
   }
   e.stopPropagation();
 };
 const showAddFeatureOverlay = (e: Event) => {
   overlayEle?.classList.toggle("hidden");
+  (document.querySelector("body") as HTMLElement).classList.toggle(
+    "overflow-hidden",
+  );
   if (addFeaturedOverlayEle?.classList.contains("hidden")) {
     addFeaturedOverlayEle?.classList.remove("hidden");
   }
@@ -56,10 +62,34 @@ const closeOverlayBtn = document.querySelector(
   '[data-id="overlay"] button[data-action="close"]',
 ) as HTMLElement;
 closeOverlayBtn.addEventListener("click", closeOverlay);
+
 addFeaturedOverlayEle.addEventListener("click", (e) => {
-  e.preventDefault();
+  //stop propagation when clicking on the dialog to prevent the dialog from closing
   e.stopPropagation();
 });
+
 overlayEle.addEventListener("click", closeOverlay);
+
+const selectImage = (e: Event) => {
+  const selectImgInput = document.querySelector(
+    "[data-id='featured-image-input'",
+  ) as HTMLElement;
+  selectImgInput.click();
+};
+const addPhotoBtn = document.querySelector(
+  "[data-action='add-photo'",
+) as HTMLElement;
+addPhotoBtn.addEventListener("click", selectImage);
+
+const selectDocument = (e: Event) => {
+  const selectDocumentInput = document.querySelector(
+    "[data-id='featured-document-input'",
+  ) as HTMLElement;
+  selectDocumentInput.click();
+};
+const uploadDocumentBtn = document.querySelector(
+  "[data-action='upload-document'",
+) as HTMLElement;
+uploadDocumentBtn.addEventListener("click", selectDocument);
 
 export {};
