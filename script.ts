@@ -14,7 +14,7 @@ const closeDownloadApp = (e: Event) => {
   downloadAppCTAEle.classList.toggle("hidden");
 };
 const shareProfile = async (e: Event) => {
-  const shareProfileBtn = e.currentTarget as unknown as HTMLElement;
+  const shareProfileBtn = e.currentTarget as HTMLElement;
   const shareData = {
     //there are 2 ways to access the data-attribute attribute of elements
     // title: shareProfileBtn.getAttribute("data-title"),
@@ -24,8 +24,12 @@ const shareProfile = async (e: Event) => {
     text: shareProfileBtn.dataset.text,
     url: shareProfileBtn.dataset.url,
   };
-  console.log(shareData);
-  await navigator.share(shareData);
+  // console.log(shareData);
+  try {
+    await navigator.share(shareData);
+  } catch (e) {
+    console.error("The browser does not support the sharing with navigator");
+  }
 };
 const overlayEle = document.querySelector("[data-id='overlay']") as HTMLElement;
 const addFeaturedOverlayEle = document.querySelector(
@@ -42,7 +46,7 @@ const closeOverlay = (e: Event) => {
       overlayEle.classList.add("hidden");
     }
   }
-  if (!overlayEle.classList.contains("hiddens")) {
+  if (!overlayEle.classList.contains("hidden")) {
     overlayEle.classList.add("hidden");
     bodyEle.classList.remove("overflow-hidden");
   }
@@ -111,8 +115,7 @@ const addExperienceBtn = document.querySelector(
   "button[data-action='add-experience']",
 ) as HTMLElement;
 addExperienceBtn.addEventListener("click", (e: Event) => {
-  window.location.href =
-    (e.currentTarget as unknown as HTMLElement).dataset.link ?? "#";
+  window.location.href = (e.currentTarget as HTMLElement).dataset.link ?? "#";
 });
 
 const editExperienceBtns = document.querySelectorAll(
