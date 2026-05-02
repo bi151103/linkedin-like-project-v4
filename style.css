@@ -6,13 +6,15 @@
   --color-emphasis-tx: #000000e6;
   --color-low-emphasis-tx: #00000099;
   --color-separator-line: #ebebeb;
+  --spacing-5px: 5px;
   --spacing-10px: 10px;
   --spacing-15px: 15px;
   --spacing-20px: 20px;
-  --spacing-5px: 5px;
   --spacing-40px: 40px;
   --spacing-50px: 50px;
   --spacing-60px: 60px;
+  --spacing-8px: 8px;
+  --spacing-24px: 24px;
   --spacing-sm-img: 25px;
   --spacing-md-img: 50px;
   --spacing-sm-noti-bubble: 20px;

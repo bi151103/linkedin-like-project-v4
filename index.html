@@ -419,21 +419,31 @@
 
     <section class="mt-10px p-15px bg-white border-b border-separator-line">
       <h2>Education</h2>
-      <div class="mt-10px flex items-start">
+      <a href="./school.html" class="mt-10px flex items-start">
         <img src="./images/bach-khoa-hcm.avif" class="w-md-img h-md-img" />
         <div class="mx-10px">
           <p class="text-medium-bold text-emphasis-tx">
             Ho Chi Minh City University of Technology
           </p>
-          <p>Bachelor's degree <span class="dot"></span> Computer Science</p>
-          <p class="text-low-emphasis-tx">Sep 2021 - Sep 2025</p>
+          <p class="text-emphasis-tx font-normal">
+            Bachelor's degree <span class="dot"></span> Computer Science
+          </p>
+          <p class="text-low-emphasis-tx font-normal">Sep 2021 - Sep 2025</p>
         </div>
-        <button class="basis-50px">
+        <button
+          class="basis-50px"
+          data-action="edit-education"
+          data-link="./edit-education.html"
+          data-id="0"
+        >
           <img class="w-sm-img h-sm-img" src="./images/icons8-edit-100.png" />
         </button>
-      </div>
+      </a>
     </section>
-    <div class="p-15px bg-white text-center relative">
+    <div
+      class="p-15px bg-white text-center relative"
+      data-id="add-education-cta"
+    >
       <img src="./images/icons8-education-100.png" class="w-md-img h-md-img" />
       <p class="text-medium text-emphasis-tx">Have more education?</p>
       <p class="px-10px">
@@ -442,22 +452,44 @@
       </p>
       <button
         class="mt-10px leading-[3] w-full border border-primary-bg rounded-[24px] hover:bg-primary-btn-hover-bg"
+        data-action="add-education"
+        data-link="./add-education.html"
       >
         Add education
       </button>
-      <button class="absolute top-0 right-0 m-15px mt-10px">
+      <button
+        class="absolute top-0 right-0 m-15px mt-10px"
+        data-action="close-add-education-cta"
+      >
         <img src="./images/icons8-close-100.png" class="w-sm-img h-sm-img" />
       </button>
     </div>
 
     <section class="mt-10px p-15px bg-white">
       <h2>Volunteer Experience</h2>
-      <button class="mt-10px plus-before">Add volunteering</button>
+      <button
+        class="mt-10px plus-before"
+        data-action="add-volunteering"
+        data-link="./add-volunteering.html"
+      >
+        Add volunteering
+      </button>
     </section>
 
     <section class="mt-10px p-15px bg-white">
-      <h2>Skills</h2>
-      <button class="mt-10px plus-before">Add skills</button>
+      <div class="flex">
+        <h2>Skills</h2>
+        <a href="./edit-skills.html" class="min-w-sm-img ml-auto">
+          <img src="./images/icons8-edit-100.png" class="h-sm-img w-sm-img" />
+        </a>
+      </div>
+      <button
+        class="mt-10px plus-before"
+        data-action="add-skills"
+        data-link="./add-skills.html"
+      >
+        Add skills
+      </button>
       <ul
         class="mt-10px flex text-small-bold flex-wrap leading-loose text-emphasis-tx"
       >
@@ -473,12 +505,18 @@
 
     <section class="mt-10px p-15px bg-white">
       <h2>Recommendations</h2>
-      <button class="mt-10px plus-before">Ask to be recommended</button>
+      <a
+        href="./ask-recommendation.html"
+        class="mt-10px plus-before inline-block"
+        >Ask to be recommended</a
+      >
     </section>
 
     <section class="mt-10px p-15px bg-white">
       <h2>Accomplishments</h2>
-      <button class="mt-10px plus-before">Add accomplishments</button>
+      <button class="mt-10px plus-before" data-action="add-accomplishments">
+        Add accomplishments
+      </button>
       <div class="mt-10px flex">
         <div class="w-50px h-50px text-[2.4rem] text-emphasis-tx text-right">
           7
@@ -873,7 +911,7 @@
     >
       <div
         data-id="add-featured-overlay"
-        class="hidden h-[240px] w-full bg-white absolute bottom-0 rounded-t-[16px]"
+        class="hidden h-[240px] w-full bg-white absolute bottom-0 rounded-t-[16px] z-1001"
       >
         <div class="p-15px flex">
           <h1 class="text-emphasis-tx">Select a file type</h1>
@@ -922,6 +960,104 @@
           data-id="featured-document-input"
           accept=".doc,.docx,.pdf"
         />
+      </div>
+
+      <div
+        data-id="add-accomplishments-overlay"
+        class="hidden min-w-[300px] w-[70vw] max-h-[70vh] h-min bg-white rounded-[8px] fixed z-1001 left-0 right-0 top-0 bottom-0 m-auto overflow-y-auto"
+      >
+        <div class="p-24px pb-5px flex">
+          <h2 class="text-emphasis-tx text-medium-bold">Add Accomplishments</h2>
+          <button class="ml-auto" data-action="close">
+            <img
+              src="./images/icons8-close-100.png"
+              class="w-sm-img h-sm-img"
+            />
+          </button>
+        </div>
+        <ul data-id="accomplishment-types-list" class="p-24px pt-0">
+          <li class="py-8px">
+            <button class="flex items-center font-normal text-emphasis-tx">
+              <img
+                src="./images/icons8-newspaper-100.png"
+                class="w-sm-img h-sm-img min-w-sm-img"
+              />
+              <span class="ml-10px">Publications</span>
+            </button>
+          </li>
+          <li class="py-8px">
+            <button class="flex items-center font-normal text-emphasis-tx">
+              <img
+                src="./images/icons8-patent-100.png"
+                class="w-sm-img h-sm-img min-w-sm-img"
+              />
+              <span class="ml-10px">Patents</span>
+            </button>
+          </li>
+          <li class="py-8px">
+            <button class="flex items-center font-normal text-emphasis-tx">
+              <img
+                src="./images/icons8-notebook-100.png"
+                class="w-sm-img h-sm-img min-w-sm-img"
+              />
+              <span class="ml-10px">Courses</span>
+            </button>
+          </li>
+          <li class="py-8px">
+            <button class="flex items-center font-normal text-emphasis-tx">
+              <img
+                src="./images/icons8-folder-100.png"
+                class="w-sm-img h-sm-img min-w-sm-img"
+              />
+              <span class="ml-10px">Projects</span>
+            </button>
+          </li>
+          <li class="py-8px">
+            <button class="flex items-center font-normal text-emphasis-tx">
+              <img
+                src="./images/icons8-star-100.png"
+                class="w-sm-img h-sm-img min-w-sm-img"
+              />
+              <span class="ml-10px">Honors & Arwards</span>
+            </button>
+          </li>
+          <li class="py-8px">
+            <button class="flex items-center font-normal text-emphasis-tx">
+              <img
+                src="./images/icons8-inspection-100.png"
+                class="w-sm-img h-sm-img min-w-sm-img"
+              />
+              <span class="ml-10px">Test Scores</span>
+            </button>
+          </li>
+          <li class="py-8px">
+            <button class="flex items-center font-normal text-emphasis-tx">
+              <img
+                src="./images/icons8-language-skill-100.png"
+                class="w-sm-img h-sm-img min-w-sm-img"
+              />
+              <span class="ml-10px">Languages</span>
+            </button>
+          </li>
+          <li class="py-8px">
+            <button class="flex items-center font-normal text-emphasis-tx">
+              <img
+                src="./images/icons8-company-100.png"
+                class="w-sm-img h-sm-img min-w-sm-img"
+              />
+              <span class="ml-10px">Organizations</span>
+            </button>
+          </li>
+          <li class="py-8px">
+            <button class="flex items-center font-normal text-emphasis-tx">
+              <img
+                src="./images/icons8-certificate-100.png"
+                class="w-sm-img h-sm-img min-w-sm-img"
+              />
+              <span class="ml-10px">Certifications</span>
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   </body>

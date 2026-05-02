@@ -1,9 +1,11 @@
 const closeDownloadApp = (e: Event) => {
-  const downloadAppCTAEle = document.querySelector("[data-id='download-cta']");
+  const downloadAppCTAEle = document.querySelector(
+    "[data-id='download-cta']",
+  ) as HTMLElement;
   //there are some ways to adjust the style of an element in js
   // downloadAppCTAEle.setAttribute("style", "display: none;");
   // downloadAppCTAEle.style.display = "none";
-  downloadAppCTAEle?.classList.toggle("hidden");
+  downloadAppCTAEle.classList.toggle("hidden");
 };
 const shareProfile = async (e: Event) => {
   const shareProfileBtn = e.currentTarget as unknown as HTMLElement;
@@ -23,23 +25,30 @@ const overlayEle = document.querySelector("[data-id='overlay']") as HTMLElement;
 const addFeaturedOverlayEle = document.querySelector(
   "[data-id='overlay'] [data-id='add-featured-overlay']",
 ) as HTMLElement;
+const bodyEle = document.querySelector("body") as HTMLElement;
 
 const closeOverlay = (e: Event) => {
-  if (!overlayEle?.classList.contains("hiddens")) {
-    overlayEle?.classList.add("hidden");
-    (document.querySelector("body") as HTMLElement).classList.remove(
-      "overflow-hidden",
-    );
+  const overlayChildrenEles = document.querySelectorAll(
+    "[data-id='overlay'] > *",
+  );
+  for (const overlayEle of overlayChildrenEles) {
+    if (!overlayEle.classList.contains("hidden")) {
+      overlayEle.classList.add("hidden");
+    }
+  }
+  if (!overlayEle.classList.contains("hiddens")) {
+    overlayEle.classList.add("hidden");
+    bodyEle.classList.remove("overflow-hidden");
   }
   e.stopPropagation();
 };
 const showAddFeatureOverlay = (e: Event) => {
-  overlayEle?.classList.toggle("hidden");
-  (document.querySelector("body") as HTMLElement).classList.toggle(
-    "overflow-hidden",
-  );
-  if (addFeaturedOverlayEle?.classList.contains("hidden")) {
-    addFeaturedOverlayEle?.classList.remove("hidden");
+  if (overlayEle.classList.contains("hidden")) {
+    overlayEle.classList.toggle("hidden");
+  }
+  bodyEle.classList.toggle("overflow-hidden");
+  if (addFeaturedOverlayEle.classList.contains("hidden")) {
+    addFeaturedOverlayEle.classList.remove("hidden");
   }
 };
 
@@ -144,5 +153,64 @@ for (const expContent of expContents) {
     e.preventDefault();
   });
 }
+
+const editEducationBtns = document.querySelectorAll(
+  "button[data-action='edit-education']",
+);
+for (const editEducationBtn of editEducationBtns) {
+  editEducationBtn.addEventListener("click", (e) => {
+    window.location.href = `${(e.currentTarget as HTMLElement).dataset.link}?${(e.currentTarget as HTMLElement).dataset.id}`;
+    e.preventDefault();
+  });
+}
+
+const closeAddEducationCTABtn = document.querySelector(
+  "button[data-action='close-add-education-cta']",
+) as HTMLElement;
+closeAddEducationCTABtn.addEventListener("click", (e) => {
+  const addEducationCTAELe = document.querySelector(
+    "[data-id='add-education-cta']",
+  ) as HTMLElement;
+  if (!addEducationCTAELe.classList.contains("hidden")) {
+    addEducationCTAELe.classList.add("hidden");
+  }
+});
+
+const addEducationBtn = document.querySelector(
+  "button[data-action='add-education']",
+) as HTMLElement;
+addEducationBtn.addEventListener("click", (e) => {
+  window.location.href = (e.currentTarget as HTMLElement).dataset.link ?? "#";
+});
+
+const addVolunteeringBtn = document.querySelector(
+  "button[data-action='add-volunteering']",
+) as HTMLElement;
+addVolunteeringBtn.addEventListener("click", (e) => {
+  window.location.href = (e.currentTarget as HTMLElement).dataset.link ?? "#";
+});
+
+const addSkillsBtn = document.querySelector(
+  "button[data-action='add-skills']",
+) as HTMLElement;
+addSkillsBtn.addEventListener("click", (e) => {
+  window.location.href = (e.currentTarget as HTMLElement).dataset.link ?? "#";
+});
+
+const addAccomplishmentsBtn = document.querySelector(
+  "button[data-action='add-accomplishments']",
+) as HTMLElement;
+const addAccomplishmentsOverlayEle = document.querySelector(
+  "[data-id='overlay'] [data-id='add-accomplishments-overlay']",
+) as HTMLElement;
+addAccomplishmentsBtn.addEventListener("click", (e) => {
+  if (overlayEle.classList.contains("hidden")) {
+    overlayEle.classList.remove("hidden");
+  }
+  bodyEle.classList.toggle("overflow-hidden");
+  if (addAccomplishmentsOverlayEle.classList.contains("hidden")) {
+    addAccomplishmentsOverlayEle.classList.remove("hidden");
+  }
+});
 
 export {};
