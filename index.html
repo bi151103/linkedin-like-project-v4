@@ -188,7 +188,7 @@
         Add experience
       </button>
       <ul class="mt-10px">
-        <li class="">
+        <li class="" data-id="exp-0">
           <a
             href="./company.html"
             class="flex text-inherit font-normal items-center pr-15px"
@@ -203,7 +203,7 @@
             </div>
           </a>
           <ul class="mt-10px experience-separator-line">
-            <li class="pr-15px">
+            <li class="pr-15px" data-id="exp-0-stage-0">
               <div class="flex justify-center">
                 <div class="basis-50px text-center self-stretch flex flex-col">
                   <span class="medium-dot"></span>
@@ -223,6 +223,7 @@
                     class="absolute top-0 right-0"
                     data-link="./edit-experience.html"
                     data-action="edit-experience"
+                    data-id="exp-0-stage-0"
                   >
                     <img
                       class="w-sm-img h-sm-img"
@@ -230,7 +231,9 @@
                     />
                   </button>
                   <p
-                    class="max-h-[6em] leading-[1.5em] overflow-hidden relative text-low-emphasis-tx"
+                    data-id="experience-content"
+                    class="truncated-4 relative text-low-emphasis-tx"
+                    data-id="exp-0-stage-0"
                   >
                     Main responsibilities: <br />
                     - Worked in client projects in an Agile environment,
@@ -246,6 +249,7 @@
                     attended company's bonding activities.
                     <button
                       class="bg-white absolute bottom-0 text-inherit text-emphasis-tx right-0 pl-10px z-1"
+                      data-action="show-more-experience-content"
                     >
                       ...more
                     </button>
@@ -253,7 +257,7 @@
                 </div>
               </div>
             </li>
-            <li class="pr-15px mt-10px">
+            <li class="pr-15px mt-10px" data-id="exp-0-stage-1">
               <div class="flex justify-center">
                 <div class="basis-50px text-center self-stretch flex flex-col">
                   <span class="medium-dot"></span>
@@ -272,6 +276,7 @@
                     class="absolute top-0 right-0"
                     data-link="./edit-experience.html"
                     data-action="edit-experience"
+                    data-id="exp-0-stage-1"
                   >
                     <img
                       class="w-sm-img h-sm-img"
@@ -279,7 +284,8 @@
                     />
                   </button>
                   <p
-                    class="max-h-[6em] leading-[1.5em] overflow-hidden relative text-low-emphasis-tx"
+                    data-id="experience-content"
+                    class="truncated-4 relative text-low-emphasis-tx"
                   >
                     - Familiarized myself in working in a process of software
                     development. <br />
@@ -289,6 +295,7 @@
                     complete tasks and to complete the goal of the projects.
                     <button
                       class="bg-white absolute bottom-0 text-inherit text-emphasis-tx right-0 pl-10px z-1"
+                      data-action="show-more-experience-content"
                     >
                       ...more
                     </button>
@@ -298,8 +305,11 @@
             </li>
           </ul>
         </li>
-        <li class="mt-10px experience-separator-line">
-          <a href="#" class="flex text-inherit font-normal items-start pr-15px">
+        <li class="mt-10px experience-separator-line" data-id="exp-1-stage-0">
+          <a
+            href="./company.html"
+            class="flex text-inherit font-normal items-start pr-15px"
+          >
             <img
               src="./images/link.avif"
               class="w-md-img h-md-img object-cover"
@@ -317,6 +327,7 @@
                 class="absolute top-0 right-0"
                 data-link="./edit-experience.html"
                 data-action="edit-experience"
+                data-id="exp-1-stage-0"
               >
                 <img
                   class="w-sm-img h-sm-img"
@@ -324,7 +335,8 @@
                 />
               </button>
               <p
-                class="max-h-[6em] leading-[1.5em] overflow-hidden relative cursor-[initial] text-low-emphasis-tx"
+                data-id="experience-content"
+                class="truncated-4 relative cursor-[initial] text-low-emphasis-tx"
               >
                 - Studied software testing fundamentals, practiced on analyzing
                 requirements of on-going company's projects under the guidance
@@ -339,6 +351,7 @@
                 to verify endpoints of a CMS app.
                 <button
                   class="bg-white absolute bottom-0 text-inherit text-emphasis-tx right-0 pl-10px z-1"
+                  data-action="show-more-experience-content"
                 >
                   ...more
                 </button>
@@ -346,8 +359,11 @@
             </div>
           </a>
         </li>
-        <li class="mt-10px experience-separator-line">
-          <a href="#" class="flex text-inherit font-normal items-start pr-15px">
+        <li class="mt-10px experience-separator-line" data-id="exp-2-stage-0">
+          <a
+            href="./company.html"
+            class="flex text-inherit font-normal items-start pr-15px"
+          >
             <img
               src="./images/fresher.avif"
               class="w-md-img h-md-img object-cover"
@@ -365,6 +381,7 @@
                 class="absolute top-0 right-0"
                 data-link="./edit-experience.html"
                 data-action="edit-experience"
+                data-id="exp-2-stage-0"
               >
                 <img
                   class="w-sm-img h-sm-img"
@@ -372,7 +389,8 @@
                 />
               </button>
               <p
-                class="max-h-[6em] leading-[1.5em] overflow-hidden relative cursor-[initial] text-low-emphasis-tx"
+                data-id="experience-content"
+                class="truncated-4 relative cursor-[initial] text-low-emphasis-tx"
               >
                 Training Scope: <br />
                 - Studied fundamentals in Software Testing, SDLC, Testing
@@ -388,6 +406,7 @@
                 found 10 issues in the feature.
                 <button
                   class="bg-white absolute bottom-0 text-inherit text-emphasis-tx right-0 pl-10px z-1"
+                  data-action="show-more-experience-content"
                 >
                   ...more
                 </button>

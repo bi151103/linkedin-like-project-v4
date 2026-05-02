@@ -206,3 +206,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@utility truncated-* {
+  /* max-h-[6em] leading-[1.5em] overflow-hidden */
+  max-height: calc(--value(integer) * 1.5 * 1em) /*leading = 1.5em*/;
+  line-height: 1.5;
+  overflow: hidden;
+}

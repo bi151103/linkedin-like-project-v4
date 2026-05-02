@@ -103,14 +103,45 @@ addExperienceBtn.addEventListener("click", (e: Event) => {
 const editExperienceBtns = document.querySelectorAll(
   "button[data-action='edit-experience']",
 );
-for (let i = 0; i < editExperienceBtns.length; i++) {
-  const editExperienceBtn = editExperienceBtns.item(i) as HTMLElement;
+for (const editExperienceBtn of editExperienceBtns) {
   editExperienceBtn.addEventListener("click", (e) => {
     const editExperienceLinkAttr = (e.currentTarget as HTMLElement).dataset
       .link;
     window.location.href = editExperienceLinkAttr
-      ? `${editExperienceLinkAttr}?id=${i}`
+      ? `${editExperienceLinkAttr}?id=${(e.currentTarget as HTMLElement).dataset.id}`
       : "#";
+
+    e.preventDefault();
+  });
+}
+
+const showMoreExpContentBtns = document.querySelectorAll(
+  "button[data-action='show-more-experience-content']",
+);
+for (const showMoreExpContentBtn of showMoreExpContentBtns) {
+  showMoreExpContentBtn.addEventListener("click", (e) => {
+    const expContentParagraphEle = (e.currentTarget as HTMLElement)
+      .parentElement as HTMLElement;
+    if (expContentParagraphEle.classList.contains("truncated-4")) {
+      expContentParagraphEle.classList.remove("truncated-4");
+
+      (e.currentTarget as HTMLElement).textContent = "See less";
+    } else {
+      expContentParagraphEle.classList.add("truncated-4");
+
+      (e.currentTarget as HTMLElement).textContent = "...more";
+    }
+
+    e.preventDefault();
+  });
+}
+
+const expContents = document.querySelectorAll(
+  "p[data-id='experience-content']",
+);
+for (const expContent of expContents) {
+  expContent.addEventListener("click", (e) => {
+    e.preventDefault();
   });
 }
 
