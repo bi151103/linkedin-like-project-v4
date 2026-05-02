@@ -2,7 +2,7 @@ import {
   DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST,
   NOT_AVALABLE_CONTENT,
 } from "./constant.js";
-import type { AccomplishmentModel } from "./model";
+import type { AccomplishmentModel, Profile } from "./model";
 
 const closeDownloadApp = (e: Event) => {
   const downloadAppCTAEle = document.querySelector(
@@ -464,4 +464,208 @@ for (const editProjectBtn of editProjectBtns) {
   });
 }
 
-export {};
+const otherProfilesList: Profile[] = [
+  {
+    id: "profile-0",
+    name: "Kien Tran",
+    headline: "QE at Code Leap",
+    connection: {
+      relationship: "1st",
+      addConnectionInvitationSent: false,
+    },
+    profileImgUrl:
+      "./images/3d-illustration-human-avatar-profile_23-2150671142.avif",
+  },
+  {
+    id: "profile-1",
+    name: "Dat Doan",
+    headline: "Software Engineer @ CODE LEAP",
+    connection: {
+      relationship: "1st",
+      addConnectionInvitationSent: false,
+    },
+    profileImgUrl: "./images/smiling-young-man-illustration_1308-174669.avif",
+  },
+  {
+    id: "profile-2",
+    name: "Thùy Nguyễn",
+    headline: "QA Tester | ISTQB CTFL Certified",
+    connection: {
+      relationship: "1st",
+      addConnectionInvitationSent: false,
+    },
+    profileImgUrl: "./images/woman-floral-traditional-costume_1308-176159.avif",
+  },
+  {
+    id: "profile-3",
+    name: "Tran Thuy Linh (Tracy Tran)",
+    headline: "Data Labeling Team Lead/Ainavio/Code Leap",
+    connection: {
+      relationship: "2nd",
+      addConnectionInvitationSent: false,
+    },
+    profileImgUrl:
+      "./images/business-people-icon-character-illustration-vector-flat-style_40876-4152.avif",
+  },
+  {
+    id: "profile-4",
+    name: "Hien (Hazel) Nguyen",
+    headline:
+      "CODE LEAP is hiring: Senior Python; Senior ReactJS, Tech lead (Open for expat)",
+    connection: {
+      relationship: "1st",
+      addConnectionInvitationSent: false,
+    },
+    profileImgUrl:
+      "./images/charming-cartoon-style-avatar-girl-fun-creative-illustration_1186924-4629.avif",
+  },
+  {
+    id: "profile-5",
+    name: "Toan Le",
+    headline: "Senior Software Engineer at Code Leap",
+    connection: {
+      relationship: "2nd",
+      addConnectionInvitationSent: true,
+    },
+    profileImgUrl: "./images/person-avatar-design_24877-38137.avif",
+  },
+];
+
+function createOtherProfilesSection() {
+  if (otherProfilesList.length < 1) return;
+
+  const newSection = document.createElement("section");
+  const contactSection = document.querySelector(
+    "section[data-id='contact']",
+  ) as HTMLElement;
+  contactSection.after(newSection);
+  newSection.dataset.id = "other-profiles";
+  newSection.classList = "p-15px";
+
+  const otherProfileHeader = document.createElement("h2");
+  newSection.appendChild(otherProfileHeader);
+  otherProfileHeader.textContent = "Other similar profiles";
+
+  const listOfProfiles = document.createElement("ul");
+  newSection.appendChild(listOfProfiles);
+  listOfProfiles.classList = "mt-20px";
+
+  for (let i = 0; i < otherProfilesList.length; i++) {
+    const listItem = document.createElement("li");
+    listOfProfiles.appendChild(listItem);
+    listItem.classList =
+      "flex items-center *:text-inherit *:font-normal not-first:mt-10px";
+    listItem.dataset.id = otherProfilesList[i].id;
+
+    const profileItemLeft = document.createElement("a");
+    listItem.appendChild(profileItemLeft);
+    profileItemLeft.href = `?id=${otherProfilesList[i].id}`;
+    profileItemLeft.classList = "min-w-50px";
+
+    const profileImg = document.createElement("img");
+    profileItemLeft.appendChild(profileImg);
+    profileImg.src = otherProfilesList[i].profileImgUrl ?? "";
+    profileImg.classList = "w-md-img h-md-img rounded-full";
+
+    const profileItemMiddle = document.createElement("a");
+    listItem.appendChild(profileItemMiddle);
+    profileItemMiddle.href = `?id=${otherProfilesList[i].id}`;
+    profileItemMiddle.classList = "ml-10px basis-[calc(100%-50px-50px)]";
+
+    const profileItemMiddleTextContainer = document.createElement("p");
+    profileItemMiddle.appendChild(profileItemMiddleTextContainer);
+
+    const profileName = document.createElement("span");
+    profileItemMiddleTextContainer.appendChild(profileName);
+    profileName.classList = "text-medium-bold text-emphasis-tx";
+    profileName.textContent = otherProfilesList[i].name;
+
+    const dotSeparatorBtwNameAndConnectionRel = document.createElement("span");
+    profileItemMiddleTextContainer.appendChild(
+      dotSeparatorBtwNameAndConnectionRel,
+    );
+    dotSeparatorBtwNameAndConnectionRel.classList = "dot";
+
+    const profileConnectionRel = document.createElement("span");
+    profileItemMiddleTextContainer.appendChild(profileConnectionRel);
+    profileConnectionRel.classList = "text-low-emphasis-tx";
+    profileConnectionRel.textContent =
+      otherProfilesList[i].connection.relationship;
+
+    const profileHeadline = document.createElement("p");
+    profileItemMiddle.appendChild(profileHeadline);
+    profileHeadline.classList = "text-xs-small";
+    profileHeadline.textContent = otherProfilesList[i].headline ?? "";
+
+    if (
+      otherProfilesList[i].connection.relationship === "1st" ||
+      (otherProfilesList[i].connection.relationship !== "1st" &&
+        otherProfilesList[i].connection.addConnectionInvitationSent === false)
+    ) {
+      const profileItemRight = document.createElement("button");
+      listItem.appendChild(profileItemRight);
+      profileItemRight.classList =
+        "min-w-40px basis-40px h-40px border border-[#000000bf] rounded-full";
+
+      profileItemRight.dataset.action =
+        otherProfilesList[i].connection.relationship === "1st"
+          ? "send-message"
+          : "add-connection";
+      profileItemRight.dataset.link =
+        otherProfilesList[i].connection.relationship === "1st"
+          ? `./send-message.html?id=${otherProfilesList[i].id}`
+          : undefined;
+
+      const profileItemRightImg = document.createElement("img");
+      profileItemRight.appendChild(profileItemRightImg);
+      profileItemRightImg.src =
+        otherProfilesList[i].connection.relationship === "1st"
+          ? "./images/icons8-email-send-100.png"
+          : "./images/icons8-add-friend-100.png";
+      profileItemRightImg.classList = "w-sm-img h-sm-img";
+
+      if (otherProfilesList[i].connection.relationship === "1st") {
+        profileItemRight.addEventListener("click", (e) => {
+          window.location.href = profileItemRight.dataset.link ?? "#";
+        });
+      } else {
+        profileItemRight.addEventListener("click", (e) => {
+          otherProfilesList[i].connection.addConnectionInvitationSent = true;
+          profileItemRight.remove();
+
+          const newProfileItemRight = document.createElement("span");
+          listItem.appendChild(newProfileItemRight);
+          newProfileItemRight.classList =
+            "min-w-min basis-min text-xs-small text-emphasis-tx text-center";
+          newProfileItemRight.textContent = "Invited";
+        });
+      }
+    } else {
+      const profileItemRight = document.createElement("span");
+      listItem.appendChild(profileItemRight);
+      profileItemRight.classList =
+        "min-w-min basis-min text-xs-small text-emphasis-tx text-center";
+      profileItemRight.textContent = "Invited";
+    }
+  }
+}
+
+createOtherProfilesSection();
+
+// const sendMessageBtns = document.querySelectorAll(
+//   "button[data-action='send-message']",
+// );
+// for (const sendMessageBtn of sendMessageBtns) {
+//   sendMessageBtn.addEventListener("click", (e) => {
+//     const correspondingListItem = (sendMessageBtn as HTMLElement)
+//       .parentElement as HTMLElement;
+//     window.location.href = `${(sendMessageBtn as HTMLElement).dataset.link}?id=${correspondingListItem.dataset.id}`;
+//   });
+// }
+
+// const addConnectionBtns = document.querySelectorAll(
+//   "button[data-action='send-message']",
+// );
+// for (const addConnectionBtn of addConnectionBtns) {
+//   addConnectionBtn.addEventListener("click", (e) => {});
+// }
