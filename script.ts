@@ -261,6 +261,9 @@ const certificationList: AccomplishmentModel[] = [
 ];
 
 function createAccomplishmentCertificationSection() {
+  if (certificationList.length < 1) {
+    return;
+  }
   const sectionContainer = document.createElement("div");
   const projectsSection = document.querySelector(
     "[data-id='accomplishments'] [data-id='projects']",
@@ -345,7 +348,7 @@ function createAccomplishmentCertificationSection() {
 
   //create see more button and see less button
   if (
-    certificationList.length >= DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST
+    certificationList.length > DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST
   ) {
     /**
      *  <button class="mt-10px chevron-down-after" data-action="see-more">
