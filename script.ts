@@ -138,29 +138,28 @@ experienceSection.addEventListener("click", (e) => {
 
     //add preventDefault to prevent the functionality in the a element which is the ascendant of the edit experience button
     e.preventDefault();
+    return;
   }
-});
-
-const showMoreExpContentBtns = document.querySelectorAll(
-  "button[data-action='show-more-experience-content']",
-);
-for (const showMoreExpContentBtn of showMoreExpContentBtns) {
-  showMoreExpContentBtn.addEventListener("click", (e) => {
-    const expContentParagraphEle = (e.currentTarget as HTMLElement)
-      .parentElement as HTMLElement;
+  const showMoreExpContentBtn = (e.target as HTMLElement).closest(
+    "button[data-action='show-more-experience-content']",
+  );
+  if (showMoreExpContentBtn) {
+    const expContentParagraphEle =
+      showMoreExpContentBtn.parentElement as HTMLElement;
     if (expContentParagraphEle.classList.contains("truncated-4")) {
       expContentParagraphEle.classList.remove("truncated-4");
 
-      (e.currentTarget as HTMLElement).textContent = "See less";
+      showMoreExpContentBtn.textContent = "See less";
     } else {
       expContentParagraphEle.classList.add("truncated-4");
 
-      (e.currentTarget as HTMLElement).textContent = "...more";
+      showMoreExpContentBtn.textContent = "...more";
     }
 
+    //add preventDefault to prevent the functionality in the a element which is the ascendant of the show more experience content button
     e.preventDefault();
-  });
-}
+  }
+});
 
 const expContents = document.querySelectorAll(
   "p[data-id='experience-content']",
