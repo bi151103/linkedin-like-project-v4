@@ -213,4 +213,14 @@ addAccomplishmentsBtn.addEventListener("click", (e) => {
   }
 });
 
+const addAccomplishmentBtns = document.querySelectorAll(
+  "[data-id='add-accomplishments-overlay'] [data-id='accomplishment-types-list'] button",
+);
+for (const addAccomplishmentBtn of addAccomplishmentBtns) {
+  addAccomplishmentBtn.addEventListener("click", (e) => {
+    const currentBtnEle = e.currentTarget as HTMLElement;
+    window.location.href = `${currentBtnEle.dataset.link}`;
+  });
+}
+
 export {};
