@@ -114,27 +114,32 @@ addFeaturedTypesList.addEventListener("click", (e) => {
   }
 });
 
-const addExperienceBtn = document.querySelector(
-  "button[data-action='add-experience']",
+const experienceSection = document.querySelector(
+  "section[data-id='experience']",
 ) as HTMLElement;
-addExperienceBtn.addEventListener("click", (e: Event) => {
-  window.location.href = (e.currentTarget as HTMLElement).dataset.link ?? "#";
-});
-
-const editExperienceBtns = document.querySelectorAll(
-  "button[data-action='edit-experience']",
-);
-for (const editExperienceBtn of editExperienceBtns) {
-  editExperienceBtn.addEventListener("click", (e) => {
-    const editExperienceLinkAttr = (e.currentTarget as HTMLElement).dataset
+experienceSection.addEventListener("click", (e) => {
+  const addExperienceBtn = (e.target as HTMLElement).closest(
+    "button[data-action='add-experience']",
+  );
+  if (addExperienceBtn) {
+    window.location.href =
+      (addExperienceBtn as HTMLElement).dataset.link ?? "#";
+    return;
+  }
+  const editExperienceBtn = (e.target as HTMLElement).closest(
+    "button[data-action='edit-experience']",
+  );
+  if (editExperienceBtn) {
+    const editExperienceLinkAttr = (editExperienceBtn as HTMLElement).dataset
       .link;
     window.location.href = editExperienceLinkAttr
-      ? `${editExperienceLinkAttr}?id=${(e.currentTarget as HTMLElement).dataset.id}`
+      ? `${editExperienceLinkAttr}?id=${(editExperienceBtn as HTMLElement).dataset.id}`
       : "#";
 
+    //add preventDefault to prevent the functionality in the a element which is the ascendant of the edit experience button
     e.preventDefault();
-  });
-}
+  }
+});
 
 const showMoreExpContentBtns = document.querySelectorAll(
   "button[data-action='show-more-experience-content']",
