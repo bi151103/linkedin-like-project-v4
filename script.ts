@@ -83,33 +83,36 @@ const closeOverlayBtn = document.querySelector(
 closeOverlayBtn.addEventListener("click", closeOverlay);
 
 addFeaturedOverlayEle.addEventListener("click", (e) => {
-  //stop propagation when clicking on the dialog to prevent the dialog from closing
+  //stop propagation when clicking on the dialog area to prevent the dialog from closing
   e.stopPropagation();
 });
 
 overlayEle.addEventListener("click", closeOverlay);
 
-const selectImage = (e: Event) => {
-  const selectImgInput = document.querySelector(
-    "[data-id='featured-image-input'",
-  ) as HTMLElement;
-  selectImgInput.click();
-};
-const addPhotoBtn = document.querySelector(
-  "[data-action='add-photo'",
+const addFeaturedTypesList = document.querySelector(
+  "ul[data-id='add-featured-types-list']",
 ) as HTMLElement;
-addPhotoBtn.addEventListener("click", selectImage);
-
-const selectDocument = (e: Event) => {
-  const selectDocumentInput = document.querySelector(
-    "[data-id='featured-document-input'",
-  ) as HTMLElement;
-  selectDocumentInput.click();
-};
-const uploadDocumentBtn = document.querySelector(
-  "[data-action='upload-document'",
-) as HTMLElement;
-uploadDocumentBtn.addEventListener("click", selectDocument);
+addFeaturedTypesList.addEventListener("click", (e) => {
+  const addPhotoBtn = (e.target as HTMLElement).closest(
+    "button[data-action='add-photo']",
+  );
+  if (addPhotoBtn) {
+    const selectImgInput = document.querySelector(
+      "[data-id='featured-image-input']",
+    ) as HTMLElement;
+    selectImgInput.click();
+    return;
+  }
+  const uploadDocumentBtn = (e.target as HTMLElement).closest(
+    "button[data-action='upload-document']",
+  );
+  if (uploadDocumentBtn) {
+    const selectDocumentInput = document.querySelector(
+      "[data-id='featured-document-input']",
+    ) as HTMLElement;
+    selectDocumentInput.click();
+  }
+});
 
 const addExperienceBtn = document.querySelector(
   "button[data-action='add-experience']",
