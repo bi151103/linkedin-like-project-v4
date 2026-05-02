@@ -144,6 +144,13 @@
   }
 }
 
+@utility chevron-top-after {
+  @apply chevron-down-after;
+  &::after {
+    transform: rotate(0.5turn);
+  }
+}
+
 @utility experience-separator-line {
   &::after {
     content: "";
