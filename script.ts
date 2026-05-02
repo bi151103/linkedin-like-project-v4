@@ -456,16 +456,22 @@ function createAccomplishmentCertificationSection() {
 
 createAccomplishmentCertificationSection();
 
-const editProjectBtns = document.querySelectorAll(
-  "button[data-action='edit-project']",
-);
-for (const editProjectBtn of editProjectBtns) {
-  editProjectBtn.addEventListener("click", (e) => {
-    const correspondingListItem = (editProjectBtn as HTMLElement)
-      .parentElement as HTMLElement;
-    window.location.href = `${(editProjectBtn as HTMLElement).dataset.link}?id=${correspondingListItem.dataset.id}`;
-  });
-}
+const projectList = document.querySelector(
+  "ul[data-id='projects-list']",
+) as HTMLElement;
+projectList.addEventListener("click", (e) => {
+  const clickedEle = e.target as HTMLElement;
+  //check if clickedEle is the edit project button under the list item
+  const clickedEleClosestBtn = clickedEle.closest(
+    "button[data-action='edit-project']",
+  ) as HTMLElement;
+  if (clickedEleClosestBtn) {
+    const correspondingListItem = clickedEleClosestBtn.closest(
+      "li[data-id]",
+    ) as HTMLElement;
+    window.location.href = `${clickedEleClosestBtn.dataset.link}?id=${correspondingListItem.dataset.id}`;
+  }
+});
 
 const otherProfilesList: Profile[] = [
   {
@@ -654,21 +660,3 @@ function createOtherProfilesSection() {
 }
 
 createOtherProfilesSection();
-
-// const sendMessageBtns = document.querySelectorAll(
-//   "button[data-action='send-message']",
-// );
-// for (const sendMessageBtn of sendMessageBtns) {
-//   sendMessageBtn.addEventListener("click", (e) => {
-//     const correspondingListItem = (sendMessageBtn as HTMLElement)
-//       .parentElement as HTMLElement;
-//     window.location.href = `${(sendMessageBtn as HTMLElement).dataset.link}?id=${correspondingListItem.dataset.id}`;
-//   });
-// }
-
-// const addConnectionBtns = document.querySelectorAll(
-//   "button[data-action='send-message']",
-// );
-// for (const addConnectionBtn of addConnectionBtns) {
-//   addConnectionBtn.addEventListener("click", (e) => {});
-// }
