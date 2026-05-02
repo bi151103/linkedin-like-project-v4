@@ -231,30 +231,37 @@ for (const addAccomplishmentBtn of addAccomplishmentBtns) {
 
 const certificationList: AccomplishmentModel[] = [
   {
+    id: "cert-0",
     name: "TOEIC 800 LR",
     authority: "ETS",
   },
   {
+    id: "cert-1",
     name: "Microsoft Office Specialist: Microsoft Excel 2016",
     authority: "Microsoft",
   },
   {
+    id: "cert-2",
     name: "Microsoft Office Specialist: Microsoft Powerpoint 2016",
     authority: "Microsoft",
   },
   {
+    id: "cert-3",
     name: "Jira Fundamentals Badge",
     authority: "Atlassian",
   },
   {
+    id: "cert-4",
     name: "Confluence Fundamentals Badge",
     authority: "Atlassian",
   },
   {
+    id: "cert-5",
     name: "15 days of Postman - for testers",
     authority: "Canvas Credentials (Badgr)",
   },
   {
+    id: "cert-6",
     name: "Fit for Scrum Course",
     authority: "Axon Active - Agile Software Development Company",
   },
@@ -321,6 +328,7 @@ function createAccomplishmentCertificationSection() {
     const listItem = document.createElement("li");
     listOfCertificationsEle.appendChild(listItem);
     listItem.classList = "not-first:mt-10px flex items-start";
+    listItem.dataset.id = certificationList[i].id;
 
     const listItemLeft = document.createElement("div");
     listItem.appendChild(listItemLeft);
@@ -339,6 +347,10 @@ function createAccomplishmentCertificationSection() {
     const editCertBtn = document.createElement("button");
     listItem.appendChild(editCertBtn);
     editCertBtn.classList = "ml-auto";
+    editCertBtn.dataset.link = `./edit-certification.html?id=${certificationList[i].id}`;
+    editCertBtn.addEventListener("click", (e) => {
+      window.location.href = editCertBtn.dataset.link ?? "#";
+    });
 
     const editCertBtnImg = document.createElement("img");
     editCertBtn.appendChild(editCertBtnImg);
@@ -384,6 +396,7 @@ function createAccomplishmentCertificationSection() {
         const listItem = document.createElement("li");
         listOfCertificationsEle.appendChild(listItem);
         listItem.classList = "not-first:mt-10px flex items-start";
+        listItem.dataset.id = certificationList[i].id;
 
         const listItemLeft = document.createElement("div");
         listItem.appendChild(listItemLeft);
@@ -402,6 +415,10 @@ function createAccomplishmentCertificationSection() {
         const editCertBtn = document.createElement("button");
         listItem.appendChild(editCertBtn);
         editCertBtn.classList = "ml-auto";
+        editCertBtn.dataset.link = `./edit-certification.html?id=${certificationList[i].id}`;
+        editCertBtn.addEventListener("click", (e) => {
+          window.location.href = editCertBtn.dataset.link ?? "#";
+        });
 
         const editCertBtnImg = document.createElement("img");
         editCertBtn.appendChild(editCertBtnImg);
@@ -435,5 +452,16 @@ function createAccomplishmentCertificationSection() {
 }
 
 createAccomplishmentCertificationSection();
+
+const editProjectBtns = document.querySelectorAll(
+  "button[data-action='edit-project']",
+);
+for (const editProjectBtn of editProjectBtns) {
+  editProjectBtn.addEventListener("click", (e) => {
+    const correspondingListItem = (editProjectBtn as HTMLElement)
+      .parentElement as HTMLElement;
+    window.location.href = `${(editProjectBtn as HTMLElement).dataset.link}?id=${correspondingListItem.dataset.id}`;
+  });
+}
 
 export {};
