@@ -1,3 +1,4 @@
+"use strict";
 import {
   DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST,
   NOT_AVALABLE_CONTENT,
@@ -93,9 +94,8 @@ const addFeaturedTypesList = document.querySelector(
   "ul[data-id='add-featured-types-list']",
 ) as HTMLElement;
 addFeaturedTypesList.addEventListener("click", (e) => {
-  const addPhotoBtn = (e.target as HTMLElement).closest(
-    "button[data-action='add-photo']",
-  );
+  const target = e.target as HTMLElement;
+  const addPhotoBtn = target.closest("button[data-action='add-photo']");
   if (addPhotoBtn) {
     const selectImgInput = document.querySelector(
       "[data-id='featured-image-input']",
@@ -103,7 +103,7 @@ addFeaturedTypesList.addEventListener("click", (e) => {
     selectImgInput.click();
     return;
   }
-  const uploadDocumentBtn = (e.target as HTMLElement).closest(
+  const uploadDocumentBtn = target.closest(
     "button[data-action='upload-document']",
   );
   if (uploadDocumentBtn) {
@@ -118,7 +118,8 @@ const experienceSection = document.querySelector(
   "section[data-id='experience']",
 ) as HTMLElement;
 experienceSection.addEventListener("click", (e) => {
-  const addExperienceBtn = (e.target as HTMLElement).closest(
+  const target = e.target as HTMLElement;
+  const addExperienceBtn = target.closest(
     "button[data-action='add-experience']",
   );
   if (addExperienceBtn) {
@@ -126,7 +127,7 @@ experienceSection.addEventListener("click", (e) => {
       (addExperienceBtn as HTMLElement).dataset.link ?? "#";
     return;
   }
-  const editExperienceBtn = (e.target as HTMLElement).closest(
+  const editExperienceBtn = target.closest(
     "button[data-action='edit-experience']",
   );
   if (editExperienceBtn) {
@@ -140,7 +141,7 @@ experienceSection.addEventListener("click", (e) => {
     e.preventDefault();
     return;
   }
-  const showMoreExpContentBtn = (e.target as HTMLElement).closest(
+  const showMoreExpContentBtn = target.closest(
     "button[data-action='show-more-experience-content']",
   );
   if (showMoreExpContentBtn) {
@@ -158,17 +159,14 @@ experienceSection.addEventListener("click", (e) => {
 
     //add preventDefault to prevent the functionality in the a element which is the ascendant of the show more experience content button
     e.preventDefault();
+    return;
+  }
+  const expContents = target.closest("p[data-id='experience-content']");
+  if (expContents) {
+    e.preventDefault();
+    return;
   }
 });
-
-const expContents = document.querySelectorAll(
-  "p[data-id='experience-content']",
-);
-for (const expContent of expContents) {
-  expContent.addEventListener("click", (e) => {
-    e.preventDefault();
-  });
-}
 
 const editEducationBtns = document.querySelectorAll(
   "button[data-action='edit-education']",
@@ -467,9 +465,9 @@ const projectList = document.querySelector(
   "ul[data-id='projects-list']",
 ) as HTMLElement;
 projectList.addEventListener("click", (e) => {
-  const clickedEle = e.target as HTMLElement;
-  //check if clickedEle is the edit project button under the list item
-  const clickedEleClosestBtn = clickedEle.closest(
+  const target = e.target as HTMLElement;
+  //check if target is the edit project button under the list item
+  const clickedEleClosestBtn = target.closest(
     "button[data-action='edit-project']",
   ) as HTMLElement;
   if (clickedEleClosestBtn) {
