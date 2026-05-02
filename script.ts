@@ -1,3 +1,9 @@
+import {
+  DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST,
+  NOT_AVALABLE_CONTENT,
+} from "./constant.js";
+import type { AccomplishmentModel } from "./model";
+
 const closeDownloadApp = (e: Event) => {
   const downloadAppCTAEle = document.querySelector(
     "[data-id='download-cta']",
@@ -222,5 +228,209 @@ for (const addAccomplishmentBtn of addAccomplishmentBtns) {
     window.location.href = `${currentBtnEle.dataset.link}`;
   });
 }
+
+const certificationList: AccomplishmentModel[] = [
+  {
+    name: "TOEIC 800 LR",
+    authority: "ETS",
+  },
+  {
+    name: "Microsoft Office Specialist: Microsoft Excel 2016",
+    authority: "Microsoft",
+  },
+  {
+    name: "Microsoft Office Specialist: Microsoft Powerpoint 2016",
+    authority: "Microsoft",
+  },
+  {
+    name: "Jira Fundamentals Badge",
+    authority: "Atlassian",
+  },
+  {
+    name: "Confluence Fundamentals Badge",
+    authority: "Atlassian",
+  },
+  {
+    name: "15 days of Postman - for testers",
+    authority: "Canvas Credentials (Badgr)",
+  },
+  {
+    name: "Fit for Scrum Course",
+    authority: "Axon Active - Agile Software Development Company",
+  },
+];
+
+function createAccomplishmentCertificationSection() {
+  const sectionContainer = document.createElement("div");
+  const projectsSection = document.querySelector(
+    "[data-id='accomplishments'] [data-id='projects']",
+  ) as HTMLElement;
+  projectsSection.before(sectionContainer);
+  sectionContainer.classList = "mt-10px flex";
+  sectionContainer.dataset.id = "certifications";
+
+  const numberOfCertificationEle = document.createElement("div");
+  sectionContainer.appendChild(numberOfCertificationEle);
+  numberOfCertificationEle.classList =
+    "w-50px h-50px text-[2.4rem] text-emphasis-tx text-right";
+  numberOfCertificationEle.textContent = `${certificationList.length}`;
+
+  // <div class="ml-10px basis-[calc(100%-50px)]">
+  const certificationRightEle = document.createElement("div");
+  sectionContainer.appendChild(certificationRightEle);
+  certificationRightEle.classList = "ml-10px basis-[calc(100%-50px)]";
+
+  // <p class="text-medium-bold text-emphasis-tx">Certifications</p>
+  const certificationTypeEle = document.createElement("p");
+  certificationRightEle.appendChild(certificationTypeEle);
+  certificationTypeEle.classList = "text-medium-bold text-emphasis-tx";
+  certificationTypeEle.textContent = "Certifications";
+
+  // <ul class="w-full" data-id="certifications-list">
+  const listOfCertificationsEle = document.createElement("ul");
+  certificationRightEle.appendChild(listOfCertificationsEle);
+  listOfCertificationsEle.classList = "w-full";
+  listOfCertificationsEle.dataset.id = "certifications-list";
+
+  /**
+   *  <li class="not-first:mt-10px flex items-start">
+        <div class="basis-[calc(100%-50px)]">
+          <p class="text-small-bold text-emphasis-tx">TOEIC 800 LR</p>
+          <p>ETS</p>
+        </div>
+        <button class="ml-auto">
+          <img
+            src="./images/icons8-edit-100.png"
+            class="w-sm-img h-sm-img"
+          />
+        </button>
+      </li>
+   */
+  for (
+    let i = 0;
+    i <
+    Math.min(
+      DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST,
+      certificationList.length,
+    );
+    i++
+  ) {
+    const listItem = document.createElement("li");
+    listOfCertificationsEle.appendChild(listItem);
+    listItem.classList = "not-first:mt-10px flex items-start";
+
+    const listItemLeft = document.createElement("div");
+    listItem.appendChild(listItemLeft);
+    listItemLeft.classList = "basis-[calc(100%-50px)]";
+
+    const certNameEle = document.createElement("p");
+    listItemLeft.appendChild(certNameEle);
+    certNameEle.classList = "text-small-bold text-emphasis-tx";
+    certNameEle.textContent = certificationList[i].name;
+
+    const certNameAuth = document.createElement("p");
+    listItemLeft.appendChild(certNameAuth);
+    certNameAuth.textContent =
+      certificationList[i].authority ?? NOT_AVALABLE_CONTENT;
+
+    const editCertBtn = document.createElement("button");
+    listItem.appendChild(editCertBtn);
+    editCertBtn.classList = "ml-auto";
+
+    const editCertBtnImg = document.createElement("img");
+    editCertBtn.appendChild(editCertBtnImg);
+    editCertBtnImg.src = "./images/icons8-edit-100.png";
+    editCertBtnImg.classList = "w-sm-img h-sm-img";
+  }
+
+  //create see more button and see less button
+  if (
+    certificationList.length >= DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST
+  ) {
+    /**
+     *  <button class="mt-10px chevron-down-after" data-action="see-more">
+          See more
+        </button>
+     */
+    const seeMoreBtn = document.createElement("button");
+    certificationRightEle.appendChild(seeMoreBtn);
+    seeMoreBtn.classList = "mt-10px chevron-down-after";
+    seeMoreBtn.dataset.action = "see-more";
+    seeMoreBtn.textContent = "See more";
+
+    /**
+     * <button
+        class="mt-10px chevron-down-after block"
+        data-action="see-less"
+      >
+        See less
+      </button>
+     */
+    const seeLessBtn = document.createElement("button");
+    certificationRightEle.appendChild(seeLessBtn);
+    seeLessBtn.classList = "mt-10px chevron-top-after hidden";
+    seeLessBtn.dataset.action = "see-less";
+    seeLessBtn.textContent = "See less";
+
+    seeMoreBtn.addEventListener("click", (e) => {
+      for (
+        let i = DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST;
+        i < certificationList.length;
+        i++
+      ) {
+        const listItem = document.createElement("li");
+        listOfCertificationsEle.appendChild(listItem);
+        listItem.classList = "not-first:mt-10px flex items-start";
+
+        const listItemLeft = document.createElement("div");
+        listItem.appendChild(listItemLeft);
+        listItemLeft.classList = "basis-[calc(100%-50px)]";
+
+        const certNameEle = document.createElement("p");
+        listItemLeft.appendChild(certNameEle);
+        certNameEle.classList = "text-small-bold text-emphasis-tx";
+        certNameEle.textContent = certificationList[i].name;
+
+        const certNameAuth = document.createElement("p");
+        listItemLeft.appendChild(certNameAuth);
+        certNameAuth.textContent =
+          certificationList[i].authority ?? NOT_AVALABLE_CONTENT;
+
+        const editCertBtn = document.createElement("button");
+        listItem.appendChild(editCertBtn);
+        editCertBtn.classList = "ml-auto";
+
+        const editCertBtnImg = document.createElement("img");
+        editCertBtn.appendChild(editCertBtnImg);
+        editCertBtnImg.src = "./images/icons8-edit-100.png";
+        editCertBtnImg.classList = "w-sm-img h-sm-img";
+      }
+
+      seeMoreBtn.classList.add("hidden");
+      seeLessBtn.classList.remove("hidden");
+    });
+
+    seeLessBtn.addEventListener("click", (e) => {
+      const certificationsListEle = document.querySelector(
+        "[data-id='certifications-list']",
+      ) as HTMLElement;
+      const childrentOfCertList = certificationsListEle.children;
+      for (
+        let i = DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST;
+        i < certificationList.length;
+        i++
+      ) {
+        certificationsListEle.removeChild(
+          childrentOfCertList[DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST],
+        );
+      }
+
+      seeLessBtn.classList.add("hidden");
+      seeMoreBtn.classList.remove("hidden");
+    });
+  }
+}
+
+createAccomplishmentCertificationSection();
 
 export {};
