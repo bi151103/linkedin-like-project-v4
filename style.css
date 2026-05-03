@@ -161,11 +161,6 @@
   }
 }
 
-@utility section-title {
-  font-size: 1.6rem;
-  font-weight: 400;
-}
-
 @utility text-medium {
   font-size: 1.6rem;
   font-weight: 400;
