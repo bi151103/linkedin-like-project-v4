@@ -37,8 +37,15 @@ const shareProfile = async (e: Event) => {
     console.error("The browser does not support the sharing with navigator");
   }
 };
-const bodyEle = document.querySelector("body") as HTMLElement;
-bodyEle.className = "py-50px text-small";
+const showAddFeatureOverlay = (e: Event) => {
+  if (overlayEle.classList.contains("hidden")) {
+    overlayEle.classList.toggle("hidden");
+  }
+  bodyEle.classList.toggle("overflow-hidden");
+  if (addFeaturedOverlayEle.classList.contains("hidden")) {
+    addFeaturedOverlayEle.classList.remove("hidden");
+  }
+};
 
 function createHeader(): HTMLElement {
   /** <header
@@ -285,17 +292,50 @@ function createAboutSection(): HTMLElement {
   return aboutSection;
 }
 
+function createFeaturedSection(): HTMLElement {
+  const featuredSection = document.createElement("section");
+  featuredSection.className = "mt-10px p-15px bg-white";
+
+  const title = document.createElement("h2");
+  featuredSection.appendChild(title);
+  title.textContent = "Featured";
+
+  const featuredContent = document.createElement("p");
+  featuredSection.appendChild(featuredContent);
+  featuredContent.textContent =
+    "Some content is only available on desktop or in the LinkedIn App. ";
+  featuredContent.className = "mt-10px";
+
+  const openInAppLink = document.createElement("a");
+  featuredContent.appendChild(openInAppLink);
+  openInAppLink.href = "https://github.com/bi151103";
+  openInAppLink.target = "_blank";
+  openInAppLink.textContent = "Open in app";
+
+  const addFeaturedBtn = document.createElement("button");
+  featuredSection.appendChild(addFeaturedBtn);
+  addFeaturedBtn.textContent = "Add featured";
+  addFeaturedBtn.className = "mt-10px plus-before";
+  addFeaturedBtn.addEventListener("click", showAddFeatureOverlay);
+
+  return featuredSection;
+}
+
 const header = createHeader();
 const backgroundImgSection = createBackgroundImageSection();
 const profileActionSection = createProfileActionSection();
 const profileInfoSection = createProfileInfoSection();
 const aboutSection = createAboutSection();
+const featuredSection = createFeaturedSection();
 
+const bodyEle = document.querySelector("body") as HTMLElement;
+bodyEle.className = "py-50px text-small";
 bodyEle.prepend(header);
 bodyEle.insertBefore(backgroundImgSection, header.nextSibling);
 bodyEle.insertBefore(profileActionSection, backgroundImgSection.nextSibling);
 bodyEle.insertBefore(profileInfoSection, profileActionSection.nextSibling);
 bodyEle.insertBefore(aboutSection, profileInfoSection.nextSibling);
+bodyEle.insertBefore(featuredSection, aboutSection.nextSibling);
 
 const overlayEle = document.querySelector("[data-id='overlay']") as HTMLElement;
 const addFeaturedOverlayEle = document.querySelector(
@@ -317,30 +357,11 @@ const closeOverlay = (e: Event) => {
   }
   e.stopPropagation();
 };
-const showAddFeatureOverlay = (e: Event) => {
-  if (overlayEle.classList.contains("hidden")) {
-    overlayEle.classList.toggle("hidden");
-  }
-  bodyEle.classList.toggle("overflow-hidden");
-  if (addFeaturedOverlayEle.classList.contains("hidden")) {
-    addFeaturedOverlayEle.classList.remove("hidden");
-  }
-};
 
 const closeDownloadAppCTABtn = document.querySelector(
   '[data-id="download-cta"] button[data-action="close"]',
 ) as HTMLElement;
 closeDownloadAppCTABtn.addEventListener("click", closeDownloadApp);
-
-const shareProfileBtn = document.querySelector(
-  '[data-id="profile-action"] button[data-action="share"]',
-) as HTMLElement;
-shareProfileBtn.addEventListener("click", shareProfile);
-
-const addFeaturedBtn = document.querySelector(
-  'button[data-action="add-featured"',
-) as HTMLElement;
-addFeaturedBtn.addEventListener("click", showAddFeatureOverlay);
 
 const closeOverlayBtn = document.querySelector(
   '[data-id="overlay"] button[data-action="close"]',
