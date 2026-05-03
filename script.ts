@@ -40,12 +40,11 @@ const shareProfile = async (e: Event) => {
 const bodyEle = document.querySelector("body") as HTMLElement;
 bodyEle.className = "py-50px text-small";
 
-function createHeader() {
+function createHeader(): HTMLElement {
   /** <header
       class="w-full h-50px flex items-center bg-white border-b border-separator-line fixed top-0 z-999"
     > */
   const header = document.createElement("header");
-  bodyEle.prepend(header);
   header.className =
     "w-full h-50px flex items-center bg-white border-b border-separator-line fixed top-0 z-999";
 
@@ -137,10 +136,10 @@ function createHeader() {
   messessCircledBubble.src = "./images/icons8-circled-1-100.png";
   messessCircledBubble.className =
     "w-sm-noti-bubble h-sm-noti-bubble border border-double rounded-full border-white absolute top-0 right-[2px]";
+  return header;
 }
-createHeader();
 
-function createBackgroundImageSection() {
+function createBackgroundImageSection(): HTMLElement {
   const backgroundImageSection = document.createElement("section");
   backgroundImageSection.className = "relative";
 
@@ -159,10 +158,74 @@ function createBackgroundImageSection() {
     "w-[25px] aspect-square absolute top-0 right-0 mr-[15px] mt-[15px] bg-white rounded-full p-5px";
   settingLink.appendChild(settingLinkImg);
 
-  bodyEle.prepend(backgroundImageSection);
+  return backgroundImageSection;
 }
 
-createBackgroundImageSection();
+function createProfileActionSection(): HTMLElement {
+  const profileActionSection = document.createElement("section");
+  profileActionSection.className = "h-[40px] w-100% bg-white flex";
+
+  const profileImgAddPhotoLink = document.createElement("a");
+  profileActionSection.appendChild(profileImgAddPhotoLink);
+  profileImgAddPhotoLink.href = "./add-profile-photo.html";
+  profileImgAddPhotoLink.className = "w-min";
+
+  const profileImgContainer = document.createElement("div");
+  profileImgAddPhotoLink.appendChild(profileImgContainer);
+  profileImgContainer.className = "w-[120px] h-full ml-[15px] relative";
+
+  const addPhotoContainer = document.createElement("div");
+  profileImgContainer.appendChild(addPhotoContainer);
+  addPhotoContainer.className =
+    "absolute bottom-0 w-full h-3/1 bg-white rounded-full border-2 border-double border-primary-tx flex flex-col items-center justify-center";
+
+  const addPhotoImg = document.createElement("img");
+  addPhotoContainer.appendChild(addPhotoImg);
+  addPhotoImg.src = "./images/icons8-camera-100.png";
+  addPhotoImg.className = "w-50px";
+
+  const addPhotoText = document.createElement("div");
+  addPhotoContainer.appendChild(addPhotoText);
+  addPhotoText.textContent = "Add Photo";
+  addPhotoText.className = "text-[0.8em]";
+
+  const rightActionContainer = document.createElement("div");
+  profileActionSection.appendChild(rightActionContainer);
+  rightActionContainer.className =
+    "w-[90px] h-full ml-auto flex items-end justify-around";
+
+  const shareBtn = document.createElement("button");
+  rightActionContainer.appendChild(shareBtn);
+  shareBtn.dataset.action = "share";
+  shareBtn.dataset.title = "LinkedIn: Profile of Phuc Dang";
+  shareBtn.dataset.text = "Check out Phuc Dang's profile on LinkedIn";
+  shareBtn.dataset.url = "https://vn.linkedin.com/in/dang-phan-minh-phuc";
+
+  const shareBtnImg = document.createElement("img");
+  shareBtn.appendChild(shareBtnImg);
+  shareBtnImg.src = "./images/icons8-share-100.png";
+  shareBtnImg.className = "w-[25px] aspect-square";
+  shareBtn.addEventListener("click", shareProfile);
+
+  const editLink = document.createElement("a");
+  rightActionContainer.appendChild(editLink);
+  editLink.href = "./edit-profile.html";
+
+  const editLinkImg = document.createElement("img");
+  editLink.appendChild(editLinkImg);
+  editLinkImg.src = "./images/icons8-edit-100.png";
+  editLinkImg.className = "w-[25px] aspect-square";
+
+  return profileActionSection;
+}
+
+const header = createHeader();
+const backgroundImgSection = createBackgroundImageSection();
+const profileActionSection = createProfileActionSection();
+
+bodyEle.prepend(header);
+bodyEle.insertBefore(backgroundImgSection, header.nextSibling);
+bodyEle.insertBefore(profileActionSection, backgroundImgSection.nextSibling);
 
 const overlayEle = document.querySelector("[data-id='overlay']") as HTMLElement;
 const addFeaturedOverlayEle = document.querySelector(
@@ -200,7 +263,7 @@ const closeDownloadAppCTABtn = document.querySelector(
 closeDownloadAppCTABtn.addEventListener("click", closeDownloadApp);
 
 const shareProfileBtn = document.querySelector(
-  '[data-id="profile-action"] button[data-action="share"',
+  '[data-id="profile-action"] button[data-action="share"]',
 ) as HTMLElement;
 shareProfileBtn.addEventListener("click", shareProfile);
 
