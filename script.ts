@@ -1,9 +1,14 @@
-"use strict";
+import { PRESENT_CONTENT } from "./constant.js";
 import {
   DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST,
   NOT_AVALABLE_CONTENT,
 } from "./constant.js";
-import type { AccomplishmentModel, Profile } from "./model";
+import type {
+  AccomplishmentData,
+  Profile,
+  Accomplishments,
+  AccomplishmentType,
+} from "./model";
 
 const closeDownloadApp = (e: Event) => {
   const downloadAppCTAEle = document.querySelector(
@@ -168,33 +173,40 @@ experienceSection.addEventListener("click", (e) => {
   }
 });
 
-const editEducationBtns = document.querySelectorAll(
-  "button[data-action='edit-education']",
-);
-for (const editEducationBtn of editEducationBtns) {
-  editEducationBtn.addEventListener("click", (e) => {
-    window.location.href = `${(e.currentTarget as HTMLElement).dataset.link}?${(e.currentTarget as HTMLElement).dataset.id}`;
-    e.preventDefault();
-  });
-}
-
-const closeAddEducationCTABtn = document.querySelector(
-  "button[data-action='close-add-education-cta']",
+const educationSection = document.querySelector(
+  "[data-id='education']",
 ) as HTMLElement;
-closeAddEducationCTABtn.addEventListener("click", (e) => {
-  const addEducationCTAELe = document.querySelector(
-    "[data-id='add-education-cta']",
-  ) as HTMLElement;
-  if (!addEducationCTAELe.classList.contains("hidden")) {
-    addEducationCTAELe.classList.add("hidden");
+educationSection.addEventListener("click", (e) => {
+  const target = e.target as HTMLElement;
+  const editEducationBTn = target.closest(
+    "button[data-action='edit-education']",
+  );
+  if (editEducationBTn) {
+    window.location.href = `${(editEducationBTn as HTMLElement).dataset.link}?id=${(editEducationBTn as HTMLElement).dataset.id}`;
+    e.preventDefault();
+    return;
   }
 });
 
-const addEducationBtn = document.querySelector(
-  "button[data-action='add-education']",
+const addEducationCTA = document.querySelector(
+  "[data-id='add-education-cta']",
 ) as HTMLElement;
-addEducationBtn.addEventListener("click", (e) => {
-  window.location.href = (e.currentTarget as HTMLElement).dataset.link ?? "#";
+addEducationCTA.addEventListener("click", (e) => {
+  const target = e.target as HTMLElement;
+  const closeCTABtn = target.closest(
+    "button[data-action='close-add-education-cta']",
+  );
+  if (closeCTABtn) {
+    if (!addEducationCTA.classList.contains("hidden")) {
+      addEducationCTA.classList.add("hidden");
+    }
+    return;
+  }
+  const addEducationBtn = target.closest("button[data-action='add-education']");
+  if (addEducationBtn) {
+    window.location.href = (addEducationBtn as HTMLElement).dataset.link ?? "#";
+    return;
+  }
 });
 
 const addVolunteeringBtn = document.querySelector(
@@ -211,104 +223,403 @@ addSkillsBtn.addEventListener("click", (e) => {
   window.location.href = (e.currentTarget as HTMLElement).dataset.link ?? "#";
 });
 
-const addAccomplishmentsBtn = document.querySelector(
-  "button[data-action='add-accomplishments']",
-) as HTMLElement;
-const addAccomplishmentsOverlayEle = document.querySelector(
-  "[data-id='overlay'] [data-id='add-accomplishments-overlay']",
-) as HTMLElement;
-addAccomplishmentsBtn.addEventListener("click", (e) => {
-  if (overlayEle.classList.contains("hidden")) {
-    overlayEle.classList.remove("hidden");
-  }
-  bodyEle.classList.toggle("overflow-hidden");
-  if (addAccomplishmentsOverlayEle.classList.contains("hidden")) {
-    addAccomplishmentsOverlayEle.classList.remove("hidden");
-  }
-});
-
-const addAccomplishmentBtns = document.querySelectorAll(
-  "[data-id='add-accomplishments-overlay'] [data-id='accomplishment-types-list'] button",
-);
-for (const addAccomplishmentBtn of addAccomplishmentBtns) {
-  addAccomplishmentBtn.addEventListener("click", (e) => {
-    const currentBtnEle = e.currentTarget as HTMLElement;
-    window.location.href = `${currentBtnEle.dataset.link}`;
-  });
-}
-
-const certificationList: AccomplishmentModel[] = [
+const certificationsList: AccomplishmentData[] = [
   {
     id: "cert-0",
     name: "TOEIC 800 LR",
     authority: "ETS",
+    type: "certification",
   },
   {
     id: "cert-1",
     name: "Microsoft Office Specialist: Microsoft Excel 2016",
     authority: "Microsoft",
+    type: "certification",
   },
   {
     id: "cert-2",
     name: "Microsoft Office Specialist: Microsoft Powerpoint 2016",
     authority: "Microsoft",
+    type: "certification",
   },
   {
     id: "cert-3",
     name: "Jira Fundamentals Badge",
     authority: "Atlassian",
+    type: "certification",
   },
   {
     id: "cert-4",
     name: "Confluence Fundamentals Badge",
     authority: "Atlassian",
+    type: "certification",
   },
   {
     id: "cert-5",
     name: "15 days of Postman - for testers",
     authority: "Canvas Credentials (Badgr)",
+    type: "certification",
   },
   {
     id: "cert-6",
     name: "Fit for Scrum Course",
     authority: "Axon Active - Agile Software Development Company",
+    type: "certification",
   },
 ];
 
-function createAccomplishmentCertificationSection() {
-  if (certificationList.length < 1) {
+const projectsList: AccomplishmentData[] = [
+  {
+    id: "project-3",
+    name: "LinkedIn Like Project",
+    duration: {
+      start: "04/01/2026",
+      end: "05/01/2026",
+    },
+    type: "project",
+  },
+  {
+    id: "project-0",
+    name: "Online Sale Website",
+    duration: {
+      start: "03/01/2024",
+      end: "04/01/2024",
+    },
+    type: "project",
+  },
+  {
+    id: "project-1",
+    name: "Website for managing a chain of coffee shops",
+    duration: {
+      start: "10/01/2023",
+      end: "12/01/2023",
+    },
+    type: "project",
+  },
+  {
+    id: "project-2",
+    name: "Web Testing | Change Password - OrangeHRM",
+    duration: {
+      end: "05/01/2024",
+    },
+    type: "project",
+  },
+];
+
+const accomplishments = {
+  publicationsList: [],
+  patentsList: [],
+  coursesList: [],
+  projectsList: projectsList,
+  honorsAndAwardsList: [],
+  testScoresList: [],
+  languagesList: [],
+  organizationsList: [],
+  certificationsList: certificationsList,
+};
+
+const createAccomplishmentItem = (
+  listEle: HTMLElement,
+  listData: AccomplishmentData,
+) => {
+  const listItem = document.createElement("li");
+  listEle.appendChild(listItem);
+  listItem.classList = "not-first:mt-10px flex items-start";
+  listItem.dataset.id = listData.id;
+
+  const listItemLeft = document.createElement("div");
+  listItem.appendChild(listItemLeft);
+  listItemLeft.classList = "basis-[calc(100%-50px)]";
+
+  const accName = document.createElement("p");
+  listItemLeft.appendChild(accName);
+  accName.classList = "text-small-bold text-emphasis-tx";
+  accName.textContent = listData.name;
+
+  const accSubtitle = document.createElement("p");
+  listItemLeft.appendChild(accSubtitle);
+  switch (listData.type) {
+    case "certification":
+      accSubtitle.textContent = listData.authority ?? NOT_AVALABLE_CONTENT;
+      break;
+    case "project":
+      const duration = listData.duration;
+      if (duration) {
+        let startDate;
+        let endDate;
+        if (duration.start && duration.end) {
+          startDate = new Date(duration.start);
+          const displayedStartDate = `${new Intl.DateTimeFormat("en-US", {
+            month: "short",
+          }).format(startDate)} ${new Intl.DateTimeFormat("en-US", {
+            year: "numeric",
+          }).format(startDate)}`;
+          endDate = new Date(duration.end);
+          const displayedEndDate = `${new Intl.DateTimeFormat("en-US", {
+            month: "short",
+          }).format(endDate)} ${new Intl.DateTimeFormat("en-US", {
+            year: "numeric",
+          }).format(endDate)}`;
+          accSubtitle.textContent = `${displayedStartDate} - ${displayedEndDate}`;
+        } else if (duration.start) {
+          startDate = new Date(duration.start);
+          const displayedStartDate = `${new Intl.DateTimeFormat("en-US", {
+            month: "short",
+          }).format(startDate)} ${new Intl.DateTimeFormat("en-US", {
+            year: "numeric",
+          }).format(startDate)}`;
+          accSubtitle.textContent = `${displayedStartDate} - ${PRESENT_CONTENT}`;
+        } else if (duration.end) {
+          endDate = new Date(duration.end);
+          const displayedEndDate = `${new Intl.DateTimeFormat("en-US", {
+            month: "short",
+          }).format(endDate)} ${new Intl.DateTimeFormat("en-US", {
+            year: "numeric",
+          }).format(endDate)}`;
+          accSubtitle.textContent = `${displayedEndDate}`;
+        } else {
+          accSubtitle.textContent = NOT_AVALABLE_CONTENT;
+        }
+      } else {
+        accSubtitle.textContent = NOT_AVALABLE_CONTENT;
+      }
+      break;
+    default:
+      accSubtitle.textContent = NOT_AVALABLE_CONTENT;
+      break;
+  }
+
+  const editAccBtn = document.createElement("button");
+  listItem.appendChild(editAccBtn);
+  editAccBtn.classList = "ml-auto";
+  editAccBtn.dataset.action = "edit-accomplishment";
+  switch (listData.type) {
+    case "certification":
+      editAccBtn.dataset.link = `./edit-certification.html?id=${listData.id}`;
+      break;
+    case "project":
+      editAccBtn.dataset.link = `./edit-project.html?id=${listData.id}`;
+      break;
+    default:
+      editAccBtn.dataset.link = `#`;
+      break;
+  }
+
+  const editAccBtnImg = document.createElement("img");
+  editAccBtn.appendChild(editAccBtnImg);
+  editAccBtnImg.src = "./images/icons8-edit-100.png";
+  editAccBtnImg.classList = "w-sm-img h-sm-img";
+};
+
+function createAccomplishmentSection(accomplishments: Accomplishments) {
+  if (!accomplishments) {
+    return;
+  }
+
+  //add event hanlder for the add accomplishment and edit buttons through event delegation
+  const addEventListenerToAccomplishmentSection = (
+    accomplishmentSection: HTMLElement,
+  ) => {
+    accomplishmentSection.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      const addAccpmBtn = target.closest(
+        "button[data-action='add-accomplishments']",
+      );
+      if (addAccpmBtn) {
+        const addAccomplishmentsOverlayEle = document.querySelector(
+          "[data-id='overlay'] [data-id='add-accomplishments-overlay']",
+        ) as HTMLElement;
+        overlayEle.classList.remove("hidden");
+        addAccomplishmentsOverlayEle.classList.remove("hidden");
+        bodyEle.classList.add("overflow-hidden");
+        return;
+      }
+      const editBtn = target.closest(
+        "button[data-action='edit-accomplishment']",
+      );
+      if (editBtn) {
+        window.location.href = (editBtn as HTMLElement).dataset.link ?? "#";
+        return;
+      }
+
+      let accomplishmentsList: AccomplishmentData[] = [];
+      const seeMoreBtn = target.closest("button[data-action='see-more']");
+      if (seeMoreBtn) {
+        const listOfAccsEle = (
+          seeMoreBtn.parentElement as HTMLElement
+        ).querySelector(`ul[data-id]`) as HTMLElement;
+        switch (listOfAccsEle.dataset.id) {
+          case "certification":
+            accomplishmentsList = accomplishments.certificationsList;
+            break;
+          case "project":
+            accomplishmentsList = accomplishments.projectsList;
+            break;
+          default:
+            break;
+        }
+        for (
+          let i = DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST;
+          i < accomplishmentsList.length;
+          i++
+        ) {
+          createAccomplishmentItem(listOfAccsEle, accomplishmentsList[i]);
+        }
+
+        seeMoreBtn.classList.add("hidden");
+        const seeLessBtn = (
+          seeMoreBtn.parentElement as HTMLElement
+        ).querySelector("button[data-action='see-less']") as HTMLElement;
+        seeLessBtn.classList.remove("hidden");
+        return;
+      }
+
+      const seeLessBtn = target.closest("button[data-action='see-less']");
+      if (seeLessBtn) {
+        const listOfAccsEle = (
+          seeLessBtn.parentElement as HTMLElement
+        ).querySelector(`ul[data-id]`) as HTMLElement;
+        switch (listOfAccsEle.dataset.id) {
+          case "certification":
+            accomplishmentsList = accomplishments.certificationsList;
+            break;
+          case "project":
+            accomplishmentsList = accomplishments.projectsList;
+            break;
+          default:
+            break;
+        }
+        const accChildren = listOfAccsEle.children;
+        for (
+          let i = DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST;
+          i < accomplishmentsList.length;
+          i++
+        ) {
+          listOfAccsEle.removeChild(accChildren[accChildren.length - 1]);
+        }
+
+        seeLessBtn.classList.add("hidden");
+        const seeMoreBtn = (
+          seeLessBtn.parentElement as HTMLElement
+        ).querySelector("button[data-action='see-more']") as HTMLElement;
+        seeMoreBtn.classList.remove("hidden");
+        return;
+      }
+    });
+  };
+
+  const accomplishmentSection = document.createElement("section");
+  const recommendationSection = document.querySelector(
+    "[data-id='recommendation']",
+  ) as HTMLElement;
+  recommendationSection.after(accomplishmentSection);
+  accomplishmentSection.dataset.id = "acccomplishment";
+  accomplishmentSection.classList = "mt-10px p-15px bg-white";
+
+  const accpmSectionHeader = document.createElement("h2");
+  accomplishmentSection.appendChild(accpmSectionHeader);
+  accpmSectionHeader.textContent = "Accomplishments";
+
+  const addAccpmBtn = document.createElement("button");
+  accomplishmentSection.appendChild(addAccpmBtn);
+  addAccpmBtn.textContent = "Add accomplishments";
+  addAccpmBtn.classList = "mt-10px plus-before";
+  addAccpmBtn.dataset.action = "add-accomplishments";
+
+  createAccomplishmentSubsection(
+    accomplishmentSection,
+    accomplishments.certificationsList,
+    "certification",
+  );
+  createAccomplishmentSubsection(
+    accomplishmentSection,
+    accomplishments.projectsList,
+    "project",
+  );
+  createAccomplishmentSubsection(
+    accomplishmentSection,
+    accomplishments.publicationsList,
+    "publication",
+  );
+  createAccomplishmentSubsection(
+    accomplishmentSection,
+    accomplishments.patentsList,
+    "patent",
+  );
+  createAccomplishmentSubsection(
+    accomplishmentSection,
+    accomplishments.coursesList,
+    "course",
+  );
+  createAccomplishmentSubsection(
+    accomplishmentSection,
+    accomplishments.honorsAndAwardsList,
+    "honor-award",
+  );
+  createAccomplishmentSubsection(
+    accomplishmentSection,
+    accomplishments.testScoresList,
+    "test-score",
+  );
+  createAccomplishmentSubsection(
+    accomplishmentSection,
+    accomplishments.languagesList,
+    "language",
+  );
+  createAccomplishmentSubsection(
+    accomplishmentSection,
+    accomplishments.organizationsList,
+    "organization",
+  );
+
+  addEventListenerToAccomplishmentSection(accomplishmentSection);
+}
+
+function createAccomplishmentSubsection(
+  accomplishmentSection: HTMLElement,
+  accomplishmentsList: AccomplishmentData[],
+  accomplishmentType: AccomplishmentType,
+) {
+  if (accomplishmentsList.length < 1) {
     return;
   }
   const sectionContainer = document.createElement("div");
-  const projectsSection = document.querySelector(
-    "[data-id='accomplishments'] [data-id='projects']",
-  ) as HTMLElement;
-  projectsSection.before(sectionContainer);
-  sectionContainer.classList = "mt-10px flex";
-  sectionContainer.dataset.id = "certifications";
+  accomplishmentSection.appendChild(sectionContainer);
 
-  const numberOfCertificationEle = document.createElement("div");
-  sectionContainer.appendChild(numberOfCertificationEle);
-  numberOfCertificationEle.classList =
+  sectionContainer.classList = "mt-10px flex";
+  sectionContainer.dataset.id = accomplishmentType;
+
+  const numberOfAccEle = document.createElement("div");
+  sectionContainer.appendChild(numberOfAccEle);
+  numberOfAccEle.classList =
     "w-50px h-50px text-[2.4rem] text-emphasis-tx text-right";
-  numberOfCertificationEle.textContent = `${certificationList.length}`;
+  numberOfAccEle.textContent = `${accomplishmentsList.length}`;
 
   // <div class="ml-10px basis-[calc(100%-50px)]">
-  const certificationRightEle = document.createElement("div");
-  sectionContainer.appendChild(certificationRightEle);
-  certificationRightEle.classList = "ml-10px basis-[calc(100%-50px)]";
+  const accRightEle = document.createElement("div");
+  sectionContainer.appendChild(accRightEle);
+  accRightEle.classList = "ml-10px basis-[calc(100%-50px)]";
 
   // <p class="text-medium-bold text-emphasis-tx">Certifications</p>
-  const certificationTypeEle = document.createElement("p");
-  certificationRightEle.appendChild(certificationTypeEle);
-  certificationTypeEle.classList = "text-medium-bold text-emphasis-tx";
-  certificationTypeEle.textContent = "Certifications";
+  const accTypeEle = document.createElement("p");
+  accRightEle.appendChild(accTypeEle);
+  accTypeEle.classList = "text-medium-bold text-emphasis-tx";
+  switch (accomplishmentType) {
+    case "certification":
+      accTypeEle.textContent = "Certifications";
+      break;
+    case "project":
+      accTypeEle.textContent = "Projects";
+      break;
+    default:
+      break;
+  }
 
   // <ul class="w-full" data-id="certifications-list">
-  const listOfCertificationsEle = document.createElement("ul");
-  certificationRightEle.appendChild(listOfCertificationsEle);
-  listOfCertificationsEle.classList = "w-full";
-  listOfCertificationsEle.dataset.id = "certifications-list";
+  const listOfAccsEle = document.createElement("ul");
+  accRightEle.appendChild(listOfAccsEle);
+  listOfAccsEle.classList = "w-full";
+  listOfAccsEle.dataset.id = accomplishmentType;
 
   /**
    *  <li class="not-first:mt-10px flex items-start">
@@ -324,51 +635,22 @@ function createAccomplishmentCertificationSection() {
         </button>
       </li>
    */
+
   for (
     let i = 0;
     i <
     Math.min(
       DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST,
-      certificationList.length,
+      accomplishmentsList.length,
     );
     i++
   ) {
-    const listItem = document.createElement("li");
-    listOfCertificationsEle.appendChild(listItem);
-    listItem.classList = "not-first:mt-10px flex items-start";
-    listItem.dataset.id = certificationList[i].id;
-
-    const listItemLeft = document.createElement("div");
-    listItem.appendChild(listItemLeft);
-    listItemLeft.classList = "basis-[calc(100%-50px)]";
-
-    const certNameEle = document.createElement("p");
-    listItemLeft.appendChild(certNameEle);
-    certNameEle.classList = "text-small-bold text-emphasis-tx";
-    certNameEle.textContent = certificationList[i].name;
-
-    const certNameAuth = document.createElement("p");
-    listItemLeft.appendChild(certNameAuth);
-    certNameAuth.textContent =
-      certificationList[i].authority ?? NOT_AVALABLE_CONTENT;
-
-    const editCertBtn = document.createElement("button");
-    listItem.appendChild(editCertBtn);
-    editCertBtn.classList = "ml-auto";
-    editCertBtn.dataset.link = `./edit-certification.html?id=${certificationList[i].id}`;
-    editCertBtn.addEventListener("click", (e) => {
-      window.location.href = editCertBtn.dataset.link ?? "#";
-    });
-
-    const editCertBtnImg = document.createElement("img");
-    editCertBtn.appendChild(editCertBtnImg);
-    editCertBtnImg.src = "./images/icons8-edit-100.png";
-    editCertBtnImg.classList = "w-sm-img h-sm-img";
+    createAccomplishmentItem(listOfAccsEle, accomplishmentsList[i]);
   }
 
   //create see more button and see less button
   if (
-    certificationList.length > DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST
+    accomplishmentsList.length > DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST
   ) {
     /**
      *  <button class="mt-10px chevron-down-after" data-action="see-more">
@@ -376,7 +658,7 @@ function createAccomplishmentCertificationSection() {
         </button>
      */
     const seeMoreBtn = document.createElement("button");
-    certificationRightEle.appendChild(seeMoreBtn);
+    accRightEle.appendChild(seeMoreBtn);
     seeMoreBtn.classList = "mt-10px chevron-down-after";
     seeMoreBtn.dataset.action = "see-more";
     seeMoreBtn.textContent = "See more";
@@ -390,93 +672,31 @@ function createAccomplishmentCertificationSection() {
       </button>
      */
     const seeLessBtn = document.createElement("button");
-    certificationRightEle.appendChild(seeLessBtn);
+    accRightEle.appendChild(seeLessBtn);
     seeLessBtn.classList = "mt-10px chevron-top-after hidden";
     seeLessBtn.dataset.action = "see-less";
     seeLessBtn.textContent = "See less";
-
-    seeMoreBtn.addEventListener("click", (e) => {
-      for (
-        let i = DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST;
-        i < certificationList.length;
-        i++
-      ) {
-        const listItem = document.createElement("li");
-        listOfCertificationsEle.appendChild(listItem);
-        listItem.classList = "not-first:mt-10px flex items-start";
-        listItem.dataset.id = certificationList[i].id;
-
-        const listItemLeft = document.createElement("div");
-        listItem.appendChild(listItemLeft);
-        listItemLeft.classList = "basis-[calc(100%-50px)]";
-
-        const certNameEle = document.createElement("p");
-        listItemLeft.appendChild(certNameEle);
-        certNameEle.classList = "text-small-bold text-emphasis-tx";
-        certNameEle.textContent = certificationList[i].name;
-
-        const certNameAuth = document.createElement("p");
-        listItemLeft.appendChild(certNameAuth);
-        certNameAuth.textContent =
-          certificationList[i].authority ?? NOT_AVALABLE_CONTENT;
-
-        const editCertBtn = document.createElement("button");
-        listItem.appendChild(editCertBtn);
-        editCertBtn.classList = "ml-auto";
-        editCertBtn.dataset.link = `./edit-certification.html?id=${certificationList[i].id}`;
-        editCertBtn.addEventListener("click", (e) => {
-          window.location.href = editCertBtn.dataset.link ?? "#";
-        });
-
-        const editCertBtnImg = document.createElement("img");
-        editCertBtn.appendChild(editCertBtnImg);
-        editCertBtnImg.src = "./images/icons8-edit-100.png";
-        editCertBtnImg.classList = "w-sm-img h-sm-img";
-      }
-
-      seeMoreBtn.classList.add("hidden");
-      seeLessBtn.classList.remove("hidden");
-    });
-
-    seeLessBtn.addEventListener("click", (e) => {
-      const certificationsListEle = document.querySelector(
-        "[data-id='certifications-list']",
-      ) as HTMLElement;
-      const childrentOfCertList = certificationsListEle.children;
-      for (
-        let i = DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST;
-        i < certificationList.length;
-        i++
-      ) {
-        certificationsListEle.removeChild(
-          childrentOfCertList[DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST],
-        );
-      }
-
-      seeLessBtn.classList.add("hidden");
-      seeMoreBtn.classList.remove("hidden");
-    });
   }
 }
 
-createAccomplishmentCertificationSection();
+createAccomplishmentSection(accomplishments);
 
-const projectList = document.querySelector(
-  "ul[data-id='projects-list']",
-) as HTMLElement;
-projectList.addEventListener("click", (e) => {
-  const target = e.target as HTMLElement;
-  //check if target is the edit project button under the list item
-  const clickedEleClosestBtn = target.closest(
-    "button[data-action='edit-project']",
-  ) as HTMLElement;
-  if (clickedEleClosestBtn) {
-    const correspondingListItem = clickedEleClosestBtn.closest(
-      "li[data-id]",
-    ) as HTMLElement;
-    window.location.href = `${clickedEleClosestBtn.dataset.link}?id=${correspondingListItem.dataset.id}`;
-  }
-});
+// const projectList = document.querySelector(
+//   "ul[data-id='projects-list']",
+// ) as HTMLElement;
+// projectList.addEventListener("click", (e) => {
+//   const target = e.target as HTMLElement;
+//   //check if target is the edit project button under the list item
+//   const clickedEleClosestBtn = target.closest(
+//     "button[data-action='edit-project']",
+//   ) as HTMLElement;
+//   if (clickedEleClosestBtn) {
+//     const correspondingListItem = clickedEleClosestBtn.closest(
+//       "li[data-id]",
+//     ) as HTMLElement;
+//     window.location.href = `${clickedEleClosestBtn.dataset.link}?id=${correspondingListItem.dataset.id}`;
+//   }
+// });
 
 const otherProfilesList: Profile[] = [
   {
