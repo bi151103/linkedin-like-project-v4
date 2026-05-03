@@ -45,7 +45,7 @@ function createHeader() {
       class="w-full h-50px flex items-center bg-white border-b border-separator-line fixed top-0 z-999"
     > */
   const header = document.createElement("header");
-  bodyEle.appendChild(header);
+  bodyEle.prepend(header);
   header.className =
     "w-full h-50px flex items-center bg-white border-b border-separator-line fixed top-0 z-999";
 
