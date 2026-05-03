@@ -1,13 +1,3 @@
-export type AccomplishmentModel = {
-  id: string;
-  name: string;
-  duration?: {
-    start: string;
-    end: string;
-  };
-  authority?: string;
-};
-
 export type Profile = {
   id: string;
   name: string;
@@ -17,4 +7,38 @@ export type Profile = {
     addConnectionInvitationSent: boolean;
   };
   profileImgUrl?: string;
+};
+
+export type AccomplishmentType =
+  | "publication"
+  | "patent"
+  | "course"
+  | "project"
+  | "honor-award"
+  | "test-score"
+  | "language"
+  | "organization"
+  | "certification";
+
+export type AccomplishmentData = {
+  type: AccomplishmentType;
+  id: string;
+  name: string;
+  duration?: {
+    start?: string;
+    end?: string;
+  };
+  authority?: string;
+};
+
+export type Accomplishments = {
+  publicationsList: AccomplishmentData[];
+  patentsList: AccomplishmentData[];
+  coursesList: AccomplishmentData[];
+  projectsList: AccomplishmentData[];
+  honorsAndAwardsList: AccomplishmentData[];
+  testScoresList: AccomplishmentData[];
+  languagesList: AccomplishmentData[];
+  organizationsList: AccomplishmentData[];
+  certificationsList: AccomplishmentData[];
 };
