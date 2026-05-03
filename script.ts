@@ -324,16 +324,16 @@ const createAccomplishmentItem = (
 ) => {
   const listItem = document.createElement("li");
   listEle.appendChild(listItem);
-  listItem.classList = "not-first:mt-10px flex items-start";
+  listItem.className = "not-first:mt-10px flex items-start";
   listItem.dataset.id = listData.id;
 
   const listItemLeft = document.createElement("div");
   listItem.appendChild(listItemLeft);
-  listItemLeft.classList = "basis-[calc(100%-50px)]";
+  listItemLeft.className = "basis-[calc(100%-50px)]";
 
   const accName = document.createElement("p");
   listItemLeft.appendChild(accName);
-  accName.classList = "text-small-bold text-emphasis-tx";
+  accName.className = "text-small-bold text-emphasis-tx";
   accName.textContent = listData.name;
 
   const accSubtitle = document.createElement("p");
@@ -391,7 +391,7 @@ const createAccomplishmentItem = (
 
   const editAccBtn = document.createElement("button");
   listItem.appendChild(editAccBtn);
-  editAccBtn.classList = "ml-auto";
+  editAccBtn.className = "ml-auto";
   editAccBtn.dataset.action = "edit-accomplishment";
   switch (listData.type) {
     case "certification":
@@ -408,7 +408,7 @@ const createAccomplishmentItem = (
   const editAccBtnImg = document.createElement("img");
   editAccBtn.appendChild(editAccBtnImg);
   editAccBtnImg.src = "./images/icons8-edit-100.png";
-  editAccBtnImg.classList = "w-sm-img h-sm-img";
+  editAccBtnImg.className = "w-sm-img h-sm-img";
 };
 
 function createAccomplishmentSection(accomplishments: Accomplishments) {
@@ -514,7 +514,7 @@ function createAccomplishmentSection(accomplishments: Accomplishments) {
   ) as HTMLElement;
   recommendationSection.after(accomplishmentSection);
   accomplishmentSection.dataset.id = "acccomplishment";
-  accomplishmentSection.classList = "mt-10px p-15px bg-white";
+  accomplishmentSection.className = "mt-10px p-15px bg-white";
 
   const accpmSectionHeader = document.createElement("h2");
   accomplishmentSection.appendChild(accpmSectionHeader);
@@ -523,7 +523,7 @@ function createAccomplishmentSection(accomplishments: Accomplishments) {
   const addAccpmBtn = document.createElement("button");
   accomplishmentSection.appendChild(addAccpmBtn);
   addAccpmBtn.textContent = "Add accomplishments";
-  addAccpmBtn.classList = "mt-10px plus-before";
+  addAccpmBtn.className = "mt-10px plus-before";
   addAccpmBtn.dataset.action = "add-accomplishments";
 
   createAccomplishmentSubsection(
@@ -586,24 +586,24 @@ function createAccomplishmentSubsection(
   const sectionContainer = document.createElement("div");
   accomplishmentSection.appendChild(sectionContainer);
 
-  sectionContainer.classList = "mt-10px flex";
+  sectionContainer.className = "mt-10px flex";
   sectionContainer.dataset.id = accomplishmentType;
 
   const numberOfAccEle = document.createElement("div");
   sectionContainer.appendChild(numberOfAccEle);
-  numberOfAccEle.classList =
+  numberOfAccEle.className =
     "w-50px h-50px text-[2.4rem] text-emphasis-tx text-right";
   numberOfAccEle.textContent = `${accomplishmentsList.length}`;
 
   // <div class="ml-10px basis-[calc(100%-50px)]">
   const accRightEle = document.createElement("div");
   sectionContainer.appendChild(accRightEle);
-  accRightEle.classList = "ml-10px basis-[calc(100%-50px)]";
+  accRightEle.className = "ml-10px basis-[calc(100%-50px)]";
 
   // <p class="text-medium-bold text-emphasis-tx">Certifications</p>
   const accTypeEle = document.createElement("p");
   accRightEle.appendChild(accTypeEle);
-  accTypeEle.classList = "text-medium-bold text-emphasis-tx";
+  accTypeEle.className = "text-medium-bold text-emphasis-tx";
   switch (accomplishmentType) {
     case "certification":
       accTypeEle.textContent = "Certifications";
@@ -618,7 +618,7 @@ function createAccomplishmentSubsection(
   // <ul class="w-full" data-id="certifications-list">
   const listOfAccsEle = document.createElement("ul");
   accRightEle.appendChild(listOfAccsEle);
-  listOfAccsEle.classList = "w-full";
+  listOfAccsEle.className = "w-full";
   listOfAccsEle.dataset.id = accomplishmentType;
 
   /**
@@ -659,7 +659,7 @@ function createAccomplishmentSubsection(
      */
     const seeMoreBtn = document.createElement("button");
     accRightEle.appendChild(seeMoreBtn);
-    seeMoreBtn.classList = "mt-10px chevron-down-after";
+    seeMoreBtn.className = "mt-10px chevron-down-after";
     seeMoreBtn.dataset.action = "see-more";
     seeMoreBtn.textContent = "See more";
 
@@ -673,30 +673,13 @@ function createAccomplishmentSubsection(
      */
     const seeLessBtn = document.createElement("button");
     accRightEle.appendChild(seeLessBtn);
-    seeLessBtn.classList = "mt-10px chevron-top-after hidden";
+    seeLessBtn.className = "mt-10px chevron-top-after hidden";
     seeLessBtn.dataset.action = "see-less";
     seeLessBtn.textContent = "See less";
   }
 }
 
 createAccomplishmentSection(accomplishments);
-
-// const projectList = document.querySelector(
-//   "ul[data-id='projects-list']",
-// ) as HTMLElement;
-// projectList.addEventListener("click", (e) => {
-//   const target = e.target as HTMLElement;
-//   //check if target is the edit project button under the list item
-//   const clickedEleClosestBtn = target.closest(
-//     "button[data-action='edit-project']",
-//   ) as HTMLElement;
-//   if (clickedEleClosestBtn) {
-//     const correspondingListItem = clickedEleClosestBtn.closest(
-//       "li[data-id]",
-//     ) as HTMLElement;
-//     window.location.href = `${clickedEleClosestBtn.dataset.link}?id=${correspondingListItem.dataset.id}`;
-//   }
-// });
 
 const otherProfilesList: Profile[] = [
   {
@@ -774,7 +757,7 @@ function createOtherProfilesSection() {
   ) as HTMLElement;
   contactSection.after(newSection);
   newSection.dataset.id = "other-profiles";
-  newSection.classList = "p-15px";
+  newSection.className = "p-15px";
 
   const otherProfileHeader = document.createElement("h2");
   newSection.appendChild(otherProfileHeader);
@@ -782,53 +765,53 @@ function createOtherProfilesSection() {
 
   const listOfProfiles = document.createElement("ul");
   newSection.appendChild(listOfProfiles);
-  listOfProfiles.classList = "mt-20px";
+  listOfProfiles.className = "mt-20px";
 
   for (let i = 0; i < otherProfilesList.length; i++) {
     const listItem = document.createElement("li");
     listOfProfiles.appendChild(listItem);
-    listItem.classList =
+    listItem.className =
       "flex items-center *:text-inherit *:font-normal not-first:mt-10px";
     listItem.dataset.id = otherProfilesList[i].id;
 
     const profileItemLeft = document.createElement("a");
     listItem.appendChild(profileItemLeft);
     profileItemLeft.href = `?id=${otherProfilesList[i].id}`;
-    profileItemLeft.classList = "min-w-50px";
+    profileItemLeft.className = "min-w-50px";
 
     const profileImg = document.createElement("img");
     profileItemLeft.appendChild(profileImg);
     profileImg.src = otherProfilesList[i].profileImgUrl ?? "";
-    profileImg.classList = "w-md-img h-md-img rounded-full";
+    profileImg.className = "w-md-img h-md-img rounded-full";
 
     const profileItemMiddle = document.createElement("a");
     listItem.appendChild(profileItemMiddle);
     profileItemMiddle.href = `?id=${otherProfilesList[i].id}`;
-    profileItemMiddle.classList = "ml-10px basis-[calc(100%-50px-50px)]";
+    profileItemMiddle.className = "ml-10px basis-[calc(100%-50px-50px)]";
 
     const profileItemMiddleTextContainer = document.createElement("p");
     profileItemMiddle.appendChild(profileItemMiddleTextContainer);
 
     const profileName = document.createElement("span");
     profileItemMiddleTextContainer.appendChild(profileName);
-    profileName.classList = "text-medium-bold text-emphasis-tx";
+    profileName.className = "text-medium-bold text-emphasis-tx";
     profileName.textContent = otherProfilesList[i].name;
 
     const dotSeparatorBtwNameAndConnectionRel = document.createElement("span");
     profileItemMiddleTextContainer.appendChild(
       dotSeparatorBtwNameAndConnectionRel,
     );
-    dotSeparatorBtwNameAndConnectionRel.classList = "dot";
+    dotSeparatorBtwNameAndConnectionRel.className = "dot";
 
     const profileConnectionRel = document.createElement("span");
     profileItemMiddleTextContainer.appendChild(profileConnectionRel);
-    profileConnectionRel.classList = "text-low-emphasis-tx";
+    profileConnectionRel.className = "text-low-emphasis-tx";
     profileConnectionRel.textContent =
       otherProfilesList[i].connection.relationship;
 
     const profileHeadline = document.createElement("p");
     profileItemMiddle.appendChild(profileHeadline);
-    profileHeadline.classList = "text-xs-small";
+    profileHeadline.className = "text-xs-small";
     profileHeadline.textContent = otherProfilesList[i].headline ?? "";
 
     if (
@@ -838,7 +821,7 @@ function createOtherProfilesSection() {
     ) {
       const profileItemRight = document.createElement("button");
       listItem.appendChild(profileItemRight);
-      profileItemRight.classList =
+      profileItemRight.className =
         "min-w-40px basis-40px h-40px border border-[#000000bf] rounded-full";
 
       profileItemRight.dataset.action =
@@ -856,7 +839,7 @@ function createOtherProfilesSection() {
         otherProfilesList[i].connection.relationship === "1st"
           ? "./images/icons8-email-send-100.png"
           : "./images/icons8-add-friend-100.png";
-      profileItemRightImg.classList = "w-sm-img h-sm-img";
+      profileItemRightImg.className = "w-sm-img h-sm-img";
 
       if (otherProfilesList[i].connection.relationship === "1st") {
         profileItemRight.addEventListener("click", (e) => {
@@ -869,7 +852,7 @@ function createOtherProfilesSection() {
 
           const newProfileItemRight = document.createElement("span");
           listItem.appendChild(newProfileItemRight);
-          newProfileItemRight.classList =
+          newProfileItemRight.className =
             "min-w-min basis-min text-xs-small text-emphasis-tx text-center";
           newProfileItemRight.textContent = "Invited";
         });
@@ -877,7 +860,7 @@ function createOtherProfilesSection() {
     } else {
       const profileItemRight = document.createElement("span");
       listItem.appendChild(profileItemRight);
-      profileItemRight.classList =
+      profileItemRight.className =
         "min-w-min basis-min text-xs-small text-emphasis-tx text-center";
       profileItemRight.textContent = "Invited";
     }
