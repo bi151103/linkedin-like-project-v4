@@ -42,3 +42,23 @@ export type Accomplishments = {
   organizationsList: AccomplishmentData[];
   certificationsList: AccomplishmentData[];
 };
+
+export type Experience = {
+  id: string;
+  position: string;
+  duration: {
+    start: string;
+    end?: string;
+  };
+  location: string;
+  description?: string;
+};
+export type ExperienceData = {
+  id: string;
+  company: {
+    companyId: string;
+    companyName: string;
+    companyLogoSrc?: string;
+  };
+  experiences: Experience[];
+};
