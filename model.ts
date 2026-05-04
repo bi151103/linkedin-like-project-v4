@@ -83,3 +83,27 @@ export type Skill = {
   id: string;
   skillName: string;
 };
+
+export type ContactType =
+  | "email"
+  | "phone"
+  | "linkedin"
+  | "instant-message"
+  | "website";
+export type Contact = {
+  type: ContactType;
+  info: string;
+};
+export type PhoneContactType = "fax" | "home" | "mobile" | "pager" | "work";
+export interface PhoneContact extends Contact {
+  phoneType: PhoneContactType;
+}
+export type InstantMessageType =
+  | "skype"
+  | "icq"
+  | "google-hangouts"
+  | "qq"
+  | "wechat";
+export interface InstantMessageContact extends Contact {
+  instantMessageType: InstantMessageType;
+}
