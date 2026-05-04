@@ -1052,6 +1052,340 @@ function createContactSection(contactList: Contact[]) {
   return contactSection;
 }
 
+function createAccomplishmentItem(listData: AccomplishmentData) {
+  const listItem = document.createElement("li");
+  listItem.className = "not-first:mt-10px flex items-start";
+  listItem.dataset.id = listData.id;
+
+  const listItemLeft = document.createElement("div");
+  listItem.appendChild(listItemLeft);
+  listItemLeft.className = "basis-[calc(100%-50px)]";
+
+  const accName = document.createElement("p");
+  listItemLeft.appendChild(accName);
+  accName.className = "text-small-bold text-emphasis-tx";
+  accName.textContent = listData.name;
+
+  const accSubtitle = document.createElement("p");
+  listItemLeft.appendChild(accSubtitle);
+  switch (listData.type) {
+    case "certification":
+      accSubtitle.textContent = listData.authority ?? NOT_AVALABLE_CONTENT;
+      break;
+    case "project":
+      accSubtitle.textContent = getDisplayedDuration(listData.duration);
+      break;
+    default:
+      accSubtitle.textContent = NOT_AVALABLE_CONTENT;
+      break;
+  }
+
+  const editAccBtn = document.createElement("button");
+  listItem.appendChild(editAccBtn);
+  editAccBtn.className = "ml-auto";
+  editAccBtn.dataset.action = "edit-accomplishment";
+  switch (listData.type) {
+    case "certification":
+      editAccBtn.dataset.link = `./edit-certification.html?id=${listData.id}`;
+      break;
+    case "project":
+      editAccBtn.dataset.link = `./edit-project.html?id=${listData.id}`;
+      break;
+    default:
+      editAccBtn.dataset.link = `#`;
+      break;
+  }
+
+  const editAccBtnImg = document.createElement("img");
+  editAccBtn.appendChild(editAccBtnImg);
+  editAccBtnImg.src = "./images/icons8-edit-100.png";
+  editAccBtnImg.className = "w-sm-img h-sm-img";
+
+  return listItem;
+}
+
+function createAccomplishmentSubsection(
+  accomplishmentsList: AccomplishmentData[],
+  accomplishmentType: AccomplishmentType,
+): HTMLElement | undefined {
+  if (accomplishmentsList.length < 1) {
+    return;
+  }
+  const sectionContainer = document.createElement("li");
+
+  sectionContainer.className = "not-first:mt-10px flex";
+  sectionContainer.dataset.id = accomplishmentType;
+
+  const numberOfAccEle = document.createElement("div");
+  sectionContainer.appendChild(numberOfAccEle);
+  numberOfAccEle.className =
+    "w-50px h-50px text-[2.4rem] text-emphasis-tx text-right";
+  numberOfAccEle.textContent = `${accomplishmentsList.length}`;
+
+  // <div class="ml-10px basis-[calc(100%-50px)]">
+  const accRightEle = document.createElement("div");
+  sectionContainer.appendChild(accRightEle);
+  accRightEle.className = "ml-10px basis-[calc(100%-50px)]";
+
+  // <p class="text-medium-bold text-emphasis-tx">Certifications</p>
+  const accTypeEle = document.createElement("p");
+  accRightEle.appendChild(accTypeEle);
+  accTypeEle.className = "text-medium-bold text-emphasis-tx";
+  switch (accomplishmentType) {
+    case "certification":
+      accTypeEle.textContent = "Certifications";
+      break;
+    case "project":
+      accTypeEle.textContent = "Projects";
+      break;
+    default:
+      break;
+  }
+
+  // <ul class="w-full" data-id="certifications-list">
+  const listOfAccsEle = document.createElement("ul");
+  accRightEle.appendChild(listOfAccsEle);
+  listOfAccsEle.className = "w-full";
+  listOfAccsEle.dataset.id = accomplishmentType;
+
+  /**
+   *  <li class="not-first:mt-10px flex items-start">
+        <div class="basis-[calc(100%-50px)]">
+          <p class="text-small-bold text-emphasis-tx">TOEIC 800 LR</p>
+          <p>ETS</p>
+        </div>
+        <button class="ml-auto">
+          <img
+            src="./images/icons8-edit-100.png"
+            class="w-sm-img h-sm-img"
+          />
+        </button>
+      </li>
+   */
+
+  for (
+    let i = 0;
+    i <
+    Math.min(
+      DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST,
+      accomplishmentsList.length,
+    );
+    i++
+  ) {
+    const item = createAccomplishmentItem(accomplishmentsList[i]);
+    listOfAccsEle.appendChild(item);
+  }
+
+  //create see more button and see less button
+  if (
+    accomplishmentsList.length > DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST
+  ) {
+    /**
+     *  <button class="mt-10px chevron-down-after" data-action="see-more">
+          See more
+        </button>
+     */
+    const seeMoreBtn = document.createElement("button");
+    accRightEle.appendChild(seeMoreBtn);
+    seeMoreBtn.className = "mt-10px chevron-down-after";
+    seeMoreBtn.dataset.action = "see-more";
+    seeMoreBtn.textContent = "See more";
+
+    /**
+     * <button
+        class="mt-10px chevron-down-after block"
+        data-action="see-less"
+      >
+        See less
+      </button>
+     */
+    const seeLessBtn = document.createElement("button");
+    accRightEle.appendChild(seeLessBtn);
+    seeLessBtn.className = "mt-10px chevron-top-after hidden";
+    seeLessBtn.dataset.action = "see-less";
+    seeLessBtn.textContent = "See less";
+  }
+
+  return sectionContainer;
+}
+
+function createAccomplishmentSection(accomplishments: Accomplishments) {
+  const accomplishmentSection = document.createElement("section");
+  accomplishmentSection.className = "mt-10px p-15px bg-white";
+
+  const accpmSectionHeader = document.createElement("h2");
+  accomplishmentSection.appendChild(accpmSectionHeader);
+  accpmSectionHeader.textContent = "Accomplishments";
+
+  const addAccpmBtn = document.createElement("button");
+  accomplishmentSection.appendChild(addAccpmBtn);
+  addAccpmBtn.textContent = "Add accomplishments";
+  addAccpmBtn.className = "mt-10px plus-before";
+  addAccpmBtn.dataset.action = "add-accomplishments";
+
+  if (!accomplishments) {
+    return accomplishmentSection;
+  }
+
+  const accListEle = document.createElement("ul");
+  accomplishmentSection.appendChild(accListEle);
+  accListEle.className = "mt-10px";
+
+  const certSection = createAccomplishmentSubsection(
+    accomplishments.certificationsList,
+    "certification",
+  );
+  const prjSection = createAccomplishmentSubsection(
+    accomplishments.projectsList,
+    "project",
+  );
+  const publicationSection = createAccomplishmentSubsection(
+    accomplishments.publicationsList,
+    "publication",
+  );
+  const patentSection = createAccomplishmentSubsection(
+    accomplishments.patentsList,
+    "patent",
+  );
+  const courseSection = createAccomplishmentSubsection(
+    accomplishments.coursesList,
+    "course",
+  );
+  const honorAwardSection = createAccomplishmentSubsection(
+    accomplishments.honorsAndAwardsList,
+    "honor-award",
+  );
+  const testScoreSection = createAccomplishmentSubsection(
+    accomplishments.testScoresList,
+    "test-score",
+  );
+  const languageSection = createAccomplishmentSubsection(
+    accomplishments.languagesList,
+    "language",
+  );
+  const orgSection = createAccomplishmentSubsection(
+    accomplishments.organizationsList,
+    "organization",
+  );
+
+  if (certSection) {
+    accListEle.appendChild(certSection);
+  }
+  if (prjSection) {
+    accListEle.appendChild(prjSection);
+  }
+  if (publicationSection) {
+    accListEle.appendChild(publicationSection);
+  }
+  if (patentSection) {
+    accListEle.appendChild(patentSection);
+  }
+  if (courseSection) {
+    accListEle.appendChild(courseSection);
+  }
+  if (honorAwardSection) {
+    accListEle.appendChild(honorAwardSection);
+  }
+  if (testScoreSection) {
+    accListEle.appendChild(testScoreSection);
+  }
+  if (languageSection) {
+    accListEle.appendChild(languageSection);
+  }
+  if (orgSection) {
+    accListEle.appendChild(orgSection);
+  }
+
+  //add event hanlder for the add accomplishment and edit buttons through event delegation
+  accomplishmentSection.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    const addAccpmBtn = target.closest(
+      "button[data-action='add-accomplishments']",
+    );
+    if (addAccpmBtn) {
+      const addAccomplishmentsOverlayEle = document.querySelector(
+        "[data-id='overlay'] [data-id='add-accomplishments-overlay']",
+      ) as HTMLElement;
+      overlayEle.classList.remove("hidden");
+      addAccomplishmentsOverlayEle.classList.remove("hidden");
+      bodyEle.classList.add("overflow-hidden");
+      return;
+    }
+    const editBtn = target.closest("button[data-action='edit-accomplishment']");
+    if (editBtn) {
+      window.location.href = (editBtn as HTMLElement).dataset.link ?? "#";
+      return;
+    }
+
+    let accomplishmentsList: AccomplishmentData[] = [];
+    const seeMoreBtn = target.closest("button[data-action='see-more']");
+    if (seeMoreBtn) {
+      const listOfAccsEle = (
+        seeMoreBtn.parentElement as HTMLElement
+      ).querySelector(`ul[data-id]`) as HTMLElement;
+      switch (listOfAccsEle.dataset.id) {
+        case "certification":
+          accomplishmentsList = accomplishments.certificationsList;
+          break;
+        case "project":
+          accomplishmentsList = accomplishments.projectsList;
+          break;
+        default:
+          break;
+      }
+      for (
+        let i = DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST;
+        i < accomplishmentsList.length;
+        i++
+      ) {
+        const item = createAccomplishmentItem(accomplishmentsList[i]);
+        listOfAccsEle.appendChild(item);
+      }
+
+      seeMoreBtn.classList.add("hidden");
+      const seeLessBtn = (
+        seeMoreBtn.parentElement as HTMLElement
+      ).querySelector("button[data-action='see-less']") as HTMLElement;
+      seeLessBtn.classList.remove("hidden");
+      return;
+    }
+
+    const seeLessBtn = target.closest("button[data-action='see-less']");
+    if (seeLessBtn) {
+      const listOfAccsEle = (
+        seeLessBtn.parentElement as HTMLElement
+      ).querySelector(`ul[data-id]`) as HTMLElement;
+      switch (listOfAccsEle.dataset.id) {
+        case "certification":
+          accomplishmentsList = accomplishments.certificationsList;
+          break;
+        case "project":
+          accomplishmentsList = accomplishments.projectsList;
+          break;
+        default:
+          break;
+      }
+      const accChildren = listOfAccsEle.children;
+      for (
+        let i = DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST;
+        i < accomplishmentsList.length;
+        i++
+      ) {
+        listOfAccsEle.removeChild(accChildren[accChildren.length - 1]);
+      }
+
+      seeLessBtn.classList.add("hidden");
+      const seeMoreBtn = (
+        seeLessBtn.parentElement as HTMLElement
+      ).querySelector("button[data-action='see-more']") as HTMLElement;
+      seeMoreBtn.classList.remove("hidden");
+      return;
+    }
+  });
+
+  return accomplishmentSection;
+}
+
 const certificationsList: AccomplishmentData[] = [
   {
     id: "cert-0",
@@ -1292,104 +1626,6 @@ const contactList: Contact[] = [
   },
 ];
 
-const header = createHeader();
-const backgroundImgSection = createBackgroundImageSection();
-const profileActionSection = createProfileActionSection();
-const profileInfoSection = createProfileInfoSection();
-const aboutSection = createAboutSection();
-const featuredSection = createFeaturedSection();
-const privateToYouSection = createPrivateToYouSection();
-const activitySection = creataActivitySection();
-const seeAllBtnLink = createActivitySeeAllButton();
-const experienceSection = createExperienceSection(experiencesList);
-const educationSection = createEducationSection(educationList);
-const addEducationCTA = createAddEducationCTA();
-const volunteeringSection = createVolunteeringSection();
-const skillSection = createSkillSection(skillsList);
-const recommendationSection = createRecommendationSection();
-const contactSection = createContactSection(contactList);
-
-const bodyEle = document.querySelector("body") as HTMLElement;
-bodyEle.className = "py-50px text-small";
-bodyEle.prepend(header);
-bodyEle.insertBefore(backgroundImgSection, header.nextSibling);
-bodyEle.insertBefore(profileActionSection, backgroundImgSection.nextSibling);
-bodyEle.insertBefore(profileInfoSection, profileActionSection.nextSibling);
-bodyEle.insertBefore(aboutSection, profileInfoSection.nextSibling);
-bodyEle.insertBefore(featuredSection, aboutSection.nextSibling);
-bodyEle.insertBefore(privateToYouSection, featuredSection.nextSibling);
-bodyEle.insertBefore(activitySection, privateToYouSection.nextSibling);
-bodyEle.insertBefore(seeAllBtnLink, activitySection.nextSibling);
-bodyEle.insertBefore(experienceSection, seeAllBtnLink.nextSibling);
-bodyEle.insertBefore(educationSection, experienceSection.nextSibling);
-bodyEle.insertBefore(addEducationCTA, educationSection.nextSibling);
-bodyEle.insertBefore(volunteeringSection, addEducationCTA.nextSibling);
-bodyEle.insertBefore(skillSection, volunteeringSection.nextSibling);
-bodyEle.insertBefore(recommendationSection, skillSection.nextSibling);
-bodyEle.insertBefore(contactSection, recommendationSection.nextSibling);
-
-const overlayEle = document.querySelector("[data-id='overlay']") as HTMLElement;
-const addFeaturedOverlayEle = document.querySelector(
-  "[data-id='overlay'] [data-id='add-featured-overlay']",
-) as HTMLElement;
-
-const closeOverlay = (e: Event) => {
-  const overlayChildrenEles = document.querySelectorAll(
-    "[data-id='overlay'] > *",
-  );
-  for (const overlayEle of overlayChildrenEles) {
-    if (!overlayEle.classList.contains("hidden")) {
-      overlayEle.classList.add("hidden");
-    }
-  }
-  if (!overlayEle.classList.contains("hidden")) {
-    overlayEle.classList.add("hidden");
-    bodyEle.classList.remove("overflow-hidden");
-  }
-  e.stopPropagation();
-};
-
-const closeDownloadAppCTABtn = document.querySelector(
-  '[data-id="download-cta"] button[data-action="close"]',
-) as HTMLElement;
-closeDownloadAppCTABtn.addEventListener("click", closeDownloadApp);
-
-const closeOverlayBtn = document.querySelector(
-  '[data-id="overlay"] button[data-action="close"]',
-) as HTMLElement;
-closeOverlayBtn.addEventListener("click", closeOverlay);
-
-addFeaturedOverlayEle.addEventListener("click", (e) => {
-  //stop propagation when clicking on the dialog area to prevent the dialog from closing
-  e.stopPropagation();
-});
-
-overlayEle.addEventListener("click", closeOverlay);
-
-const addFeaturedTypesList = document.querySelector(
-  "ul[data-id='add-featured-types-list']",
-) as HTMLElement;
-addFeaturedTypesList.addEventListener("click", (e) => {
-  const target = e.target as HTMLElement;
-  const addPhotoBtn = target.closest("button[data-action='add-photo']");
-  if (addPhotoBtn) {
-    const selectImgInput = document.querySelector(
-      "[data-id='featured-image-input']",
-    ) as HTMLElement;
-    selectImgInput.click();
-    return;
-  }
-  const uploadDocumentBtn = target.closest(
-    "button[data-action='upload-document']",
-  );
-  if (uploadDocumentBtn) {
-    const selectDocumentInput = document.querySelector(
-      "[data-id='featured-document-input']",
-    ) as HTMLElement;
-    selectDocumentInput.click();
-  }
-});
-
 const accomplishments = {
   publicationsList: [],
   patentsList: [],
@@ -1401,327 +1637,6 @@ const accomplishments = {
   organizationsList: [],
   certificationsList: certificationsList,
 };
-
-const createAccomplishmentItem = (
-  listEle: HTMLElement,
-  listData: AccomplishmentData,
-) => {
-  const listItem = document.createElement("li");
-  listEle.appendChild(listItem);
-  listItem.className = "not-first:mt-10px flex items-start";
-  listItem.dataset.id = listData.id;
-
-  const listItemLeft = document.createElement("div");
-  listItem.appendChild(listItemLeft);
-  listItemLeft.className = "basis-[calc(100%-50px)]";
-
-  const accName = document.createElement("p");
-  listItemLeft.appendChild(accName);
-  accName.className = "text-small-bold text-emphasis-tx";
-  accName.textContent = listData.name;
-
-  const accSubtitle = document.createElement("p");
-  listItemLeft.appendChild(accSubtitle);
-  switch (listData.type) {
-    case "certification":
-      accSubtitle.textContent = listData.authority ?? NOT_AVALABLE_CONTENT;
-      break;
-    case "project":
-      accSubtitle.textContent = getDisplayedDuration(listData.duration);
-      break;
-    default:
-      accSubtitle.textContent = NOT_AVALABLE_CONTENT;
-      break;
-  }
-
-  const editAccBtn = document.createElement("button");
-  listItem.appendChild(editAccBtn);
-  editAccBtn.className = "ml-auto";
-  editAccBtn.dataset.action = "edit-accomplishment";
-  switch (listData.type) {
-    case "certification":
-      editAccBtn.dataset.link = `./edit-certification.html?id=${listData.id}`;
-      break;
-    case "project":
-      editAccBtn.dataset.link = `./edit-project.html?id=${listData.id}`;
-      break;
-    default:
-      editAccBtn.dataset.link = `#`;
-      break;
-  }
-
-  const editAccBtnImg = document.createElement("img");
-  editAccBtn.appendChild(editAccBtnImg);
-  editAccBtnImg.src = "./images/icons8-edit-100.png";
-  editAccBtnImg.className = "w-sm-img h-sm-img";
-};
-
-function createAccomplishmentSection(accomplishments: Accomplishments) {
-  if (!accomplishments) {
-    return;
-  }
-
-  //add event hanlder for the add accomplishment and edit buttons through event delegation
-  const addEventListenerToAccomplishmentSection = (
-    accomplishmentSection: HTMLElement,
-  ) => {
-    accomplishmentSection.addEventListener("click", (e) => {
-      const target = e.target as HTMLElement;
-      const addAccpmBtn = target.closest(
-        "button[data-action='add-accomplishments']",
-      );
-      if (addAccpmBtn) {
-        const addAccomplishmentsOverlayEle = document.querySelector(
-          "[data-id='overlay'] [data-id='add-accomplishments-overlay']",
-        ) as HTMLElement;
-        overlayEle.classList.remove("hidden");
-        addAccomplishmentsOverlayEle.classList.remove("hidden");
-        bodyEle.classList.add("overflow-hidden");
-        return;
-      }
-      const editBtn = target.closest(
-        "button[data-action='edit-accomplishment']",
-      );
-      if (editBtn) {
-        window.location.href = (editBtn as HTMLElement).dataset.link ?? "#";
-        return;
-      }
-
-      let accomplishmentsList: AccomplishmentData[] = [];
-      const seeMoreBtn = target.closest("button[data-action='see-more']");
-      if (seeMoreBtn) {
-        const listOfAccsEle = (
-          seeMoreBtn.parentElement as HTMLElement
-        ).querySelector(`ul[data-id]`) as HTMLElement;
-        switch (listOfAccsEle.dataset.id) {
-          case "certification":
-            accomplishmentsList = accomplishments.certificationsList;
-            break;
-          case "project":
-            accomplishmentsList = accomplishments.projectsList;
-            break;
-          default:
-            break;
-        }
-        for (
-          let i = DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST;
-          i < accomplishmentsList.length;
-          i++
-        ) {
-          createAccomplishmentItem(listOfAccsEle, accomplishmentsList[i]);
-        }
-
-        seeMoreBtn.classList.add("hidden");
-        const seeLessBtn = (
-          seeMoreBtn.parentElement as HTMLElement
-        ).querySelector("button[data-action='see-less']") as HTMLElement;
-        seeLessBtn.classList.remove("hidden");
-        return;
-      }
-
-      const seeLessBtn = target.closest("button[data-action='see-less']");
-      if (seeLessBtn) {
-        const listOfAccsEle = (
-          seeLessBtn.parentElement as HTMLElement
-        ).querySelector(`ul[data-id]`) as HTMLElement;
-        switch (listOfAccsEle.dataset.id) {
-          case "certification":
-            accomplishmentsList = accomplishments.certificationsList;
-            break;
-          case "project":
-            accomplishmentsList = accomplishments.projectsList;
-            break;
-          default:
-            break;
-        }
-        const accChildren = listOfAccsEle.children;
-        for (
-          let i = DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST;
-          i < accomplishmentsList.length;
-          i++
-        ) {
-          listOfAccsEle.removeChild(accChildren[accChildren.length - 1]);
-        }
-
-        seeLessBtn.classList.add("hidden");
-        const seeMoreBtn = (
-          seeLessBtn.parentElement as HTMLElement
-        ).querySelector("button[data-action='see-more']") as HTMLElement;
-        seeMoreBtn.classList.remove("hidden");
-        return;
-      }
-    });
-  };
-
-  const accomplishmentSection = document.createElement("section");
-  recommendationSection.after(accomplishmentSection);
-  accomplishmentSection.dataset.id = "acccomplishment";
-  accomplishmentSection.className = "mt-10px p-15px bg-white";
-
-  const accpmSectionHeader = document.createElement("h2");
-  accomplishmentSection.appendChild(accpmSectionHeader);
-  accpmSectionHeader.textContent = "Accomplishments";
-
-  const addAccpmBtn = document.createElement("button");
-  accomplishmentSection.appendChild(addAccpmBtn);
-  addAccpmBtn.textContent = "Add accomplishments";
-  addAccpmBtn.className = "mt-10px plus-before";
-  addAccpmBtn.dataset.action = "add-accomplishments";
-
-  createAccomplishmentSubsection(
-    accomplishmentSection,
-    accomplishments.certificationsList,
-    "certification",
-  );
-  createAccomplishmentSubsection(
-    accomplishmentSection,
-    accomplishments.projectsList,
-    "project",
-  );
-  createAccomplishmentSubsection(
-    accomplishmentSection,
-    accomplishments.publicationsList,
-    "publication",
-  );
-  createAccomplishmentSubsection(
-    accomplishmentSection,
-    accomplishments.patentsList,
-    "patent",
-  );
-  createAccomplishmentSubsection(
-    accomplishmentSection,
-    accomplishments.coursesList,
-    "course",
-  );
-  createAccomplishmentSubsection(
-    accomplishmentSection,
-    accomplishments.honorsAndAwardsList,
-    "honor-award",
-  );
-  createAccomplishmentSubsection(
-    accomplishmentSection,
-    accomplishments.testScoresList,
-    "test-score",
-  );
-  createAccomplishmentSubsection(
-    accomplishmentSection,
-    accomplishments.languagesList,
-    "language",
-  );
-  createAccomplishmentSubsection(
-    accomplishmentSection,
-    accomplishments.organizationsList,
-    "organization",
-  );
-
-  addEventListenerToAccomplishmentSection(accomplishmentSection);
-}
-
-function createAccomplishmentSubsection(
-  accomplishmentSection: HTMLElement,
-  accomplishmentsList: AccomplishmentData[],
-  accomplishmentType: AccomplishmentType,
-) {
-  if (accomplishmentsList.length < 1) {
-    return;
-  }
-  const sectionContainer = document.createElement("div");
-  accomplishmentSection.appendChild(sectionContainer);
-
-  sectionContainer.className = "mt-10px flex";
-  sectionContainer.dataset.id = accomplishmentType;
-
-  const numberOfAccEle = document.createElement("div");
-  sectionContainer.appendChild(numberOfAccEle);
-  numberOfAccEle.className =
-    "w-50px h-50px text-[2.4rem] text-emphasis-tx text-right";
-  numberOfAccEle.textContent = `${accomplishmentsList.length}`;
-
-  // <div class="ml-10px basis-[calc(100%-50px)]">
-  const accRightEle = document.createElement("div");
-  sectionContainer.appendChild(accRightEle);
-  accRightEle.className = "ml-10px basis-[calc(100%-50px)]";
-
-  // <p class="text-medium-bold text-emphasis-tx">Certifications</p>
-  const accTypeEle = document.createElement("p");
-  accRightEle.appendChild(accTypeEle);
-  accTypeEle.className = "text-medium-bold text-emphasis-tx";
-  switch (accomplishmentType) {
-    case "certification":
-      accTypeEle.textContent = "Certifications";
-      break;
-    case "project":
-      accTypeEle.textContent = "Projects";
-      break;
-    default:
-      break;
-  }
-
-  // <ul class="w-full" data-id="certifications-list">
-  const listOfAccsEle = document.createElement("ul");
-  accRightEle.appendChild(listOfAccsEle);
-  listOfAccsEle.className = "w-full";
-  listOfAccsEle.dataset.id = accomplishmentType;
-
-  /**
-   *  <li class="not-first:mt-10px flex items-start">
-        <div class="basis-[calc(100%-50px)]">
-          <p class="text-small-bold text-emphasis-tx">TOEIC 800 LR</p>
-          <p>ETS</p>
-        </div>
-        <button class="ml-auto">
-          <img
-            src="./images/icons8-edit-100.png"
-            class="w-sm-img h-sm-img"
-          />
-        </button>
-      </li>
-   */
-
-  for (
-    let i = 0;
-    i <
-    Math.min(
-      DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST,
-      accomplishmentsList.length,
-    );
-    i++
-  ) {
-    createAccomplishmentItem(listOfAccsEle, accomplishmentsList[i]);
-  }
-
-  //create see more button and see less button
-  if (
-    accomplishmentsList.length > DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST
-  ) {
-    /**
-     *  <button class="mt-10px chevron-down-after" data-action="see-more">
-          See more
-        </button>
-     */
-    const seeMoreBtn = document.createElement("button");
-    accRightEle.appendChild(seeMoreBtn);
-    seeMoreBtn.className = "mt-10px chevron-down-after";
-    seeMoreBtn.dataset.action = "see-more";
-    seeMoreBtn.textContent = "See more";
-
-    /**
-     * <button
-        class="mt-10px chevron-down-after block"
-        data-action="see-less"
-      >
-        See less
-      </button>
-     */
-    const seeLessBtn = document.createElement("button");
-    accRightEle.appendChild(seeLessBtn);
-    seeLessBtn.className = "mt-10px chevron-top-after hidden";
-    seeLessBtn.dataset.action = "see-less";
-    seeLessBtn.textContent = "See less";
-  }
-}
-
-createAccomplishmentSection(accomplishments);
 
 const otherProfilesList: Profile[] = [
   {
@@ -1789,6 +1704,106 @@ const otherProfilesList: Profile[] = [
     profileImgUrl: "./images/person-avatar-design_24877-38137.avif",
   },
 ];
+
+const header = createHeader();
+const backgroundImgSection = createBackgroundImageSection();
+const profileActionSection = createProfileActionSection();
+const profileInfoSection = createProfileInfoSection();
+const aboutSection = createAboutSection();
+const featuredSection = createFeaturedSection();
+const privateToYouSection = createPrivateToYouSection();
+const activitySection = creataActivitySection();
+const seeAllBtnLink = createActivitySeeAllButton();
+const experienceSection = createExperienceSection(experiencesList);
+const educationSection = createEducationSection(educationList);
+const addEducationCTA = createAddEducationCTA();
+const volunteeringSection = createVolunteeringSection();
+const skillSection = createSkillSection(skillsList);
+const recommendationSection = createRecommendationSection();
+const contactSection = createContactSection(contactList);
+const accomplishmentSection = createAccomplishmentSection(accomplishments);
+
+const bodyEle = document.querySelector("body") as HTMLElement;
+bodyEle.className = "py-50px text-small";
+bodyEle.prepend(header);
+bodyEle.insertBefore(backgroundImgSection, header.nextSibling);
+bodyEle.insertBefore(profileActionSection, backgroundImgSection.nextSibling);
+bodyEle.insertBefore(profileInfoSection, profileActionSection.nextSibling);
+bodyEle.insertBefore(aboutSection, profileInfoSection.nextSibling);
+bodyEle.insertBefore(featuredSection, aboutSection.nextSibling);
+bodyEle.insertBefore(privateToYouSection, featuredSection.nextSibling);
+bodyEle.insertBefore(activitySection, privateToYouSection.nextSibling);
+bodyEle.insertBefore(seeAllBtnLink, activitySection.nextSibling);
+bodyEle.insertBefore(experienceSection, seeAllBtnLink.nextSibling);
+bodyEle.insertBefore(educationSection, experienceSection.nextSibling);
+bodyEle.insertBefore(addEducationCTA, educationSection.nextSibling);
+bodyEle.insertBefore(volunteeringSection, addEducationCTA.nextSibling);
+bodyEle.insertBefore(skillSection, volunteeringSection.nextSibling);
+bodyEle.insertBefore(recommendationSection, skillSection.nextSibling);
+bodyEle.insertBefore(accomplishmentSection, recommendationSection.nextSibling);
+bodyEle.insertBefore(contactSection, accomplishmentSection.nextSibling);
+
+const overlayEle = document.querySelector("[data-id='overlay']") as HTMLElement;
+const addFeaturedOverlayEle = document.querySelector(
+  "[data-id='overlay'] [data-id='add-featured-overlay']",
+) as HTMLElement;
+
+const closeOverlay = (e: Event) => {
+  const overlayChildrenEles = document.querySelectorAll(
+    "[data-id='overlay'] > *",
+  );
+  for (const overlayEle of overlayChildrenEles) {
+    if (!overlayEle.classList.contains("hidden")) {
+      overlayEle.classList.add("hidden");
+    }
+  }
+  if (!overlayEle.classList.contains("hidden")) {
+    overlayEle.classList.add("hidden");
+    bodyEle.classList.remove("overflow-hidden");
+  }
+  e.stopPropagation();
+};
+
+const closeDownloadAppCTABtn = document.querySelector(
+  '[data-id="download-cta"] button[data-action="close"]',
+) as HTMLElement;
+closeDownloadAppCTABtn.addEventListener("click", closeDownloadApp);
+
+const closeOverlayBtn = document.querySelector(
+  '[data-id="overlay"] button[data-action="close"]',
+) as HTMLElement;
+closeOverlayBtn.addEventListener("click", closeOverlay);
+
+addFeaturedOverlayEle.addEventListener("click", (e) => {
+  //stop propagation when clicking on the dialog area to prevent the dialog from closing
+  e.stopPropagation();
+});
+
+overlayEle.addEventListener("click", closeOverlay);
+
+const addFeaturedTypesList = document.querySelector(
+  "ul[data-id='add-featured-types-list']",
+) as HTMLElement;
+addFeaturedTypesList.addEventListener("click", (e) => {
+  const target = e.target as HTMLElement;
+  const addPhotoBtn = target.closest("button[data-action='add-photo']");
+  if (addPhotoBtn) {
+    const selectImgInput = document.querySelector(
+      "[data-id='featured-image-input']",
+    ) as HTMLElement;
+    selectImgInput.click();
+    return;
+  }
+  const uploadDocumentBtn = target.closest(
+    "button[data-action='upload-document']",
+  );
+  if (uploadDocumentBtn) {
+    const selectDocumentInput = document.querySelector(
+      "[data-id='featured-document-input']",
+    ) as HTMLElement;
+    selectDocumentInput.click();
+  }
+});
 
 function createOtherProfilesSection() {
   if (otherProfilesList.length < 1) return;
