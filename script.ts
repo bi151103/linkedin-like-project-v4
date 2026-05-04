@@ -20,15 +20,6 @@ import {
   getDisplayedDuration,
 } from "./util.js";
 
-const closeDownloadApp = (e: Event) => {
-  const downloadAppCTAEle = document.querySelector(
-    "[data-id='download-cta']",
-  ) as HTMLElement;
-  //there are some ways to adjust the style of an element in js
-  // downloadAppCTAEle.setAttribute("style", "display: none;");
-  // downloadAppCTAEle.style.display = "none";
-  downloadAppCTAEle.classList.toggle("hidden");
-};
 const shareProfile = async (e: Event) => {
   const shareProfileBtn = (e.target as HTMLElement).closest(
     "button[data-action='share']",
@@ -1386,6 +1377,46 @@ function createAccomplishmentSection(accomplishments: Accomplishments) {
   return accomplishmentSection;
 }
 
+function createDownloadCTASection() {
+  const container = document.createElement("div");
+  container.className =
+    "h-[60px] w-full px-15px fixed z-999 bottom-50px bg-[#f3f2ee] shadow-[0_0_20px_rgba(0,0,0,0.7)] flex items-center";
+
+  const closeCTABtn = document.createElement("button");
+  container.appendChild(closeCTABtn);
+  closeCTABtn.className = "min-w-sm-img";
+  closeCTABtn.dataset.action = "close";
+
+  const closeCTABtnImg = document.createElement("img");
+  closeCTABtn.appendChild(closeCTABtnImg);
+  closeCTABtnImg.src = "./images/icons8-close-100.png";
+  closeCTABtnImg.className = "w-20px h-20px";
+
+  const mainText = document.createElement("p");
+  mainText.textContent = "Try the LinkedIn app";
+  container.appendChild(mainText);
+  mainText.className = "ml-10px text-small-bold text-emphasis-tx";
+
+  const continueLink = document.createElement("a");
+  container.appendChild(continueLink);
+  continueLink.href = "https://github.com/bi151103";
+  continueLink.target = "_blank";
+  continueLink.className =
+    "min-w-min leading-[2] text-white bg-primary-bg px-15px rounded-[24px] ml-auto hover:bg-[#004182]";
+  continueLink.textContent = "Continue";
+
+  container.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    const closeCTABtn = target.closest("button[data-action='close']");
+    if (closeCTABtn) {
+      const cta = e.currentTarget as HTMLElement;
+      cta.classList.add("hidden");
+    }
+  });
+
+  return container;
+}
+
 const certificationsList: AccomplishmentData[] = [
   {
     id: "cert-0",
@@ -1722,6 +1753,7 @@ const skillSection = createSkillSection(skillsList);
 const recommendationSection = createRecommendationSection();
 const contactSection = createContactSection(contactList);
 const accomplishmentSection = createAccomplishmentSection(accomplishments);
+const tryLinkedInAppCTA = createDownloadCTASection();
 
 const bodyEle = document.querySelector("body") as HTMLElement;
 bodyEle.className = "py-50px text-small";
@@ -1742,6 +1774,7 @@ bodyEle.insertBefore(skillSection, volunteeringSection.nextSibling);
 bodyEle.insertBefore(recommendationSection, skillSection.nextSibling);
 bodyEle.insertBefore(accomplishmentSection, recommendationSection.nextSibling);
 bodyEle.insertBefore(contactSection, accomplishmentSection.nextSibling);
+bodyEle.insertBefore(tryLinkedInAppCTA, contactSection.nextSibling);
 
 const overlayEle = document.querySelector("[data-id='overlay']") as HTMLElement;
 const addFeaturedOverlayEle = document.querySelector(
@@ -1763,11 +1796,6 @@ const closeOverlay = (e: Event) => {
   }
   e.stopPropagation();
 };
-
-const closeDownloadAppCTABtn = document.querySelector(
-  '[data-id="download-cta"] button[data-action="close"]',
-) as HTMLElement;
-closeDownloadAppCTABtn.addEventListener("click", closeDownloadApp);
 
 const closeOverlayBtn = document.querySelector(
   '[data-id="overlay"] button[data-action="close"]',
