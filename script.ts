@@ -27,15 +27,21 @@ const closeDownloadApp = (e: Event) => {
   downloadAppCTAEle.classList.toggle("hidden");
 };
 const shareProfile = async (e: Event) => {
-  const shareProfileBtn = e.currentTarget as HTMLElement;
+  const shareProfileBtn = (e.target as HTMLElement).closest(
+    "button[data-action='share']",
+  );
+  if (!shareProfileBtn) {
+    return;
+  }
+
   const shareData = {
     //there are 2 ways to access the data-attribute attribute of elements
     // title: shareProfileBtn.getAttribute("data-title"),
     // text: shareProfileBtn.getAttribute("data-text"),
     // url: shareProfileBtn.getAttribute("data-url"),
-    title: shareProfileBtn.dataset.title,
-    text: shareProfileBtn.dataset.text,
-    url: shareProfileBtn.dataset.url,
+    title: (shareProfileBtn as HTMLElement).dataset.title,
+    text: (shareProfileBtn as HTMLElement).dataset.text,
+    url: (shareProfileBtn as HTMLElement).dataset.url,
   };
   // console.log(shareData);
   try {
@@ -214,12 +220,12 @@ function createProfileActionSection(): HTMLElement {
   shareBtn.dataset.title = "LinkedIn: Profile of Phuc Dang";
   shareBtn.dataset.text = "Check out Phuc Dang's profile on LinkedIn";
   shareBtn.dataset.url = "https://vn.linkedin.com/in/dang-phan-minh-phuc";
+  shareBtn.addEventListener("click", shareProfile);
 
   const shareBtnImg = document.createElement("img");
   shareBtn.appendChild(shareBtnImg);
   shareBtnImg.src = "./images/icons8-share-100.png";
   shareBtnImg.className = "w-[25px] aspect-square";
-  shareBtn.addEventListener("click", shareProfile);
 
   const editLink = document.createElement("a");
   rightActionContainer.appendChild(editLink);
@@ -869,6 +875,28 @@ function createAddEducationCTA() {
   return addEducationCTA;
 }
 
+function createVolunteeringSection() {
+  const volunteertingSection = document.createElement("section");
+  volunteertingSection.className = "mt-10px p-15px bg-white";
+
+  const title = document.createElement("h2");
+  volunteertingSection.appendChild(title);
+  title.textContent = "Volunteer Experience";
+
+  const addVolunteeringBtn = document.createElement("button");
+  volunteertingSection.appendChild(addVolunteeringBtn);
+  addVolunteeringBtn.textContent = "Add volunteering";
+  addVolunteeringBtn.className = "mt-10px plus-before";
+  addVolunteeringBtn.dataset.action = "add-volunteering";
+  addVolunteeringBtn.dataset.link = "./add-volunteering.html";
+
+  addVolunteeringBtn.addEventListener("click", (e) => {
+    window.location.href = (e.target as HTMLElement).dataset.link ?? "#";
+  });
+
+  return volunteertingSection;
+}
+
 const certificationsList: AccomplishmentData[] = [
   {
     id: "cert-0",
@@ -1070,6 +1098,7 @@ const seeAllBtnLink = createActivitySeeAllButton();
 const experienceSection = createExperienceSection(experiencesList);
 const educationSection = createEducationSection(educationList);
 const addEducationCTA = createAddEducationCTA();
+const volunteeringSection = createVolunteeringSection();
 
 const bodyEle = document.querySelector("body") as HTMLElement;
 bodyEle.className = "py-50px text-small";
@@ -1085,6 +1114,7 @@ bodyEle.insertBefore(seeAllBtnLink, activitySection.nextSibling);
 bodyEle.insertBefore(experienceSection, seeAllBtnLink.nextSibling);
 bodyEle.insertBefore(educationSection, experienceSection.nextSibling);
 bodyEle.insertBefore(addEducationCTA, educationSection.nextSibling);
+bodyEle.insertBefore(volunteeringSection, addEducationCTA.nextSibling);
 
 const overlayEle = document.querySelector("[data-id='overlay']") as HTMLElement;
 const addFeaturedOverlayEle = document.querySelector(
@@ -1146,13 +1176,6 @@ addFeaturedTypesList.addEventListener("click", (e) => {
     ) as HTMLElement;
     selectDocumentInput.click();
   }
-});
-
-const addVolunteeringBtn = document.querySelector(
-  "button[data-action='add-volunteering']",
-) as HTMLElement;
-addVolunteeringBtn.addEventListener("click", (e) => {
-  window.location.href = (e.currentTarget as HTMLElement).dataset.link ?? "#";
 });
 
 const addSkillsBtn = document.querySelector(
