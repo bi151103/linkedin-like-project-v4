@@ -946,6 +946,23 @@ function createSkillSection(skillsList: Skill[]) {
   return skillSection;
 }
 
+function createRecommendationSection() {
+  const recommendationSection = document.createElement("section");
+  recommendationSection.className = "mt-10px p-15px bg-white";
+
+  const title = document.createElement("h2");
+  recommendationSection.appendChild(title);
+  title.textContent = "Recommendations";
+
+  const askRecommendationBtn = document.createElement("a");
+  recommendationSection.appendChild(askRecommendationBtn);
+  askRecommendationBtn.textContent = "Ask to be recommended";
+  askRecommendationBtn.className = "mt-10px plus-before inline-block";
+  askRecommendationBtn.href = "./ask-recommendation.html";
+
+  return recommendationSection;
+}
+
 const certificationsList: AccomplishmentData[] = [
   {
     id: "cert-0",
@@ -1180,6 +1197,7 @@ const educationSection = createEducationSection(educationList);
 const addEducationCTA = createAddEducationCTA();
 const volunteeringSection = createVolunteeringSection();
 const skillSection = createSkillSection(skillsList);
+const recommendationSection = createRecommendationSection();
 
 const bodyEle = document.querySelector("body") as HTMLElement;
 bodyEle.className = "py-50px text-small";
@@ -1197,6 +1215,7 @@ bodyEle.insertBefore(educationSection, experienceSection.nextSibling);
 bodyEle.insertBefore(addEducationCTA, educationSection.nextSibling);
 bodyEle.insertBefore(volunteeringSection, addEducationCTA.nextSibling);
 bodyEle.insertBefore(skillSection, volunteeringSection.nextSibling);
+bodyEle.insertBefore(recommendationSection, skillSection.nextSibling);
 
 const overlayEle = document.querySelector("[data-id='overlay']") as HTMLElement;
 const addFeaturedOverlayEle = document.querySelector(
@@ -1424,9 +1443,6 @@ function createAccomplishmentSection(accomplishments: Accomplishments) {
   };
 
   const accomplishmentSection = document.createElement("section");
-  const recommendationSection = document.querySelector(
-    "[data-id='recommendation']",
-  ) as HTMLElement;
   recommendationSection.after(accomplishmentSection);
   accomplishmentSection.dataset.id = "acccomplishment";
   accomplishmentSection.className = "mt-10px p-15px bg-white";
