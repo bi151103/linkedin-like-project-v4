@@ -10,6 +10,7 @@ import type {
   AccomplishmentType,
   ExperienceData,
   Education,
+  Skill,
 } from "./model";
 import {
   calculateDuration,
@@ -897,6 +898,54 @@ function createVolunteeringSection() {
   return volunteertingSection;
 }
 
+function createSkillSection(skillsList: Skill[]) {
+  const skillSection = document.createElement("section");
+  skillSection.className = "mt-10px p-15px bg-white";
+
+  const headerContainer = document.createElement("div");
+  skillSection.appendChild(headerContainer);
+  headerContainer.className = "flex";
+
+  const title = document.createElement("h2");
+  headerContainer.appendChild(title);
+  title.textContent = "Skills";
+
+  const editLink = document.createElement("a");
+  headerContainer.appendChild(editLink);
+  editLink.href = `./edit-skills.html`;
+  editLink.className = "min-w-sm-img ml-auto";
+
+  const editBtnImg = document.createElement("img");
+  editLink.appendChild(editBtnImg);
+  editBtnImg.src = "./images/icons8-edit-100.png";
+  editBtnImg.className = "w-sm-img h-sm-img";
+
+  const addSkillsBtn = document.createElement("button");
+  skillSection.appendChild(addSkillsBtn);
+  addSkillsBtn.textContent = "Add skills";
+  addSkillsBtn.className = "mt-10px plus-before";
+  addSkillsBtn.dataset.action = "add-skills";
+  addSkillsBtn.dataset.link = "./add-skills.html";
+
+  const skillsListEle = document.createElement("ul");
+  skillSection.appendChild(skillsListEle);
+  skillsListEle.className =
+    "mt-10px flex text-small-bold flex-wrap leading-loose text-emphasis-tx";
+
+  for (const skill of skillsList) {
+    const item = document.createElement("li");
+    skillsListEle.appendChild(item);
+    item.className = "not-last:dot";
+    item.textContent = skill.skillName;
+  }
+
+  addSkillsBtn.addEventListener("click", (e) => {
+    window.location.href = (e.target as HTMLElement).dataset.link ?? "#";
+  });
+
+  return skillSection;
+}
+
 const certificationsList: AccomplishmentData[] = [
   {
     id: "cert-0",
@@ -1086,6 +1135,37 @@ const educationList: Education[] = [
   },
 ];
 
+const skillsList: Skill[] = [
+  {
+    id: "skill-0",
+    skillName: "Self-Organized",
+  },
+  {
+    id: "skill-1",
+    skillName: "Attention to Detail",
+  },
+  {
+    id: "skill-2",
+    skillName: "Software Development",
+  },
+  {
+    id: "skill-3",
+    skillName: "Software Testing",
+  },
+  {
+    id: "skill-4",
+    skillName: "Outsourcing",
+  },
+  {
+    id: "skill-5",
+    skillName: "Requirement Analysis",
+  },
+  {
+    id: "skill-6",
+    skillName: "Programming",
+  },
+];
+
 const header = createHeader();
 const backgroundImgSection = createBackgroundImageSection();
 const profileActionSection = createProfileActionSection();
@@ -1099,6 +1179,7 @@ const experienceSection = createExperienceSection(experiencesList);
 const educationSection = createEducationSection(educationList);
 const addEducationCTA = createAddEducationCTA();
 const volunteeringSection = createVolunteeringSection();
+const skillSection = createSkillSection(skillsList);
 
 const bodyEle = document.querySelector("body") as HTMLElement;
 bodyEle.className = "py-50px text-small";
@@ -1115,6 +1196,7 @@ bodyEle.insertBefore(experienceSection, seeAllBtnLink.nextSibling);
 bodyEle.insertBefore(educationSection, experienceSection.nextSibling);
 bodyEle.insertBefore(addEducationCTA, educationSection.nextSibling);
 bodyEle.insertBefore(volunteeringSection, addEducationCTA.nextSibling);
+bodyEle.insertBefore(skillSection, volunteeringSection.nextSibling);
 
 const overlayEle = document.querySelector("[data-id='overlay']") as HTMLElement;
 const addFeaturedOverlayEle = document.querySelector(
@@ -1176,13 +1258,6 @@ addFeaturedTypesList.addEventListener("click", (e) => {
     ) as HTMLElement;
     selectDocumentInput.click();
   }
-});
-
-const addSkillsBtn = document.querySelector(
-  "button[data-action='add-skills']",
-) as HTMLElement;
-addSkillsBtn.addEventListener("click", (e) => {
-  window.location.href = (e.currentTarget as HTMLElement).dataset.link ?? "#";
 });
 
 const accomplishments = {

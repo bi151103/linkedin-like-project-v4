@@ -78,3 +78,8 @@ export type Education = {
     end?: string;
   };
 };
+
+export type Skill = {
+  id: string;
+  skillName: string;
+};
