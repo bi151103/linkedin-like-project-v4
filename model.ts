@@ -62,3 +62,19 @@ export type ExperienceData = {
   };
   experiences: Experience[];
 };
+
+export type EducationDegreeType = "bachelor" | "master";
+export type Education = {
+  id: string;
+  institution: {
+    id: string;
+    educationName: string;
+    educationLogoSrc?: string;
+  };
+  major: string;
+  degreeType?: "bachelor" | "master";
+  duration: {
+    start: string;
+    end?: string;
+  };
+};

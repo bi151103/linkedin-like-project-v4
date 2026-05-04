@@ -9,6 +9,7 @@ import type {
   Accomplishments,
   AccomplishmentType,
   ExperienceData,
+  Education,
 } from "./model";
 import {
   calculateDuration,
@@ -477,7 +478,7 @@ function createExperienceSection(
       const companyThumb = document.createElement("img");
       companyLink.appendChild(companyThumb);
       companyThumb.src = experience.company.companyLogoSrc ?? "";
-      companyThumb.className = "w-md-img h-md-img object-cover";
+      companyThumb.className = "min-w-md-img w-md-img h-md-img object-cover";
 
       const companyInfoContainer = document.createElement("div");
       companyLink.appendChild(companyInfoContainer);
@@ -538,8 +539,6 @@ function createExperienceSection(
         subExpRight.appendChild(duration);
         duration.textContent = `${getDisplayedDuration(
           experience.experiences[i].duration,
-          PRESENT_CONTENT,
-          NOT_AVALABLE_CONTENT,
         )} `;
 
         const dotSeparatorInDuration = document.createElement("span");
@@ -618,8 +617,6 @@ function createExperienceSection(
       companyInfoContainer.appendChild(duration);
       duration.textContent = `${getDisplayedDuration(
         experience.experiences[0].duration,
-        PRESENT_CONTENT,
-        NOT_AVALABLE_CONTENT,
       )} `;
 
       const dotSeparatorInDuration = document.createElement("span");
@@ -717,6 +714,97 @@ function createExperienceSection(
   });
 
   return experienceSection;
+}
+
+function createEducationSection(educationList: Education[]) {
+  const educationSection = document.createElement("section");
+  educationSection.className =
+    "mt-10px p-15px bg-white border-b border-separator-line";
+
+  const title = document.createElement("h2");
+  educationSection.appendChild(title);
+  title.textContent = "Education";
+
+  const eduList = document.createElement("ul");
+  educationSection.appendChild(eduList);
+  eduList.className = "mt-10px";
+
+  for (const edu of educationList) {
+    const item = document.createElement("li");
+    eduList.appendChild(item);
+    item.className = "not-first:mt-10px";
+
+    const eduLink = document.createElement("a");
+    item.appendChild(eduLink);
+    eduLink.href = `./school.html?id=${edu.institution.id}`;
+    eduLink.className = "flex items-start";
+
+    const eduThumb = document.createElement("img");
+    eduLink.appendChild(eduThumb);
+    eduThumb.src = edu.institution.educationLogoSrc ?? "";
+    eduThumb.className = "min-w-md-img w-md-img h-md-img object-cover";
+
+    const eduInfoContainer = document.createElement("div");
+    eduLink.appendChild(eduInfoContainer);
+    eduInfoContainer.className = "ml-10px";
+
+    const educationName = document.createElement("p");
+    eduInfoContainer.appendChild(educationName);
+    educationName.textContent = edu.institution.educationName;
+    educationName.className = "text-medium-bold text-emphasis-tx";
+
+    const educationMajor = document.createElement("p");
+    eduInfoContainer.appendChild(educationMajor);
+    educationMajor.textContent = ` ${edu.major}`;
+    educationMajor.className = "text-emphasis-tx font-normal";
+    let degreeType;
+    const dot = document.createElement("span");
+    dot.className = "dot";
+    switch (edu.degreeType) {
+      case "bachelor":
+        degreeType = document.createTextNode("Bachelor's degree ");
+        educationMajor.prepend(degreeType);
+        educationMajor.insertBefore(dot, degreeType.nextSibling);
+        break;
+      case "master":
+        degreeType = document.createTextNode("Master's degree");
+        educationMajor.prepend(degreeType);
+        educationMajor.insertBefore(dot, degreeType);
+        break;
+      default:
+        break;
+    }
+
+    const duration = document.createElement("p");
+    eduInfoContainer.appendChild(duration);
+    const durationCalculate = getDisplayedDuration(edu.duration);
+    duration.textContent = durationCalculate;
+    duration.className = "text-low-emphasis-tx font-normal";
+
+    const editBtn = document.createElement("button");
+    eduLink.appendChild(editBtn);
+    editBtn.className = "ml-auto basis-50px";
+    editBtn.dataset.link = `./edit-education.html?${edu.id}`;
+    editBtn.dataset.action = "edit-education";
+
+    const editBtnImg = document.createElement("img");
+    editBtn.appendChild(editBtnImg);
+    editBtnImg.src = "./images/icons8-edit-100.png";
+    editBtnImg.className = "w-sm-img h-sm-img";
+  }
+
+  educationSection.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    const editEducationBTn = target.closest(
+      "button[data-action='edit-education']",
+    );
+    if (editEducationBTn) {
+      window.location.href = `${(editEducationBTn as HTMLElement).dataset.link}`;
+      e.preventDefault();
+      return;
+    }
+  });
+  return educationSection;
 }
 
 const certificationsList: AccomplishmentData[] = [
@@ -891,6 +979,23 @@ const experiencesList: ExperienceData[] = [
   },
 ];
 
+const educationList: Education[] = [
+  {
+    id: "education-0",
+    institution: {
+      id: "institution-0",
+      educationName: "Ho Chi Minh City University of Technology",
+      educationLogoSrc: "./images/bach-khoa-hcm.avif",
+    },
+    major: "Computer Science",
+    degreeType: "bachelor",
+    duration: {
+      start: "09/01/2021",
+      end: "09/01/2025",
+    },
+  },
+];
+
 const header = createHeader();
 const backgroundImgSection = createBackgroundImageSection();
 const profileActionSection = createProfileActionSection();
@@ -901,6 +1006,7 @@ const privateToYouSection = createPrivateToYouSection();
 const activitySection = creataActivitySection();
 const seeAllBtnLink = createActivitySeeAllButton();
 const experienceSection = createExperienceSection(experiencesList);
+const educationSection = createEducationSection(educationList);
 
 const bodyEle = document.querySelector("body") as HTMLElement;
 bodyEle.className = "py-50px text-small";
@@ -914,6 +1020,7 @@ bodyEle.insertBefore(privateToYouSection, featuredSection.nextSibling);
 bodyEle.insertBefore(activitySection, privateToYouSection.nextSibling);
 bodyEle.insertBefore(seeAllBtnLink, activitySection.nextSibling);
 bodyEle.insertBefore(experienceSection, seeAllBtnLink.nextSibling);
+bodyEle.insertBefore(educationSection, experienceSection.nextSibling);
 
 const overlayEle = document.querySelector("[data-id='overlay']") as HTMLElement;
 const addFeaturedOverlayEle = document.querySelector(
@@ -974,21 +1081,6 @@ addFeaturedTypesList.addEventListener("click", (e) => {
       "[data-id='featured-document-input']",
     ) as HTMLElement;
     selectDocumentInput.click();
-  }
-});
-
-const educationSection = document.querySelector(
-  "[data-id='education']",
-) as HTMLElement;
-educationSection.addEventListener("click", (e) => {
-  const target = e.target as HTMLElement;
-  const editEducationBTn = target.closest(
-    "button[data-action='edit-education']",
-  );
-  if (editEducationBTn) {
-    window.location.href = `${(editEducationBTn as HTMLElement).dataset.link}?id=${(editEducationBTn as HTMLElement).dataset.id}`;
-    e.preventDefault();
-    return;
   }
 });
 
@@ -1064,11 +1156,7 @@ const createAccomplishmentItem = (
       accSubtitle.textContent = listData.authority ?? NOT_AVALABLE_CONTENT;
       break;
     case "project":
-      accSubtitle.textContent = getDisplayedDuration(
-        listData.duration,
-        PRESENT_CONTENT,
-        NOT_AVALABLE_CONTENT,
-      );
+      accSubtitle.textContent = getDisplayedDuration(listData.duration);
       break;
     default:
       accSubtitle.textContent = NOT_AVALABLE_CONTENT;
