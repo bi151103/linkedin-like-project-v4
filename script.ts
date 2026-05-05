@@ -782,7 +782,7 @@ function createEducationSection(educationList: Education[]) {
     const editBtn = document.createElement("button");
     eduLink.appendChild(editBtn);
     editBtn.className = "ml-auto basis-50px";
-    editBtn.dataset.link = `./edit-education.html?${edu.id}`;
+    editBtn.dataset.link = `./edit-education.html?id=${edu.id}`;
     editBtn.dataset.action = "edit-education";
 
     const editBtnImg = document.createElement("img");
