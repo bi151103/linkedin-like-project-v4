@@ -271,7 +271,7 @@ function createAboutSection(): HTMLElement {
 
   const editAboutLink = document.createElement("a");
   headerContainer.appendChild(editAboutLink);
-  editAboutLink.href = "./connection.html";
+  editAboutLink.href = "./edit-about.html";
   editAboutLink.className = "ml-auto";
 
   const editAboutLinkImg = document.createElement("img");
