@@ -1,4 +1,3 @@
-import { PRESENT_CONTENT } from "./constant.js";
 import {
   DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST,
   NOT_AVALABLE_CONTENT,
@@ -19,40 +18,6 @@ import {
   calculateTotalDuration,
   getDisplayedDuration,
 } from "./util.js";
-
-const shareProfile = async (e: Event) => {
-  const shareProfileBtn = (e.target as HTMLElement).closest(
-    "button[data-action='share']",
-  );
-  if (!shareProfileBtn) {
-    return;
-  }
-
-  const shareData = {
-    //there are 2 ways to access the data-attribute attribute of elements
-    // title: shareProfileBtn.getAttribute("data-title"),
-    // text: shareProfileBtn.getAttribute("data-text"),
-    // url: shareProfileBtn.getAttribute("data-url"),
-    title: (shareProfileBtn as HTMLElement).dataset.title,
-    text: (shareProfileBtn as HTMLElement).dataset.text,
-    url: (shareProfileBtn as HTMLElement).dataset.url,
-  };
-  // console.log(shareData);
-  try {
-    await navigator.share(shareData);
-  } catch (e) {
-    console.error("The browser does not support the sharing with navigator");
-  }
-};
-const showAddFeatureOverlay = (e: Event) => {
-  if (overlayEle.classList.contains("hidden")) {
-    overlayEle.classList.toggle("hidden");
-  }
-  bodyEle.classList.toggle("overflow-hidden");
-  if (addFeaturedOverlayEle.classList.contains("hidden")) {
-    addFeaturedOverlayEle.classList.remove("hidden");
-  }
-};
 
 function createHeader(): HTMLElement {
   /** <header
@@ -214,7 +179,30 @@ function createProfileActionSection(): HTMLElement {
   shareBtn.dataset.title = "LinkedIn: Profile of Phuc Dang";
   shareBtn.dataset.text = "Check out Phuc Dang's profile on LinkedIn";
   shareBtn.dataset.url = "https://vn.linkedin.com/in/dang-phan-minh-phuc";
-  shareBtn.addEventListener("click", shareProfile);
+  shareBtn.addEventListener("click", async (e: Event) => {
+    const shareProfileBtn = (e.target as HTMLElement).closest(
+      "button[data-action='share']",
+    );
+    if (!shareProfileBtn) {
+      return;
+    }
+
+    const shareData = {
+      //there are 2 ways to access the data-attribute attribute of elements
+      // title: shareProfileBtn.getAttribute("data-title"),
+      // text: shareProfileBtn.getAttribute("data-text"),
+      // url: shareProfileBtn.getAttribute("data-url"),
+      title: (shareProfileBtn as HTMLElement).dataset.title,
+      text: (shareProfileBtn as HTMLElement).dataset.text,
+      url: (shareProfileBtn as HTMLElement).dataset.url,
+    };
+    // console.log(shareData);
+    try {
+      await navigator.share(shareData);
+    } catch (e) {
+      console.error("The browser does not support the sharing with navigator");
+    }
+  });
 
   const shareBtnImg = document.createElement("img");
   shareBtn.appendChild(shareBtnImg);
@@ -323,7 +311,17 @@ function createFeaturedSection(): HTMLElement {
   featuredSection.appendChild(addFeaturedBtn);
   addFeaturedBtn.textContent = "Add featured";
   addFeaturedBtn.className = "mt-10px plus-before";
-  addFeaturedBtn.addEventListener("click", showAddFeatureOverlay);
+  addFeaturedBtn.addEventListener("click", (e) => {
+    const overlay = document.querySelector(
+      "[data-id='overlay']",
+    ) as HTMLElement;
+    overlay.classList.remove("hidden");
+    bodyEle.classList.toggle("overflow-hidden");
+    const addFeaturedOverlayEle = document.querySelector(
+      "[data-id='overlay'] [data-id='add-featured-overlay']",
+    ) as HTMLElement;
+    addFeaturedOverlayEle.classList.remove("hidden");
+  });
 
   return featuredSection;
 }
@@ -1297,7 +1295,10 @@ function createAccomplishmentSection(accomplishments: Accomplishments) {
       const addAccomplishmentsOverlayEle = document.querySelector(
         "[data-id='overlay'] [data-id='add-accomplishments-overlay']",
       ) as HTMLElement;
-      overlayEle.classList.remove("hidden");
+      const overlay = document.querySelector(
+        "[data-id='overlay']",
+      ) as HTMLElement;
+      overlay.classList.remove("hidden");
       addAccomplishmentsOverlayEle.classList.remove("hidden");
       bodyEle.classList.add("overflow-hidden");
       return;
@@ -1512,6 +1513,313 @@ function createFooter() {
   navList.appendChild(jobItem);
 
   return footer;
+}
+
+function createOverlay() {
+  const overlay = document.createElement("div");
+  overlay.className =
+    "hidden w-dvw h-dvh bg-[rgba(0,0,0,0.6)] fixed top-0 z-1000";
+  overlay.dataset.id = "overlay";
+
+  overlay.addEventListener("click", (e) => {
+    const overlay = e.currentTarget as HTMLElement;
+
+    const overlayChildrenEles = overlay.children;
+    for (const overlayEle of overlayChildrenEles) {
+      overlayEle.classList.add("hidden");
+    }
+    overlay.classList.add("hidden");
+    bodyEle.classList.remove("overflow-hidden");
+  });
+  return overlay;
+}
+
+function createFeaturedTypesItem(type: "photo" | "document" | "link") {
+  const item = document.createElement("li");
+  item.className = "*:text-inherit";
+
+  const button = document.createElement("button");
+  item.appendChild(button);
+  button.className = "flex items-center w-full block";
+
+  const typeImg = document.createElement("img");
+  button.appendChild(typeImg);
+  typeImg.className = "w-sm-img h-sm-img";
+
+  const text = document.createElement("span");
+  button.appendChild(text);
+  text.className = "ml-10px";
+
+  switch (type) {
+    case "photo":
+      button.dataset.action = "add-photo";
+      typeImg.src = "./images/icons8-image-100.png";
+      text.textContent = "Add a photo";
+      break;
+    case "document":
+      button.dataset.action = "upload-document";
+      typeImg.src = "./images/icons8-blank-document-100.png";
+      text.textContent = "Upload a document";
+      break;
+    case "link":
+      button.dataset.action = "add-link";
+      typeImg.src = "./images/icons8-link-100.png";
+      text.textContent = "Add a link";
+      button.dataset.link = "./add-link.html";
+      break;
+    default:
+      break;
+  }
+
+  return item;
+}
+
+function createFeaturedOverlay() {
+  const featuredOverlay = document.createElement("div");
+  featuredOverlay.className =
+    "hidden h-[240px] w-full bg-white absolute bottom-0 rounded-t-[16px] z-1001";
+  featuredOverlay.dataset.id = "add-featured-overlay";
+
+  const headerContainer = document.createElement("div");
+  featuredOverlay.appendChild(headerContainer);
+  headerContainer.className = "p-15px flex";
+
+  const title = document.createElement("h1");
+  headerContainer.appendChild(title);
+  title.textContent = "Select a file type";
+  title.className = "text-emphasis-tx";
+
+  const closeOverlayBtn = document.createElement("button");
+  headerContainer.appendChild(closeOverlayBtn);
+  closeOverlayBtn.className = "ml-auto";
+  closeOverlayBtn.dataset.action = "close";
+
+  const closeOverlayBtnImg = document.createElement("img");
+  closeOverlayBtn.appendChild(closeOverlayBtnImg);
+  closeOverlayBtnImg.src = "./images/icons8-close-100.png";
+  closeOverlayBtnImg.className = "w-sm-img h-sm-img";
+
+  const typesList = document.createElement("ul");
+  featuredOverlay.appendChild(typesList);
+  typesList.className =
+    "p-15px *:py-15px *:hover:bg-[rgba(0,0,0,0.04)] *:rounded-[24px] *:w-full";
+
+  const addPhotoBtn = createFeaturedTypesItem("photo");
+  const uploadDocumentBtn = createFeaturedTypesItem("document");
+  const addLinkBtn = createFeaturedTypesItem("link");
+
+  typesList.appendChild(addPhotoBtn);
+  typesList.appendChild(uploadDocumentBtn);
+  typesList.appendChild(addLinkBtn);
+
+  const photoInput = document.createElement("input");
+  featuredOverlay.appendChild(photoInput);
+  photoInput.type = "file";
+  photoInput.hidden = true;
+  photoInput.dataset.id = "featured-image-input";
+  photoInput.accept = "image/jpeg,image/jpg,image/png";
+
+  const documentInput = document.createElement("input");
+  featuredOverlay.appendChild(documentInput);
+  documentInput.type = "file";
+  documentInput.hidden = true;
+  documentInput.dataset.id = "featured-document-input";
+  documentInput.accept = ".doc,.docx,.pdf";
+
+  featuredOverlay.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    const addPhotoBtn = target.closest("button[data-action='add-photo']");
+    const closeOverlayBtn = target.closest("button[data-action='close']");
+    if (closeOverlayBtn) {
+      const overlayChildren = overlay.children;
+      for (const overlayChild of overlayChildren) {
+        overlayChild.classList.add("hidden");
+      }
+      overlay.classList.add("hidden");
+      bodyEle.classList.remove("overflow-hidden");
+      e.stopPropagation();
+      return;
+    }
+    if (addPhotoBtn) {
+      const selectImgInput = document.querySelector(
+        "[data-id='featured-image-input']",
+      ) as HTMLElement;
+      selectImgInput.click();
+      e.stopPropagation();
+      return;
+    }
+    const uploadDocumentBtn = target.closest(
+      "button[data-action='upload-document']",
+    );
+    if (uploadDocumentBtn) {
+      const selectDocumentInput = document.querySelector(
+        "[data-id='featured-document-input']",
+      ) as HTMLElement;
+      selectDocumentInput.click();
+      e.stopPropagation();
+      return;
+    }
+    const addLinkBtn = target.closest("button[data-action='add-link']");
+    if (addLinkBtn) {
+      window.location.href = (addLinkBtn as HTMLElement).dataset.link ?? "#";
+      e.stopPropagation();
+      return;
+    }
+    e.stopPropagation();
+  });
+
+  return featuredOverlay;
+}
+
+function createAccomplishmentTypeItem(type: AccomplishmentType) {
+  const item = document.createElement("li");
+  item.className = "py-8px";
+
+  const btn = document.createElement("button");
+  item.appendChild(btn);
+  btn.className = "flex items-center font-normal text-emphasis-tx w-full biock";
+
+  const typeImg = document.createElement("img");
+  btn.appendChild(typeImg);
+  typeImg.className = "w-sm-img h-sm-img min-w-sm-img";
+
+  const text = document.createElement("span");
+  btn.appendChild(text);
+  text.className = "ml-10px";
+
+  switch (type) {
+    case "publication":
+      btn.dataset.link = "./add-publication.html";
+      btn.dataset.action = "add-publication";
+      typeImg.src = "./images/icons8-newspaper-100.png";
+      text.textContent = "Publications";
+      break;
+    case "patent":
+      btn.dataset.link = "./add-patent.html";
+      btn.dataset.action = "add-patent";
+      typeImg.src = "./images/icons8-patent-100.png";
+      text.textContent = "Patents";
+      break;
+    case "course":
+      btn.dataset.link = "./add-course.html";
+      btn.dataset.action = "add-course";
+      typeImg.src = "./images/icons8-notebook-100.png";
+      text.textContent = "Courses";
+      break;
+    case "project":
+      btn.dataset.link = "./add-project.html";
+      btn.dataset.action = "add-project";
+      typeImg.src = "./images/icons8-folder-100.png";
+      text.textContent = "Projects";
+      break;
+    case "honor-award":
+      btn.dataset.link = "./add-honor-award.html";
+      btn.dataset.action = "add-honor-award";
+      typeImg.src = "./images/icons8-star-100.png";
+      text.textContent = "Honors & Arwards";
+      break;
+    case "test-score":
+      btn.dataset.link = "./add-test-score.html";
+      btn.dataset.action = "add-test-score";
+      typeImg.src = "./images/icons8-inspection-100.png";
+      text.textContent = "Test Scores";
+      break;
+    case "language":
+      btn.dataset.link = "./add-language.html";
+      btn.dataset.action = "add-language";
+      typeImg.src = "./images/icons8-language-skill-100.png";
+      text.textContent = "Languages";
+      break;
+    case "organization":
+      btn.dataset.link = "./add-organization.html";
+      btn.dataset.action = "add-organization";
+      typeImg.src = "./images/icons8-company-100.png";
+      text.textContent = "Organizations";
+      break;
+    case "certification":
+      btn.dataset.link = "./add-certification.html";
+      btn.dataset.action = "add-certification";
+      typeImg.src = "./images/icons8-certificate-100.png";
+      text.textContent = "Certifications";
+      break;
+    default:
+      break;
+  }
+
+  return item;
+}
+
+function createAddAccomplishmentOverlay() {
+  const addAccOverlay = document.createElement("div");
+  addAccOverlay.className =
+    "hidden min-w-[300px] w-[70vw] max-h-[70vh] h-min bg-white rounded-[8px] fixed z-1001 left-0 right-0 top-0 bottom-0 m-auto overflow-y-auto";
+  addAccOverlay.dataset.id = "add-accomplishments-overlay";
+
+  const headerContainer = document.createElement("div");
+  addAccOverlay.appendChild(headerContainer);
+  headerContainer.className = "p-24px pb-5px flex";
+
+  const title = document.createElement("h2");
+  headerContainer.appendChild(title);
+  title.textContent = "Add Accomplishments";
+  title.className = "text-emphasis-tx text-medium-bold";
+
+  const closeOverlayBtn = document.createElement("button");
+  headerContainer.appendChild(closeOverlayBtn);
+  closeOverlayBtn.className = "ml-auto";
+  closeOverlayBtn.dataset.action = "close";
+
+  const closeOverlayBtnImg = document.createElement("img");
+  closeOverlayBtn.appendChild(closeOverlayBtnImg);
+  closeOverlayBtnImg.src = "./images/icons8-close-100.png";
+  closeOverlayBtnImg.className = "w-sm-img h-sm-img";
+
+  const typesList = document.createElement("ul");
+  addAccOverlay.appendChild(typesList);
+  typesList.className = "p-24px pt-0";
+
+  const certItem = createAccomplishmentTypeItem("certification");
+  const prjItem = createAccomplishmentTypeItem("project");
+  const publicationItem = createAccomplishmentTypeItem("publication");
+  const patentItem = createAccomplishmentTypeItem("patent");
+  const courseItem = createAccomplishmentTypeItem("course");
+  const honorAwardItem = createAccomplishmentTypeItem("honor-award");
+  const testScoreItem = createAccomplishmentTypeItem("test-score");
+  const languageItem = createAccomplishmentTypeItem("language");
+  const orgItem = createAccomplishmentTypeItem("organization");
+
+  typesList.appendChild(publicationItem);
+  typesList.appendChild(patentItem);
+  typesList.appendChild(courseItem);
+  typesList.appendChild(prjItem);
+  typesList.appendChild(honorAwardItem);
+  typesList.appendChild(testScoreItem);
+  typesList.appendChild(languageItem);
+  typesList.appendChild(orgItem);
+  typesList.appendChild(certItem);
+
+  addAccOverlay.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    const actionBtn = target.closest("button[data-action]");
+    const closeOverlayBtn = target.closest("button[data-action='close']");
+    if (closeOverlayBtn) {
+      const overlayChildren = overlay.children;
+      for (const overlayChild of overlayChildren) {
+        overlayChild.classList.add("hidden");
+      }
+      overlay.classList.add("hidden");
+      bodyEle.classList.remove("overflow-hidden");
+      e.stopPropagation();
+      return;
+    }
+    if (actionBtn) {
+      window.location.href = (actionBtn as HTMLElement).dataset.link ?? "#";
+      e.stopPropagation();
+      return;
+    }
+    e.stopPropagation();
+  });
+  return addAccOverlay;
 }
 
 const certificationsList: AccomplishmentData[] = [
@@ -1852,6 +2160,9 @@ const contactSection = createContactSection(contactList);
 const accomplishmentSection = createAccomplishmentSection(accomplishments);
 const tryLinkedInAppCTA = createDownloadCTASection();
 const footer = createFooter();
+const overlay = createOverlay();
+const featuredOverlay = createFeaturedOverlay();
+const addAccOverlay = createAddAccomplishmentOverlay();
 
 const bodyEle = document.querySelector("body") as HTMLElement;
 bodyEle.className = "py-50px text-small";
@@ -1874,63 +2185,9 @@ bodyEle.insertBefore(accomplishmentSection, recommendationSection.nextSibling);
 bodyEle.insertBefore(contactSection, accomplishmentSection.nextSibling);
 bodyEle.insertBefore(tryLinkedInAppCTA, contactSection.nextSibling);
 bodyEle.insertBefore(footer, tryLinkedInAppCTA.nextSibling);
-
-const overlayEle = document.querySelector("[data-id='overlay']") as HTMLElement;
-const addFeaturedOverlayEle = document.querySelector(
-  "[data-id='overlay'] [data-id='add-featured-overlay']",
-) as HTMLElement;
-
-const closeOverlay = (e: Event) => {
-  const overlayChildrenEles = document.querySelectorAll(
-    "[data-id='overlay'] > *",
-  );
-  for (const overlayEle of overlayChildrenEles) {
-    if (!overlayEle.classList.contains("hidden")) {
-      overlayEle.classList.add("hidden");
-    }
-  }
-  if (!overlayEle.classList.contains("hidden")) {
-    overlayEle.classList.add("hidden");
-    bodyEle.classList.remove("overflow-hidden");
-  }
-  e.stopPropagation();
-};
-
-const closeOverlayBtn = document.querySelector(
-  '[data-id="overlay"] button[data-action="close"]',
-) as HTMLElement;
-closeOverlayBtn.addEventListener("click", closeOverlay);
-
-addFeaturedOverlayEle.addEventListener("click", (e) => {
-  //stop propagation when clicking on the dialog area to prevent the dialog from closing
-  e.stopPropagation();
-});
-
-overlayEle.addEventListener("click", closeOverlay);
-
-const addFeaturedTypesList = document.querySelector(
-  "ul[data-id='add-featured-types-list']",
-) as HTMLElement;
-addFeaturedTypesList.addEventListener("click", (e) => {
-  const target = e.target as HTMLElement;
-  const addPhotoBtn = target.closest("button[data-action='add-photo']");
-  if (addPhotoBtn) {
-    const selectImgInput = document.querySelector(
-      "[data-id='featured-image-input']",
-    ) as HTMLElement;
-    selectImgInput.click();
-    return;
-  }
-  const uploadDocumentBtn = target.closest(
-    "button[data-action='upload-document']",
-  );
-  if (uploadDocumentBtn) {
-    const selectDocumentInput = document.querySelector(
-      "[data-id='featured-document-input']",
-    ) as HTMLElement;
-    selectDocumentInput.click();
-  }
-});
+bodyEle.insertBefore(overlay, footer.nextSibling);
+overlay.appendChild(featuredOverlay);
+overlay.appendChild(addAccOverlay);
 
 function createOtherProfilesSection() {
   if (otherProfilesList.length < 1) return;
