@@ -1,4 +1,4 @@
-import { NOT_AVALABLE_CONTENT, PRESENT_CONTENT } from "./constant.js";
+import { NOT_AVAILABLE_CONTENT, PRESENT_CONTENT } from "./constant.js";
 import { Experience } from "./model";
 // mostly AI Generated
 
@@ -81,7 +81,7 @@ const formatMonthYear = (dateStr: string): string => {
 export const getDisplayedDuration = (
   duration?: { start?: string; end?: string },
   presentText: string = PRESENT_CONTENT,
-  fallbackText: string = NOT_AVALABLE_CONTENT,
+  fallbackText: string = NOT_AVAILABLE_CONTENT,
 ): string => {
   if (!duration) return fallbackText;
 

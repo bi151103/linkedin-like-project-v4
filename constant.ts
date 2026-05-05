@@ -1,3 +1,3 @@
 export const DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST = 3;
-export const NOT_AVALABLE_CONTENT = "N/A";
+export const NOT_AVAILABLE_CONTENT = "N/A";
 export const PRESENT_CONTENT = "Present";

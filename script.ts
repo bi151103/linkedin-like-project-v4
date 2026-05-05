@@ -1,6 +1,6 @@
 import {
   DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST,
-  NOT_AVALABLE_CONTENT,
+  NOT_AVAILABLE_CONTENT,
 } from "./constant.js";
 import type {
   AccomplishmentData,
@@ -379,7 +379,7 @@ function createPrivateToYouSection(): HTMLElement {
   return privateToYouSection;
 }
 
-function creataActivitySection(): HTMLElement {
+function createActivitySection(): HTMLElement {
   const activitySection = document.createElement("section");
   activitySection.className = "mt-10px p-15px bg-white";
 
@@ -1059,13 +1059,13 @@ function createAccomplishmentItem(listData: AccomplishmentData) {
   listItemLeft.appendChild(accSubtitle);
   switch (listData.type) {
     case "certification":
-      accSubtitle.textContent = listData.authority ?? NOT_AVALABLE_CONTENT;
+      accSubtitle.textContent = listData.authority ?? NOT_AVAILABLE_CONTENT;
       break;
     case "project":
       accSubtitle.textContent = getDisplayedDuration(listData.duration);
       break;
     default:
-      accSubtitle.textContent = NOT_AVALABLE_CONTENT;
+      accSubtitle.textContent = NOT_AVAILABLE_CONTENT;
       break;
   }
 
@@ -1716,7 +1716,7 @@ function createAccomplishmentTypeItem(type: AccomplishmentType) {
       btn.dataset.link = "./add-honor-award.html";
       btn.dataset.action = "add-honor-award";
       typeImg.src = "./images/icons8-star-100.png";
-      text.textContent = "Honors & Arwards";
+      text.textContent = "Honors & Awards";
       break;
     case "test-score":
       btn.dataset.link = "./add-test-score.html";
@@ -2272,7 +2272,7 @@ const profileInfoSection = createProfileInfoSection();
 const aboutSection = createAboutSection();
 const featuredSection = createFeaturedSection();
 const privateToYouSection = createPrivateToYouSection();
-const activitySection = creataActivitySection();
+const activitySection = createActivitySection();
 const seeAllBtnLink = createActivitySeeAllButton();
 const experienceSection = createExperienceSection(experiencesList);
 const educationSection = createEducationSection(educationList);
