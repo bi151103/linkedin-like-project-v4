@@ -1,13 +1,13 @@
 import {
   DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST,
   NOT_AVAILABLE_CONTENT,
-} from "./constant";
+} from "./constant.js";
 import {
   AccomplishmentData,
   Accomplishments,
   AccomplishmentType,
 } from "./model";
-import { getDisplayedDuration } from "./util";
+import { getDisplayedDuration } from "./util.js";
 
 function createAccomplishmentItem(listData: AccomplishmentData) {
   const listItem = document.createElement("li");

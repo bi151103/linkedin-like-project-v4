@@ -3,7 +3,7 @@ import {
   calculateDuration,
   calculateTotalDuration,
   getDisplayedDuration,
-} from "./util";
+} from "./util.js";
 
 export function createExperienceSection(
   experiencesList: ExperienceData[],
