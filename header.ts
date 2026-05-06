@@ -1,3 +1,9 @@
+import { MAX_RECENT_SEARCH_ITEM_SHOWN } from "./constant.js";
+import { recentSearch } from "./data.js";
+import { createEmptyState } from "./empty-state.js";
+import { overlay } from "./overlay.js";
+import { createSearchComboboxOverlay } from "./search-combobox-overlay.js";
+
 export function createHeader(): HTMLElement {
   /** <header
       class="w-full h-50px flex items-center bg-white border-b border-separator-line fixed top-0 z-999"
@@ -54,11 +60,11 @@ export function createHeader(): HTMLElement {
 
   const searchInput = document.createElement("input");
   searchContainer.appendChild(searchInput);
-  searchInput.type = "text";
+  searchInput.type = "search";
   searchInput.dataset.id = "search";
   searchInput.placeholder = "Search";
   searchInput.className =
-    "font-bold pl-5px pr-10px outline-none pt-[4px] text-medium";
+    "font-bold pl-5px pr-10px outline-none pt-[4px] text-medium text-emphasis-tx";
 
   /**<div class="h-3/5 w-50px">
         <a
@@ -94,5 +100,26 @@ export function createHeader(): HTMLElement {
   messessCircledBubble.src = "./images/icons8-circled-1-100.png";
   messessCircledBubble.className =
     "w-sm-noti-bubble h-sm-noti-bubble border border-double rounded-full border-white absolute top-0 right-[2px]";
+
+  header.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    const input = target.closest("input[data-id='search']");
+    if (input) {
+      overlay.classList.remove("hidden");
+      searchComboboxOverlay.classList.remove("hidden");
+      document.body.classList.add("overflow-hidden");
+
+      const searchOverlay = searchComboboxOverlay.querySelector(
+        "input[data-id='input-overlay']",
+      ) as HTMLElement;
+      searchOverlay.focus();
+      e.stopPropagation();
+      return;
+    }
+  });
+
   return header;
 }
+
+const searchComboboxOverlay = createSearchComboboxOverlay(recentSearch);
+overlay.append(searchComboboxOverlay);

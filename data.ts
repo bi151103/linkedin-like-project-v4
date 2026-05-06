@@ -326,3 +326,13 @@ export const otherProfilesList: Profile[] = [
     profileImgUrl: "./images/person-avatar-design_24877-38137.avif",
   },
 ];
+
+export const recentSearch = [
+  "abc",
+  "xyz",
+  "abc xyz",
+  "abc xyzabc xyzabc xyzabc xyzabc xyzabc xyzabc xyzabc xyz",
+  "abcxyzabcxyzabcxyzabcxyzabcxyzabcxyzabcxyzabcxyzabcxyz",
+  "abcxyzabcxyzabcxyzabcxyzabcxyzabcxyzabcxyzabcxyzabcxyz",
+  "abcxyzabcxyzabcxyzabcxyzabcxyzabcxyzabcxyzabcxyzabcxyz",
+];

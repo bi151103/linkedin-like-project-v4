@@ -1,4 +1,5 @@
 import { AccomplishmentType } from "./model";
+import { overlay } from "./overlay.js";
 
 function createAccomplishmentTypeItem(type: AccomplishmentType) {
   const item = document.createElement("li");
@@ -132,15 +133,12 @@ export function createAddAccomplishmentOverlay() {
     const actionBtn = target.closest("button[data-action]");
     const closeOverlayBtn = target.closest("button[data-action='close']");
     if (closeOverlayBtn) {
-      const overlay = closeOverlayBtn.closest(
-        "[data-id='overlay']",
-      ) as HTMLElement;
       const overlayChildren = overlay.children;
       for (const overlayChild of overlayChildren) {
         overlayChild.classList.add("hidden");
       }
       overlay.classList.add("hidden");
-      const bodyEle = document.querySelector("body") as HTMLElement;
+      const bodyEle = document.body;
       bodyEle.classList.remove("overflow-hidden");
       e.stopPropagation();
       return;

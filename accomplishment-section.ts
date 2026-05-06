@@ -7,6 +7,7 @@ import {
   Accomplishments,
   AccomplishmentType,
 } from "./model";
+import { overlay } from "./overlay.js";
 import { getDisplayedDuration } from "./util.js";
 
 function createAccomplishmentItem(listData: AccomplishmentData) {
@@ -263,12 +264,9 @@ export function createAccomplishmentSection(accomplishments: Accomplishments) {
       const addAccomplishmentsOverlayEle = document.querySelector(
         "[data-id='overlay'] [data-id='add-accomplishments-overlay']",
       ) as HTMLElement;
-      const overlay = document.querySelector(
-        "[data-id='overlay']",
-      ) as HTMLElement;
       overlay.classList.remove("hidden");
       addAccomplishmentsOverlayEle.classList.remove("hidden");
-      const bodyEle = document.querySelector("body") as HTMLElement;
+      const bodyEle = document.body;
       bodyEle.classList.add("overflow-hidden");
       return;
     }

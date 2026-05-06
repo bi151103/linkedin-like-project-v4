@@ -1,3 +1,5 @@
+import { overlay } from "./overlay.js";
+
 export function createFeaturedSection(): HTMLElement {
   const featuredSection = document.createElement("section");
   featuredSection.className = "mt-10px p-15px bg-white";
@@ -23,12 +25,9 @@ export function createFeaturedSection(): HTMLElement {
   addFeaturedBtn.textContent = "Add featured";
   addFeaturedBtn.className = "mt-10px plus-before";
   addFeaturedBtn.addEventListener("click", (e) => {
-    const overlay = document.querySelector(
-      "[data-id='overlay']",
-    ) as HTMLElement;
     overlay.classList.remove("hidden");
-    const bodyEle = document.querySelector("body") as HTMLElement;
-    bodyEle.classList.toggle("overflow-hidden");
+    const bodyEle = document.body;
+    bodyEle.classList.add("overflow-hidden");
     const addFeaturedOverlayEle = document.querySelector(
       "[data-id='overlay'] [data-id='add-featured-overlay']",
     ) as HTMLElement;
