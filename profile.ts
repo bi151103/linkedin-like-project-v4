@@ -9,7 +9,6 @@ import {
   accomplishments,
   contactList,
   educationList,
-  experiencesList,
   otherProfilesList,
   skillsList,
 } from "./data.js";
@@ -24,18 +23,33 @@ import { createProfileActionSection } from "./profile-action-section.js";
 import { createProfileInfoSection } from "./profile-info-section.js";
 import { createRecommendationSection } from "./recommendation-section.js";
 import { createActivitySeeAllButton } from "./see-all-button.js";
+import { getConnections, getExperiences, getUserInfo } from "./service.js";
 import { createSkillSection } from "./skill-section.js";
 import { createVolunteeringSection } from "./volunteering-section.js";
 
+const userInfo = await getUserInfo();
+const experiences = (await getExperiences()).sort(
+  (a, b) =>
+    new Date(b.experiences[0].duration.start).getTime() -
+    new Date(a.experiences[0].duration.start).getTime(),
+);
+const lastExperiences = experiences[0];
+
+const connectionsList = await getConnections();
+
 const backgroundImgSection = createBackgroundImageSection();
 const profileActionSection = createProfileActionSection();
-const profileInfoSection = createProfileInfoSection();
+const profileInfoSection = createProfileInfoSection(
+  userInfo,
+  lastExperiences.company,
+  connectionsList.count,
+);
 const aboutSection = createAboutSection();
 const featuredSection = createFeaturedSection();
 const privateToYouSection = createPrivateToYouSection();
 const activitySection = createActivitySection();
 const seeAllBtnLink = createActivitySeeAllButton();
-const experienceSection = createExperienceSection(experiencesList);
+const experienceSection = createExperienceSection(experiences);
 const educationSection = createEducationSection(educationList);
 const addEducationCTA = createAddEducationCTA();
 const volunteeringSection = createVolunteeringSection();

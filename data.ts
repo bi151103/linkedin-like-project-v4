@@ -2,7 +2,6 @@ import {
   AccomplishmentData,
   Contact,
   Education,
-  ExperienceData,
   PhoneContact,
   Profile,
   Skill,
@@ -88,95 +87,6 @@ export const projectsList: AccomplishmentData[] = [
       end: "05/01/2024",
     },
     type: "project",
-  },
-];
-
-export const experiencesList: ExperienceData[] = [
-  {
-    id: "exp-0",
-    company: {
-      companyId: "company-0",
-      companyName: "CODE LEAP",
-      companyLogoSrc: "./images/someone-leap.avif",
-    },
-    experiences: [
-      {
-        id: "exp-0-stage-0",
-        position: "Quality Engineer",
-        duration: {
-          start: "08/01/2025",
-          end: "03/01/2026",
-        },
-        location: "Ho Chi Minh City, Vietnam",
-        description: `Main responsibilities:
-                      - Worked in client projects in an Agile environment, attended Sprint events to align with development goals.
-                      - Clarified unclear points of requirements during Refinement meetings.
-                      - Executed test on UI/API to validate and verified new features and bug fixes of the product.
-                      - Logged and tracked defects of the product.
-                      - Developed and maintained UI test scripts integrated into the CI/CD pipeline. Supported some internal tasks and attended company's bonding activities.`,
-      },
-      {
-        id: "exp-0-stage-1",
-        position: "QA Engineer Intern",
-        duration: {
-          start: "02/01/2025",
-          end: "07/01/2025",
-        },
-        location: "Ho Chi Minh City, Vietnam",
-        description: `- Familiarized myself in working in a process of software development.
-                      - Practiced on software testing by performing tasks of on-going company's projects.
-                      - Collaborated with stakeholders in the development team to complete tasks and to complete the goal of the projects.`,
-      },
-    ],
-  },
-  {
-    id: "exp-1",
-    company: {
-      companyId: "company-1",
-      companyName: "Vietlink",
-      companyLogoSrc: "./images/link.avif",
-    },
-    experiences: [
-      {
-        id: "exp-1-stage-0",
-        position: "QC Intern",
-        duration: {
-          start: "06/01/2024",
-          end: "08/01/2024",
-        },
-        location: "Ho Chi Minh City, Vietnam",
-        description: `- Studied software testing fundamentals, practiced on analyzing requirements of on-going company's projects under the guidance of the mentor.
-                      - Reviewed existing on-going company's test suites to understand components of a test case, then designed and executed a test suite to test a website.
-                      - Participated in testing applications of on-going company's project alongside a QC team member.
-                      - Practiced on logging bug for issues found when performing testing.
-                      - Learned basic API Testing concepts and practiced using Postman to verify endpoints of a CMS app.`,
-      },
-    ],
-  },
-  {
-    id: "exp-2",
-    company: {
-      companyId: "company-2",
-      companyName: "TESTINGVN",
-      companyLogoSrc: "./images/fresher.avif",
-    },
-    experiences: [
-      {
-        id: "exp-2-stage-0",
-        position: "Fresher Tester Course",
-        duration: {
-          start: "2024",
-          end: "2024",
-        },
-        location: "Ho Chi Minh City, Vietnam",
-        description: `Training Scope:
-                    - Studied fundamentals in Software Testing, SDLC, Testing Levels/Types, and Defect Management.
-                    - Learned formal Test Design Techniques (BVA, EP, Decision Table) and practiced writing bug reports and test cases for Web/Mobile/Windows apps under trainer supervision.
-                    - PET PROJECT: OrangeHRM - Password Change Feature:
-                    + Description: A practical exercise from the course requiring exploration and testing of the OrangeHRM application (live demo version).
-                    + Outcome: Defined a test suite covering about 60 cases and found 10 issues in the feature.`,
-      },
-    ],
   },
 ];
 

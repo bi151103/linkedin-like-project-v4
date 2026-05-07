@@ -55,11 +55,7 @@ export type Experience = {
 };
 export type ExperienceData = {
   id: string;
-  company: {
-    companyId: string;
-    companyName: string;
-    companyLogoSrc?: string;
-  };
+  company: Company;
   experiences: Experience[];
 };
 
@@ -107,3 +103,29 @@ export type InstantMessageType =
 export interface InstantMessageContact extends Contact {
   instantMessageType: InstantMessageType;
 }
+
+export type UserInfo = {
+  firstName: string;
+  lastName: string;
+  headline?: string;
+  education: string;
+  showEducation: false;
+  industry: string;
+  country: string;
+  location: string;
+};
+
+export type Company = {
+  companyId: string;
+  companyName: string;
+  companyLogoSrc?: string;
+};
+
+export type Connection = {
+  id: string;
+  name: string;
+  profileUrl: string;
+  avatarUrl: string;
+  headline: string;
+  connectedAt: string;
+};
