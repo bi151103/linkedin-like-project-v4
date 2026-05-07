@@ -36,7 +36,7 @@ export function createProfileActionSection(): HTMLElement {
   shareBtn.dataset.action = "share";
   shareBtn.dataset.title = "LinkedIn: Profile of Phuc Dang";
   shareBtn.dataset.text = "Check out Phuc Dang's profile on LinkedIn";
-  shareBtn.dataset.url = "https://vn.linkedin.com/in/dang-phan-minh-phuc";
+  shareBtn.dataset.url = "https://linkedin.com/in/dang-phan-minh-phuc";
   shareBtn.addEventListener("click", async (e: Event) => {
     const shareProfileBtn = (e.target as HTMLElement).closest(
       "button[data-action='share']",
@@ -69,6 +69,7 @@ export function createProfileActionSection(): HTMLElement {
 
   const editLink = document.createElement("a");
   rightActionContainer.appendChild(editLink);
+  editLink.dataset.action = "edit-profile";
   editLink.href = "./edit-profile.html";
 
   const editLinkImg = document.createElement("img");

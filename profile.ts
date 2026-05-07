@@ -12,10 +12,13 @@ import {
   otherProfilesList,
   skillsList,
 } from "./data.js";
+import { createDownloadCTASection } from "./download-app-cta-section.js";
 import { createEducationSection } from "./education-section.js";
 import { createExperienceSection } from "./experience-section.js";
 import { createFeaturedSection } from "./feature-section.js";
 import { createFeaturedOverlay } from "./featured-overlay.js";
+import { createFooter } from "./footer.js";
+import { createHeader } from "./header.js";
 import { createOtherProfilesSection } from "./other-similar-profiles-section.js";
 import { overlay } from "./overlay.js";
 import { createPrivateToYouSection } from "./private-to-you-section.js";
@@ -37,6 +40,9 @@ const lastExperiences = experiences[0];
 
 const connectionsList = await getConnections();
 
+const header = createHeader();
+const tryLinkedInAppCTA = createDownloadCTASection();
+const footer = createFooter();
 const backgroundImgSection = createBackgroundImageSection();
 const profileActionSection = createProfileActionSection();
 const profileInfoSection = createProfileInfoSection(
@@ -63,7 +69,14 @@ const featuredOverlay = createFeaturedOverlay();
 const addAccOverlay = createAddAccomplishmentOverlay();
 
 const profile = document.createElement("div");
-profile.prepend(backgroundImgSection);
+profile.dataset.id = "profile-root";
+profile.className = "py-50px";
+profile.prepend(header);
+profile.append(tryLinkedInAppCTA);
+profile.insertBefore(footer, tryLinkedInAppCTA.nextSibling);
+profile.insertBefore(overlay, footer.nextSibling);
+
+profile.insertBefore(backgroundImgSection, header.nextSibling);
 profile.insertBefore(profileActionSection, backgroundImgSection.nextSibling);
 profile.insertBefore(profileInfoSection, profileActionSection.nextSibling);
 profile.insertBefore(aboutSection, profileInfoSection.nextSibling);

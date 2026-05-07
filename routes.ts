@@ -12,4 +12,8 @@ export const routes: Routes = [
     path: PROJECT_PATH + "/",
     component: PROJECT_PATH + "/profile.js",
   },
+  {
+    path: PROJECT_PATH + "/edit-profile/",
+    component: PROJECT_PATH + "/edit-profile.js",
+  },
 ];

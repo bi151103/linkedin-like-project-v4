@@ -105,6 +105,7 @@ export function createHeader(): HTMLElement {
     const target = e.target as HTMLElement;
     const input = target.closest("input[data-id='search']");
     if (input) {
+      (input as HTMLInputElement).focus();
       overlay.classList.remove("hidden");
       searchComboboxOverlay.classList.remove("hidden");
       document.body.classList.add("overflow-hidden");
