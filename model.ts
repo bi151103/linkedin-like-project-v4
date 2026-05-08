@@ -129,3 +129,7 @@ export type Connection = {
   headline: string;
   connectedAt: string;
 };
+
+export type Result = {
+  message: string;
+};

@@ -21,17 +21,19 @@ export function createEditProfileHeader() {
 
   const saveBtn = document.createElement("button");
   header.append(saveBtn);
-  saveBtn.textContent = "Clear";
-  saveBtn.className = "min-w-50px ml-auto px-15px disabled:hidden text-inherit";
-  saveBtn.dataset.action = "clear-recent-search";
+  saveBtn.textContent = "Save";
+  saveBtn.className =
+    "min-w-50px ml-auto px-15px disabled:text-disabled-tx text-inherit";
+  saveBtn.dataset.action = "save-profile-changes";
+  saveBtn.disabled = true;
 
   header.addEventListener("click", (e) => {
-    e.stopPropagation();
     const target = e.target as HTMLElement;
     const backArrowBtn = target.closest("button[data-action='back']");
     if (backArrowBtn) {
-      history.back();
+      e.stopPropagation();
       (document.querySelector("#app") as HTMLElement).innerHTML = "";
+      history.back();
       return;
     }
   });

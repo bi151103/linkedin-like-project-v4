@@ -100,6 +100,8 @@ function createEditFormInput(
     case "industry":
       errorMessagePlaceholder.textContent = "Please select your industry.";
       label.textContent = "Industry";
+    case "location":
+      label.textContent = "Locations in this Country/Region";
     default:
   }
 

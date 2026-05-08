@@ -6,7 +6,9 @@
   --color-emphasis-tx: #000000e6;
   --color-low-emphasis-tx: #00000099;
   --color-separator-line: #ebebeb;
+  --color-primary-btn-hover-bg: #70b5f91a;
   --color-error: #cf0007;
+  --color-disabled-tx: #0000004d;
   --spacing-5px: 5px;
   --spacing-10px: 10px;
   --spacing-15px: 15px;
@@ -19,7 +21,6 @@
   --spacing-sm-img: 25px;
   --spacing-md-img: 50px;
   --spacing-sm-noti-bubble: 20px;
-  --color-primary-btn-hover-bg: #70b5f91a;
 }
 
 @layer base {

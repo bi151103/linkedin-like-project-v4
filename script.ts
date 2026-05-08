@@ -27,7 +27,7 @@ app.addEventListener("click", async (e) => {
       console.error("Failed to load module");
     } else {
       module = await import(moduleName);
-      app.append(module.default);
+      app.append(await module.default());
     }
     return;
   }
@@ -46,7 +46,7 @@ if (!moduleName) {
   window.location.href = "/linkedin-like-project-v4/not-found.html";
 } else {
   module = await import(moduleName);
-  app.append(module.default);
+  app.append(await module.default());
 }
 
 window.addEventListener("popstate", async (e) => {
@@ -63,6 +63,6 @@ window.addEventListener("popstate", async (e) => {
     window.location.href = "/linkedin-like-project-v4/not-found.html";
   } else {
     module = await import(moduleName);
-    app.append(module.default);
+    app.append(await module.default());
   }
 });
