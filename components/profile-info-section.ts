@@ -1,5 +1,5 @@
-import { NOT_AVAILABLE_CONTENT } from "./constant.js";
-import { Company, UserInfo } from "./model";
+import { NOT_AVAILABLE_CONTENT } from "../constant.js";
+import { Company, UserInfo } from "../model";
 
 export function createProfileInfoSection(
   userInfo: UserInfo,

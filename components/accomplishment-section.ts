@@ -1,14 +1,14 @@
 import {
   DEFAULT_MAX_ITEM_SHOWN_IN_ACCOMPLISHMENTS_LIST,
   NOT_AVAILABLE_CONTENT,
-} from "./constant.js";
+} from "../constant.js";
 import {
   AccomplishmentData,
   Accomplishments,
   AccomplishmentType,
-} from "./model";
+} from "../model";
 import { overlay } from "./overlay.js";
-import { getDisplayedDuration } from "./util.js";
+import { getDisplayedDuration } from "../util.js";
 
 function createAccomplishmentItem(listData: AccomplishmentData) {
   const listItem = document.createElement("li");

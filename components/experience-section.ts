@@ -1,9 +1,9 @@
-import { ExperienceData } from "./model";
+import { ExperienceData } from "../model";
 import {
   calculateDuration,
   calculateTotalDuration,
   getDisplayedDuration,
-} from "./util.js";
+} from "../util.js";
 
 export function createExperienceSection(
   experiencesList: ExperienceData[],

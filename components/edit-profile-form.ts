@@ -1,4 +1,4 @@
-import { UserInfo } from "./model";
+import { UserInfo } from "../model";
 
 function createEditFormInput(
   field:

@@ -1,37 +1,30 @@
-import { NOT_AVAILABLE_CONTENT, PRESENT_CONTENT } from "./constant.js";
 import { Experience } from "./model";
+import { NOT_AVAILABLE_CONTENT, PRESENT_CONTENT } from "./constant.js";
 // mostly AI Generated
 
 export function calculateTotalDuration(data: Experience[]): string | null {
   if (!data || data.length === 0) return null;
 
-  // Lấy 'end' của phần tử đầu tiên (gần nhất)
-  // Nếu không có 'end' (đang làm việc), sử dụng ngày hiện tại
   const latestEndStr = data[0].duration?.end;
   const endDate = latestEndStr ? new Date(latestEndStr) : new Date();
 
-  // Lấy 'start' của phần tử cuối cùng (xa nhất)
   const earliestStartStr = data[data.length - 1].duration?.start;
   if (!earliestStartStr) return null;
   const startDate = new Date(earliestStartStr);
 
-  // Tính tổng số tháng (làm tròn xuống theo tháng) + 1 tháng
   let totalMonths =
     (endDate.getFullYear() - startDate.getFullYear()) * 12 +
     (endDate.getMonth() - startDate.getMonth()) +
     1;
 
-  // Đảm bảo không âm
   totalMonths = Math.max(0, totalMonths);
 
   const years = Math.floor(totalMonths / 12);
   const months = totalMonths % 12;
 
-  // Xây dựng chuỗi hiển thị
   const yearPart = years > 0 ? `${years} yr${years > 1 ? "s" : ""}` : "";
   const monthPart = months > 0 ? `${months} mo${months > 1 ? "s" : ""}` : "";
 
-  // Trả về format
   if (years > 0 && months > 0) {
     return `${yearPart} ${monthPart}`;
   }

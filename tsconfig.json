@@ -2,13 +2,13 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "outDir": "./", // Thư mục chứa kết quả biên dịch
-    "rootDir": "./", // Thư mục gốc chứa các tệp .ts
+    "outDir": "./dist",
+    "rootDir": "./",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["*.ts"], // Tự động bao gồm tất cả các tệp .ts trong thư mục gốc
+  "include": ["components/*.ts", "*.ts", "pages/*.ts"],
   "exclude": ["node_modules"]
 }

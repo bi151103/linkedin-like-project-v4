@@ -1,6 +1,4 @@
-import { MAX_RECENT_SEARCH_ITEM_SHOWN } from "./constant.js";
-import { recentSearch } from "./data.js";
-import { createEmptyState } from "./empty-state.js";
+import { recentSearch } from "../data.js";
 import { overlay } from "./overlay.js";
 import { createSearchComboboxOverlay } from "./search-combobox-overlay.js";
 

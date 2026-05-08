@@ -1,35 +1,34 @@
-import { createAboutSection } from "./about-section.js";
-import { createAddAccomplishmentOverlay } from "./accomplishment-overlay.js";
-import { createAccomplishmentSection } from "./accomplishment-section.js";
-import { createActivitySection } from "./activity-section.js";
-import { createAddEducationCTA } from "./add-education-cta.js";
-import { createBackgroundImageSection } from "./background-image-section.js";
-import { createContactSection } from "./contact-section.js";
+import { createAboutSection } from "../components/about-section.js";
+import { createAddAccomplishmentOverlay } from "../components/accomplishment-overlay.js";
+import { createAccomplishmentSection } from "../components/accomplishment-section.js";
+import { createActivitySection } from "../components/activity-section.js";
+import { createAddEducationCTA } from "../components/add-education-cta.js";
+import { createBackgroundImageSection } from "../components/background-image-section.js";
+import { createContactSection } from "../components/contact-section.js";
 import {
   accomplishments,
   contactList,
   educationList,
   otherProfilesList,
   skillsList,
-} from "./data.js";
-import { createDownloadCTASection } from "./download-app-cta-section.js";
-import { createEducationSection } from "./education-section.js";
-import { createExperienceSection } from "./experience-section.js";
-import { createFeaturedSection } from "./feature-section.js";
-import { createFeaturedOverlay } from "./featured-overlay.js";
-import { createFooter } from "./footer.js";
-import { createHeader } from "./header.js";
-import { ExperienceData } from "./model.js";
-import { createOtherProfilesSection } from "./other-similar-profiles-section.js";
-import { overlay } from "./overlay.js";
-import { createPrivateToYouSection } from "./private-to-you-section.js";
-import { createProfileActionSection } from "./profile-action-section.js";
-import { createProfileInfoSection } from "./profile-info-section.js";
-import { createRecommendationSection } from "./recommendation-section.js";
-import { createActivitySeeAllButton } from "./see-all-button.js";
-import { getConnections, getExperiences, getUserInfo } from "./service.js";
-import { createSkillSection } from "./skill-section.js";
-import { createVolunteeringSection } from "./volunteering-section.js";
+} from "../data.js";
+import { createDownloadCTASection } from "../components/download-app-cta-section.js";
+import { createEducationSection } from "../components/education-section.js";
+import { createExperienceSection } from "../components/experience-section.js";
+import { createFeaturedSection } from "../components/feature-section.js";
+import { createFeaturedOverlay } from "../components/featured-overlay.js";
+import { createFooter } from "../components/footer.js";
+import { createHeader } from "../components/header.js";
+import { createOtherProfilesSection } from "../components/other-similar-profiles-section.js";
+import { overlay } from "../components/overlay.js";
+import { createPrivateToYouSection } from "../components/private-to-you-section.js";
+import { createProfileActionSection } from "../components/profile-action-section.js";
+import { createProfileInfoSection } from "../components/profile-info-section.js";
+import { createRecommendationSection } from "../components/recommendation-section.js";
+import { createActivitySeeAllButton } from "../components/see-all-button.js";
+import { getConnections, getExperiences, getUserInfo } from "../service.js";
+import { createSkillSection } from "../components/skill-section.js";
+import { createVolunteeringSection } from "../components/volunteering-section.js";
 
 export default async function createProfile() {
   const profile = document.createElement("div");

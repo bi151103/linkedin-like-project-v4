@@ -1,5 +1,5 @@
-import { Education } from "./model";
-import { getDisplayedDuration } from "./util.js";
+import { Education } from "../model";
+import { getDisplayedDuration } from "../util.js";
 
 export function createEducationSection(educationList: Education[]) {
   const educationSection = document.createElement("section");

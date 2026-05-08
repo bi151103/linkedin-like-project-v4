@@ -1,4 +1,4 @@
-import { Contact } from "./model";
+import { Contact } from "../model";
 
 export function createContactSection(contactList: Contact[]) {
   const contactSection = document.createElement("section");

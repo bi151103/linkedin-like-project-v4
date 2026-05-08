@@ -1,4 +1,4 @@
-import { AccomplishmentType } from "./model";
+import { AccomplishmentType } from "../model";
 import { overlay } from "./overlay.js";
 
 function createAccomplishmentTypeItem(type: AccomplishmentType) {

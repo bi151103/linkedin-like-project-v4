@@ -1,4 +1,4 @@
-import { Skill } from "./model";
+import { Skill } from "../model";
 
 export function createSkillSection(skillsList: Skill[]) {
   const skillSection = document.createElement("section");

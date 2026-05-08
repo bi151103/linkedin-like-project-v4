@@ -10,10 +10,10 @@ export type Routes = Route[];
 export const routes: Routes = [
   {
     path: PROJECT_PATH + "/",
-    component: PROJECT_PATH + "/profile.js",
+    component: PROJECT_PATH + "/dist/pages/profile.js",
   },
   {
     path: PROJECT_PATH + "/edit-profile/",
-    component: PROJECT_PATH + "/edit-profile.js",
+    component: PROJECT_PATH + "/dist/pages/edit-profile.js",
   },
 ];

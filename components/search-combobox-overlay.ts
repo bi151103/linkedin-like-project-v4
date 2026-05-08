@@ -1,4 +1,4 @@
-import { MAX_RECENT_SEARCH_ITEM_SHOWN } from "./constant.js";
+import { MAX_RECENT_SEARCH_ITEM_SHOWN } from "../constant.js";
 import { createEmptyState } from "./empty-state.js";
 import { overlay } from "./overlay.js";
 

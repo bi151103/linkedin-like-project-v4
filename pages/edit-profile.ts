@@ -1,6 +1,6 @@
-import { createEditProfileForm } from "./edit-profile-form.js";
-import { createEditProfileHeader } from "./edit-profile-header.js";
-import { getUserInfo, updateUserInfo } from "./service.js";
+import { createEditProfileForm } from "../components/edit-profile-form.js";
+import { createEditProfileHeader } from "../components/edit-profile-header.js";
+import { getUserInfo, updateUserInfo } from "../service.js";
 
 export default async function createEditProfile() {
   const userInfo = await getUserInfo();

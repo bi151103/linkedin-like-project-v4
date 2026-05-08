@@ -1,4 +1,4 @@
-import { Profile } from "./model";
+import { Profile } from "../model";
 
 export function createOtherProfilesSection(otherProfilesList: Profile[]) {
   if (otherProfilesList.length < 1) return;
