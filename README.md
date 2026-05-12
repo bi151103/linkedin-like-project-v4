@@ -5,7 +5,8 @@ This is a personal pet project to practice with HTML/CSS (TailwindCSS) and Javas
 ## Link of the deployed app
 
 - Deployed application: https://bi151103.github.io/linkedin-like-project-v4/
-- NOTE: The server ([render](https://dashboard.render.com/)) may take a while to response as it needs time to restart after a while having no requests.
+- NOTE: The server ([render](https://dashboard.render.com/)) may take a while to respond as it needs time to restart after a while not receiving any requests (about 50s, as per Render Dashboard).<img width="668" height="243" alt="image" src="https://github.com/user-attachments/assets/1a7f408d-97bd-432e-81c0-ad2157e191b6" />
+
 
 ## Tech stack
 
