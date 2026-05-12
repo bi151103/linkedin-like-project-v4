@@ -36,3 +36,7 @@ npm run dev:compile-ts
 
 4. Open `index.html` using Live Server or your browser. Refer to [How do you set up a local testing server?](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Tools_and_setup/set_up_a_local_testing_server) to know how to set up a server in the local machine.
 
+## Demo flow
+
+https://github.com/user-attachments/assets/c1f8543b-c67f-4874-ba2f-577b3a871e62
+
